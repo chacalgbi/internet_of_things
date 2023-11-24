@@ -5,6 +5,8 @@ source 'https://rubygems.org'
 ruby '3.2.2'
 
 gem 'bootsnap', require: false
+gem 'devise'
+gem 'devise-i18n'
 gem 'dotenv-rails'
 gem 'httparty'
 gem 'importmap-rails'

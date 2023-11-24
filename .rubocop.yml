@@ -1,0 +1,8 @@
+Style/Documentation:
+  Enabled: false
+
+Metrics/BlockLength:
+  Max: 30
+  Exclude:
+    - 'spec/**/*.rb' # exclui todos os arquivos de teste
+    - 'config/**/*.rb' # exclui todos os arquivos de configuração

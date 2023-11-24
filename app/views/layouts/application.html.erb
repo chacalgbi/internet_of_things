@@ -11,6 +11,14 @@
   </head>
 
   <body>
+    <% if user_signed_in? %>
+      <p>Logado como <%= current_user.email %></p>
+      <%= link_to 'Logout', destroy_user_session_path, method: :delete %>
+    <% else %>
+      <%= link_to 'Login', new_user_session_path %>
+    <% end %>
+    <p class="notice" style="color: green"><%= notice %></p>
+    <p class="alert" style="color: red"><%= alert %></p>
     <%= yield %>
   </body>
 </html>
