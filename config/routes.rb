@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   devise_for :users
   authenticate :user do
     get '/list', to: 'home#list'
+    resources :clients
   end
-  get '/', to: 'home#index'
+
+  root to: 'home#index'
 end
