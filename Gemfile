@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 
 ruby '3.2.2'
 
+gem 'activeadmin'
 gem 'bootsnap', require: false
 gem 'devise'
 gem 'devise-i18n'
@@ -15,6 +16,7 @@ gem 'mqtt', github: 'njh/ruby-mqtt'
 gem 'mysql2', '~> 0.5'
 gem 'puma', '>= 5.0'
 gem 'rails', '~> 7.1.2'
+gem 'sassc-rails'
 gem 'sprockets-rails'
 gem 'sqlite3', '~> 1.4'
 gem 'stimulus-rails'
