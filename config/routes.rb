@@ -5,9 +5,11 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   devise_for :users
   authenticate :user do
-    get '/list', to: 'home#list'
     resources :clients
+    resources :channels
+    resources :devices
   end
 
+  get '/list', to: 'home#list'
   root to: 'home#index'
 end

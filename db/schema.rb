@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_24_191504) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_25_061118) do
   create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -37,6 +37,23 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_24_191504) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "channels", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
+    t.bigint "client_id"
+    t.string "category"
+    t.string "platform"
+    t.string "path"
+    t.string "tipo"
+    t.string "color"
+    t.string "range"
+    t.string "array_info"
+    t.string "label"
+    t.string "previous_state"
+    t.string "obs", limit: 500
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "device_id"
+  end
+
   create_table "clients", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -45,6 +62,20 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_24_191504) do
     t.string "obs", limit: 500
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "devices", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
+    t.string "description"
+    t.string "device"
+    t.string "token"
+    t.string "tipo"
+    t.string "versao"
+    t.string "linkAjuda"
+    t.string "pathUpdate"
+    t.string "obs", limit: 500
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "client_id"
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
