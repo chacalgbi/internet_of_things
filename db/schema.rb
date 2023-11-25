@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_25_061118) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_25_132557) do
   create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -60,6 +60,12 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_25_061118) do
     t.string "cel"
     t.string "address_mqtt"
     t.string "obs", limit: 500
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "configurations", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
+    t.string "version"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
