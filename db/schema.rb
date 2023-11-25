@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_25_132557) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_25_172522) do
   create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -64,10 +64,11 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_25_132557) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "configurations", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
-    t.string "version"
+  create_table "configs", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
+    t.decimal "version", precision: 3, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "path_update"
   end
 
   create_table "devices", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|

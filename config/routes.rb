@@ -12,4 +12,8 @@ Rails.application.routes.draw do
 
   get '/list', to: 'home#list'
   root to: 'home#index'
+
+  post '/device_login', to: 'iot#device_login'
+  post '/mqtt_info', to: 'iot#mqtt_info'
+  post '/alertaTelegram', to: 'iot#telegram'
 end
