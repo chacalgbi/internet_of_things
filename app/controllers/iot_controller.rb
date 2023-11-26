@@ -10,15 +10,15 @@ class IotController < ApplicationController
   def device_login
     status = 200
     data = {}
-    @device = Device.find_by(token: params[:token]).attributes.except('created_at', 'updated_at')
-    @config = Config.last.attributes.except('id', 'created_at', 'updated_at')
+    @device = Device.find_by(token: params[:token])
+    @config = Config.last
     if @device.nil?
       status = 404
       data = { msg: 'Token invalido!', erroGeral: 'sim' }
     else
       data = {
-        msg: 'Acesso liberado!',
-        dados: @device,
+        msg: 'Acesso permitido',
+        dados: [@device], # array para manter o padrao de resposta, tirar após ajuste no código do ESP8266
         versao: @config['version'].to_f,
         path_auto_update: @config['path_update'],
         erroGeral: 'nao'
