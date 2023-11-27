@@ -6,6 +6,6 @@ return if defined?(Rails::Console) || Rails.env.test? || File.split($PROGRAM_NAM
 
 s = Rufus::Scheduler.singleton
 
-s.every '10s' do
+s.every '40s' do
   MqttOffline.verify
 end

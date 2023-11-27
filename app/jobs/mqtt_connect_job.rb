@@ -18,6 +18,8 @@ class MqttConnectJob < ApplicationJob
         handle_message(topic, message)
       end
     end
+  rescue StandardError => e
+    Log.error("#{e.class}: #{e.message}")
   end
 
   def self.mqtt_client
@@ -44,12 +46,12 @@ class MqttConnectJob < ApplicationJob
   def record_logs(topic, message)
     channel = Channel.find_by(path: topic)
     log = "#{channel.obs}\n#{message}"
-    last_log = log.length > 450 ? log[-450, 450] : log
+    last_log = log.length > 800 ? log[-800, 800] : log
     channel.update(obs: last_log)
   end
 
   def handle_message(topic, message)
-    if topic.include?('ativo')
+    if topic.include?('ativo') && message == '1'
       RedisConnection.client.set("timeMqtt#{topic}", Time.now.to_s)
     elsif topic.include?('terminal_OUT')
       record_logs(topic, message)

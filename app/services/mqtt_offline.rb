@@ -2,14 +2,19 @@
 
 class MqttOffline
   def self.verify
-    keys = RedisConnection.client.keys('*')
-    Log.info("#{Time.now} Redis: #{keys}")
+    if MqttConnectJob.mqtt_client.connected?
+      keys = RedisConnection.client.keys('*')
+      # Log.info("#{Time.now} Redis: #{keys}")
 
-    keys.each do |key|
-      if key.include?('timeMqtt')
-        time = Time.parse(RedisConnection.client.get(key))
-        compare_time(key, time)
+      keys.each do |key|
+        if key.include?('timeMqtt')
+          time = Time.parse(RedisConnection.client.get(key))
+          compare_time(key, time)
+        end
       end
+    else
+      Log.error('MQTT: Desconectado!')
+      MqttConnectJob.perform_later
     end
   end
 
