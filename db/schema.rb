@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_25_172522) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_27_201724) do
   create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -48,7 +48,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_25_172522) do
     t.string "array_info"
     t.string "label"
     t.string "previous_state"
-    t.string "obs", limit: 500
+    t.string "obs", limit: 850
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "device_id"
