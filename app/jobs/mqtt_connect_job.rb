@@ -4,17 +4,17 @@ require 'mqtt'
 
 class MqttConnectJob < ApplicationJob
   queue_as :default
-  @@client = MQTT::Client.new
+  @@client_mqtt = MQTT::Client.new
 
   def perform
     Log.alert('MQTT: Conectando ao broker...')
     subscribles = path_subscribles
 
-    conect unless @@client.connected?
+    conect unless @@client_mqtt.connected?
 
-    if @@client.connected?
+    if @@client_mqtt.connected?
       Log.info('MQTT: Conectado com sucesso!')
-      @@client.get(subscribles) do |topic, message|
+      @@client_mqtt.get(subscribles) do |topic, message|
         handle_message(topic, message)
       end
     end
@@ -23,18 +23,18 @@ class MqttConnectJob < ApplicationJob
   end
 
   def self.mqtt_client
-    @@client
+    @@client_mqtt
   end
 
   private
 
   def conect
-    @@client.host = ENV['MQTT_HOST']
-    @@client.port = ENV['MQTT_PORT']
-    @@client.username = ENV['MQTT_USER']
-    @@client.password = ENV['MQTT_PASSWORD']
-    @@client.client_id = ENV['MQTT_CLIENT_ID']
-    @@client.connect
+    @@client_mqtt.host = ENV['MQTT_HOST']
+    @@client_mqtt.port = ENV['MQTT_PORT']
+    @@client_mqtt.username = ENV['MQTT_USER']
+    @@client_mqtt.password = ENV['MQTT_PASSWORD']
+    @@client_mqtt.client_id = ENV['MQTT_CLIENT_ID']
+    @@client_mqtt.connect
   end
 
   def path_subscribles

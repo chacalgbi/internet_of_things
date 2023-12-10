@@ -18,7 +18,7 @@ class IotController < ApplicationController
     else
       data = {
         msg: 'Acesso permitido',
-        dados: [@device], # array para manter o padrao de resposta, tirar após ajuste no código do ESP8266
+        dados: @device,
         versao: @config['version'].to_f,
         path_auto_update: @config['path_update'],
         erroGeral: 'nao'

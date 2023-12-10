@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
-class HomeController < ApplicationController
-  def index; end
+class HomeController < LoggedController
+  def index
+    @client = Client.find_by(email: current_user.email)
+    redirect_to register_device_path if @client.nil?
 
-  def list
-    binding.pry
-    # MqttConnectJob.mqtt_client.publish('/mini_monit/device4550/terminal_OUT', "Testando #{Time.now}")
+    @devices = Device.where(client_id: @client.id)
+    @channels = Channel.where(client_id: @client.id)
   end
 end

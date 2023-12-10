@@ -10,8 +10,8 @@ Rails.application.routes.draw do
     resources :devices
   end
 
-  get '/list', to: 'home#list'
   root to: 'home#index'
+  get '/register_device', to: 'register_device#index'
 
   post '/device_login', to: 'iot#device_login'
   post '/mqtt_info', to: 'iot#mqtt_info'
