@@ -1,5 +1,9 @@
-<h1>HOME</h1>
-
-<%= @devices.inspect %>
-<br><br><br>
-<%= @channels.inspect %>
+<div class="accordion accordion-flush" id="list_devices_accordion">
+  <% @devices.each do |device| %>
+    <% matching_channels = @channels.select { |channel| channel.client_id == device.client_id } %>
+    <% case device.tipo %>
+      <% when 'mini_monit' %>
+        <%= render 'iot/mini_monit', device: device, channels: matching_channels %>
+    <% end %>
+  <% end %>
+</div>

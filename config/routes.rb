@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   end
 
   root to: 'home#index'
+  post '/others', to: 'home#others'
   get '/register_device', to: 'register_device#index'
 
   post '/device_login', to: 'iot#device_login'

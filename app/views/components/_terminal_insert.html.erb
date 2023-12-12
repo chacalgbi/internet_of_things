@@ -1,0 +1,14 @@
+<div style="text-align: right;">
+  <div class="input-group mb-6">
+    <span class="input-group-text">Terminal: </span>
+    <input type="text" class="form-control" id="input<%= terminal.id %>" placeholder="Ex: Info" aria-label="Username">
+    <button type="button" class="btn btn-success" id="inputButton<%= terminal.id %>" onClick="TerminalSend('input<%= terminal.id %>', '<%= terminal.path %>', 'acti<%= device.id %>', 'cmdlog_<%= device.id %>')">Enviar</button>
+  </div>
+</div>
+
+
+<div style="text-align: right;">
+  <button type="button" class="btn btn-link" onClick="comando_generico('<%= terminal.path %>', 'acti<%= device.id %>', 'info')" >Informações</button>
+  <button type="button" class="btn btn-link" onClick="comando_generico('<%= terminal.path %>', 'acti<%= device.id %>', 'memoria')" >Memória</button>
+  <button type="button" class="btn btn-link" onClick="comando_generico('<%= terminal.path %>', 'acti<%= device.id %>', 'multi')" >ADC</button>
+</div>

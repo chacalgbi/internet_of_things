@@ -1,0 +1,21 @@
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;" >
+  <div class="container-fluid">
+    <h3>IOT</h3>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link" href= '<%= root_path %>' >HOME</a>
+        <% if user_signed_in? %>
+          <a class="nav-link" onclick="mudarSenha()" href="#">Alterar Senha</a>
+          <%= link_to "Sair(#{current_user.email})", destroy_user_session_path, class: "nav-link" %>
+        <% end %>
+      </div>
+    </div>
+
+  </div>
+</nav>

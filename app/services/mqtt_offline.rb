@@ -24,9 +24,9 @@ class MqttOffline
     if difference > ENV['OFFLINE_SECONDS'].to_i
       parse1 = key.gsub('timeMqtt', '')
       parse2 = parse1.gsub('ativo', 'terminal_OUT')
-      formatted_time = Time.now.strftime('%d/%m/%Y %H:%M')
+      formatted_time = Time.now.strftime('%d\%m\%Y %H:%M')
 
-      MqttConnectJob.mqtt_client.publish(parse2, "#{formatted_time} Offline}")
+      MqttConnectJob.mqtt_client.publish(parse2, "#{formatted_time} Offline")
       RedisConnection.client.del(key)
     end
   end

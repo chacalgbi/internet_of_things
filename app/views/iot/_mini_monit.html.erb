@@ -1,0 +1,21 @@
+<div class="accordion-item">
+
+  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne<%= device.id %>" aria-expanded="false" aria-controls="collapseOne<%= device.id %>">
+    <span id="nomeDevice<%= device.id %>"><%= device.description %> - <%= device.versao %></span> &nbsp;&nbsp;
+    <div style=" height: 30; width: 30; background-color: #FA8072; border-radius: '50%'; justify-content: 'center'; align-items: 'center'" id="acti<%= device.id %>">Offline</div>
+  </button>
+
+  <div id="collapseOne<%= device.id %>" class="accordion-collapse collapse <%= @show %>" aria-labelledby="flush-headingOne" data-bs-parent="#list_devices_accordion">
+    <div class="accordion-body">
+      <% channels.each do |ch| %>
+        <% case ch.tipo %>
+        <% when 'terminal_insert' %>
+          <%= render 'components/terminal_insert', device: device, terminal: ch %>
+        <% when 'terminal_view' %>
+          <%= render 'components/terminal_view', device: device, terminal: ch %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+</div>

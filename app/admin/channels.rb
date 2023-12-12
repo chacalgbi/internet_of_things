@@ -18,18 +18,17 @@ ActiveAdmin.register Channel do
     column :array_info
     column :label
     column :previous_state
-    column :obs
     column :created_at
     column :updated_at
     actions
   end
 
   batch_action :Criar_Channels_para_Mini_Monitor, form: { client_id: :text, device_id: :text, path: :text } do |_ids, inputs|
-    Channel.create(client_id: inputs['client_id'], device_id: inputs['device_id'], path: "#{inputs['path']}ativo", category: 'subscribe',
+    Channel.create(client_id: inputs['client_id'], device_id: inputs['device_id'], path: "#{inputs['path']}ativo", category: 'subscrible',
                    tipo: 'ativo')
-    Channel.create(client_id: inputs['client_id'], device_id: inputs['device_id'], path: "#{inputs['path']}terminal_OUT", category: 'subscribe',
+    Channel.create(client_id: inputs['client_id'], device_id: inputs['device_id'], path: "#{inputs['path']}terminal_OUT", category: 'subscrible',
                    tipo: 'terminal_view')
-    Channel.create(client_id: inputs['client_id'], device_id: inputs['device_id'], path: "#{inputs['path']}prefes_OUT", category: 'subscribe',
+    Channel.create(client_id: inputs['client_id'], device_id: inputs['device_id'], path: "#{inputs['path']}prefes_OUT", category: 'subscrible',
                    tipo: 'prefes_view')
     Channel.create(client_id: inputs['client_id'], device_id: inputs['device_id'], path: "#{inputs['path']}update", category: 'publish',
                    tipo: 'update')
@@ -37,7 +36,7 @@ ActiveAdmin.register Channel do
                    tipo: 'terminal_insert')
     Channel.create(client_id: inputs['client_id'], device_id: inputs['device_id'], path: "#{inputs['path']}prefes_IN", category: 'publish',
                    tipo: 'prefes_insert')
-    Channel.create(client_id: inputs['client_id'], device_id: inputs['device_id'], path: "#{inputs['path']}info", category: 'subscribe',
+    Channel.create(client_id: inputs['client_id'], device_id: inputs['device_id'], path: "#{inputs['path']}info", category: 'subscrible',
                    tipo: 'info', color: 'dark')
     Channel.create(client_id: inputs['client_id'], device_id: inputs['device_id'], path: "#{inputs['path']}vcc1", category: 'subscrible',
                    tipo: 'value', color: 'primary', label: 'Tensão VCC 1', previous_state: 'Aguardando...')
@@ -55,7 +54,7 @@ ActiveAdmin.register Channel do
     f.inputs do
       f.input :client_id, as: :select, collection: Client.all.map { |client| [client.name, client.id] }
       f.input :device_id, as: :select, collection: Device.all.map { |device| [device.description, device.id] }
-      f.input :category, as: :select, collection: %w[subscribe publish]
+      f.input :category, as: :select, collection: %w[subscrible publish]
       f.input :platform
       f.input :path
       f.input :tipo, as: :select,

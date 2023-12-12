@@ -6,8 +6,8 @@ ruby '3.2.2'
 
 gem 'activeadmin'
 gem 'bootsnap', require: false
-gem 'bootstrap', '~> 5.1'
 gem 'colorize'
+gem 'cssbundling-rails'
 gem 'devise'
 gem 'devise-i18n'
 gem 'dotenv-rails'
