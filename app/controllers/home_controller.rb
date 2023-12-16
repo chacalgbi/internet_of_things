@@ -8,6 +8,7 @@ class HomeController < LoggedController
     else
       @devices = Device.where(client_id: @client.id)
       @channels = Channel.where(client_id: @client.id)
+      @ch = object_of_channels(@channels)
       @show = @devices.count == 1 ? 'show' : ''
 
     end
@@ -15,20 +16,36 @@ class HomeController < LoggedController
 
   def others
     @data_response = nil
+    @error = false
+    @message = nil
 
     @data_response = case params['param1']
                      when 'objCliente'
                        data_from_client(params['param2'])
-                     when 'teste1'
-                       'Teste de teste1'
+                     when 'clear_log'
+                       clear_log(params['param2'])
                      else
                        'Teste de default'
                      end
 
-    render json: { error: false, data: @data_response }
+    render json: { error: @error, message: @message, data: @data_response }
   end
 
   private
+
+  def object_of_channels(channels)
+    count = 0
+    types = {}
+    channels.each do |channel|
+      if channel.tipo == 'led'
+        count += 1
+        types["#{channel.tipo}#{count}"] = channel
+      else
+        types[channel.tipo] = channel
+      end
+    end
+    types
+  end
 
   def data_from_client(client_id)
     client = Client.find(client_id)
@@ -39,5 +56,17 @@ class HomeController < LoggedController
       devices:,
       channels:
     }
+  rescue StandardError => e
+    @error = true
+    @message = e.message
+  end
+
+  def clear_log(id)
+    channel = Channel.find(id)
+    channel.obs = ''
+    channel.save!
+  rescue StandardError => e
+    @error = true
+    @message = e.message
   end
 end

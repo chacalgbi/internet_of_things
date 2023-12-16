@@ -7,14 +7,24 @@
 
   <div id="collapseOne<%= device.id %>" class="accordion-collapse collapse <%= @show %>" aria-labelledby="flush-headingOne" data-bs-parent="#list_devices_accordion">
     <div class="accordion-body">
-      <% channels.each do |ch| %>
-        <% case ch.tipo %>
-        <% when 'terminal_insert' %>
-          <%= render 'components/terminal_insert', device: device, terminal: ch %>
-        <% when 'terminal_view' %>
-          <%= render 'components/terminal_view', device: device, terminal: ch %>
-        <% end %>
-      <% end %>
+
+      <div style="border: 1px solid lightblue; border-radius: 10px;">
+        <div class="row text-center d-flex align-items-center justify-content-center" style="height: 100%;">
+          <div class="col">
+            <%= render 'components/value', device: device, value: @ch['value'] %>
+          </div>
+          <div class="col">
+            <p>Conteúdo da segunda coluna</p>
+          </div>
+          <div class="col">
+            <p>Conteúdo da terceira coluna</p>
+          </div>
+        </div>
+      </div>
+
+      <%= render 'components/terminal_view', device: device, terminal: @ch['terminal_view'] %>
+      <%= render 'components/terminal_insert', device: device, terminal: @ch['terminal_insert'] %>
+
     </div>
   </div>
 

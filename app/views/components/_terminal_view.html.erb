@@ -1,4 +1,4 @@
 <div style="text-align: right;">
-  <button type="button" class="btn btn-link" style="color: #F00" onClick="TerminalClear('<%= terminal.id %>')" >Limpar</button></div>
+  <button type="button" class="btn btn-link" style="color: #F00" data-action="click->iot#terminalClear" data-terminal-id="<%= terminal.id %>" >Limpar</button></div>
   <textarea class="form-control" style="font-size: 9pt" aria-label="With textarea" id="<%= terminal.id %>" rows="7"><%= terminal.obs %></textarea>
 </div>

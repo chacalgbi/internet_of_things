@@ -10,6 +10,7 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
       body {
@@ -44,9 +45,6 @@
   </head>
 
   <body>
-    <% if user_signed_in? %>
-      <div id="propeties" data-client_id="<%= @client.id %>"></div>
-    <% end %>
     <%= render '/navbar' %>
     <br>
     <div class="container-sm">

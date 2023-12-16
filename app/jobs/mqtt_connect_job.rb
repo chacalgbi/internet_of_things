@@ -45,7 +45,7 @@ class MqttConnectJob < ApplicationJob
 
   def record_logs(topic, message)
     channel = Channel.find_by(path: topic)
-    log = "#{channel.obs}\n#{message}"
+    log = "#{channel.obs}\n#{message.force_encoding('UTF-8')}"
     last_log = log.length > 800 ? log[-800, 800] : log
     channel.update(obs: last_log)
   end

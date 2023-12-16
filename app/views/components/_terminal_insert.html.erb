@@ -8,7 +8,7 @@
 
 
 <div style="text-align: right;">
-  <button type="button" class="btn btn-link" onClick="comando_generico('<%= terminal.path %>', 'acti<%= device.id %>', 'info')" >Informações</button>
-  <button type="button" class="btn btn-link" onClick="comando_generico('<%= terminal.path %>', 'acti<%= device.id %>', 'memoria')" >Memória</button>
-  <button type="button" class="btn btn-link" onClick="comando_generico('<%= terminal.path %>', 'acti<%= device.id %>', 'multi')" >ADC</button>
+  <button type="button" class="btn btn-link" data-action="click->iot#comandoGenerico" data-path="<%= terminal.path %>" data-device-id="acti<%= device.id %>" data-type="info">Informações</button>
+  <button type="button" class="btn btn-link" data-action="click->iot#comandoGenerico" data-path="<%= terminal.path %>" data-device-id="acti<%= device.id %>" data-type="memoria">Memória</button>
+  <button type="button" class="btn btn-link" data-action="click->iot#comandoGenerico" data-path="<%= terminal.path %>" data-device-id="acti<%= device.id %>" data-type="multi">ADC</button>
 </div>
