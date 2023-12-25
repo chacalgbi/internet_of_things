@@ -7,6 +7,7 @@ window.ArrayChannels = []
 window.ArrayDevices = []
 window.ArraySubscribles = []
 window.ArrayAtivo = []
+window.ArrayStateRele = []
 
 export default class extends Controller {
 
@@ -234,6 +235,10 @@ export default class extends Controller {
         let device = ArrayDevices.find((device)=>{ if (device.id == i.device_id) { return device } })
         ArrayAtivo.push({ canal: i.id, device: `acti${i.device_id}`, func: null, online: 'nao', nome: device.description })
       }
+
+      if(i.tipo == 'button'){
+        ArrayStateRele.push({ path: i.path, estado: i.previous_state })
+      }
     })
 
     ArrayChannels.map((i) => {
@@ -299,6 +304,74 @@ export default class extends Controller {
       })
     })
   }
+
+  update_previous_state(id_channel, previous_state) {
+    // const endpoint = `${server}${prev_state}`
+    // axios.post(endpoint, { id: id_channel, previous_state: previous_state }, header)
+    //   .then(function (response) {
+    //       if (response.data.erroGeral == 'nao') {
+    //           //console.log(response.data.msg)
+    //       } else {
+    //           console.error(response.data.msg)
+    //       }
+    //   })
+    //   .catch(function (error) {
+    //       console.error(error.response)
+    //       if (error.response.status == 401) {
+    //           $.notify(`${error.response.data.error.message} - ${error.response.data.error.name}`, "error")
+    //           $.notify(`${error.response.data.message}`, "info")
+    //           JwtExpired()
+    //       }
+    //   })
+  }
+
+  rele(event) {
+    const e = event.target
+    const path = e.getAttribute("data-path")
+    const label = e.getAttribute("data-label")
+    const id = e.getAttribute("data-id")
+    const array_info = e.getAttribute("data-array_info")
+    const device = e.getAttribute("data-device")
+    const color = e.getAttribute("data-color")
+
+    ArrayAtivo.map((a) => {
+        if (a.device === device) {
+            if (a.online === 'sim') { // Só vai enviar caso a placa esteja OnLine
+                if (array_info === 'switch') {
+                    let newArray = ArrayStateRele.map((s) => {
+                        if (s.path === path) {
+                            if (s.estado === '0') {
+                                document.getElementById(id).setAttribute("class", `btn btn-${color}`)
+                                document.getElementById(id).textContent = 'Ligar ' + label
+                                $.notify(`${label} Ligado(a)`, "success")
+                                client.publish(path, '1')
+                                this.update_previous_state(id, '1')
+                                s.estado = '1'
+                                return s
+                            } else {
+                                document.getElementById(id).setAttribute("class", `btn btn-outline-${color}`)
+                                document.getElementById(id).textContent = 'Desl ' + label
+                                $.notify(`${label} Desligado(a)`, "info")
+                                client.publish(path, '0')
+                                this.update_previous_state(id, '0')
+                                s.estado = '0'
+                                return s
+                            }
+                        } else {
+                            return s
+                        }
+                    })
+                    ArrayStateRele = newArray
+                } else { // Caso o botão seja apenas um pulso, como o portão
+                    client.publish(path, '1')
+                    $.notify(`${label} Acionado`, "success")
+                }
+            } else {
+                $.notify(`${a.nome} OffLine`, "error")
+            }
+        }
+    })
+}
 
   change_led(id, message) {
     let classAtual = ''
