@@ -19,30 +19,51 @@
 
       <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="control<%= device.id %>" role="tabpanel" aria-labelledby="control-tab<%= device.id %>">
+
+          <br>
           <div style="border: 1px solid lightblue; border-radius: 10px;">
             <div class="row text-center d-flex align-items-center justify-content-center" style="height: 100%; margin-botton: 15px;">
-              <br>
               <div class="col">
-                <h1>value</h1>
+                <h1>Valor grandeeeeeee</h1>
+              </div>
+              <div class="col">
+                <h1>leddddddddd</h1>
               </div>
               <div class="col">
                 <h1>led</h1>
               </div>
               <div class="col">
-                <h1>led</h1>
+                <h1>Lucaasasa</h1>
               </div>
             </div>
           </div>
-          <div>
-            <h1>coisas coisas coisas</h1>
+
+          <br>
+          <div style="border: 1px solid red; border-radius: 10px;">
+            <div class="row text-center d-flex align-items-center justify-content-center" style="height: 100%; margin-botton: 15px;">
+              <div class="col">
+                <h1>Valor grandeeeeeee</h1>
+              </div>
+              <div class="col">
+                <h1>leddddddddd</h1>
+              </div>
+              <div class="col">
+                <h1>led</h1>
+              </div>
+              <div class="col">
+                <h1>Lucaasasa</h1>
+              </div>
+            </div>
           </div>
+
         </div>
         <div class="tab-pane fade" id="profile<%= device.id %>" role="tabpanel" aria-labelledby="profile-tab<%= device.id %>">
-          <h1>Configurações</h1>
+          <%= render 'components/terminal_view', device: device, terminal: find_channel_for_type(channels, 'terminal_view') %>
+          <%= render 'components/diversos_terminal_insert', device: device, terminal: find_channel_for_type(channels, 'terminal_insert') %>
+          <%= render 'components/diversos_info', device: device, info: find_channel_for_type(channels, 'info') %>
         </div>
       </div>
 
     </div>
-
   </div>
 </div>

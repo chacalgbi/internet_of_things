@@ -20,4 +20,8 @@ module IotHelper
 
     [array_info, last_label, actual_class]
   end
+
+  def find_channel_for_type(channels, type)
+    channels.find { |channel| channel.tipo == type }
+  end
 end

@@ -80,7 +80,7 @@ ActiveAdmin.register Channel do
       f.input :platform
       f.input :path
       f.input :tipo, as: :select,
-                     collection: %w[ativo button info led slide terminal_insert terminal_view update value prefes_insert prefes_view update]
+                     collection: %w[ativo button info led slide terminal_insert terminal_view update reiniciar value prefes_insert prefes_view update]
       f.input :color, as: :select, collection: %w[primary secondary success danger warning info light dark]
       f.input :range
       f.input :array_info

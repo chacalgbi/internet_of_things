@@ -231,7 +231,8 @@ export default class extends Controller {
 
     ArrayChannels.map((i) => {
       if(i.tipo == 'ativo'){
-        ArrayAtivo.push({ canal: i.id, device: `acti${i.device_id}`, func: null, online: 'nao' })
+        let device = ArrayDevices.find((device)=>{ if (device.id == i.device_id) { return device } })
+        ArrayAtivo.push({ canal: i.id, device: `acti${i.device_id}`, func: null, online: 'nao', nome: device.description })
       }
     })
 
