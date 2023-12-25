@@ -1,7 +1,7 @@
 <div data-controller="iot">
   <div class="accordion accordion-flush" id="list_devices_accordion">
     <% @devices.each do |device| %>
-      <% matching_channels = @channels.select { |channel| channel.client_id == device.client_id } %>
+      <% matching_channels = @channels.select { |channel| channel.device_id == device.id } %>
       <% case device.tipo %>
         <% when 'mini_monit' %>
           <%= render 'iot/mini_monit', device: device, channels: matching_channels %>
@@ -10,3 +10,5 @@
   </div>
   <div id="propeties" data-client_id="<%= @client.id %>"></div>
 </div>
+
+<%= render 'components/change_name_device' %>

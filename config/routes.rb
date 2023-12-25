@@ -8,11 +8,10 @@ Rails.application.routes.draw do
     resources :clients
     resources :channels
     resources :devices
+    root to: 'home#index'
+    post '/others', to: 'home#others'
+    get '/register_device', to: 'register_device#index'
   end
-
-  root to: 'home#index'
-  post '/others', to: 'home#others'
-  get '/register_device', to: 'register_device#index'
 
   post '/device_login', to: 'iot#device_login'
   post '/mqtt_info', to: 'iot#mqtt_info'

@@ -8,9 +8,7 @@ class HomeController < LoggedController
     else
       @devices = Device.where(client_id: @client.id)
       @channels = Channel.where(client_id: @client.id)
-      @ch = object_of_channels(@channels)
       @show = @devices.count == 1 ? 'show' : ''
-
     end
   end
 
@@ -24,6 +22,8 @@ class HomeController < LoggedController
                        data_from_client(params['param2'])
                      when 'clear_log'
                        clear_log(params['param2'])
+                     when 'change_name_device'
+                       change_name_device(params['param2'])
                      else
                        'Teste de default'
                      end
@@ -32,20 +32,6 @@ class HomeController < LoggedController
   end
 
   private
-
-  def object_of_channels(channels)
-    count = 0
-    types = {}
-    channels.each do |channel|
-      if channel.tipo == 'led'
-        count += 1
-        types["#{channel.tipo}#{count}"] = channel
-      else
-        types[channel.tipo] = channel
-      end
-    end
-    types
-  end
 
   def data_from_client(client_id)
     client = Client.find(client_id)
@@ -65,6 +51,26 @@ class HomeController < LoggedController
     channel = Channel.find(id)
     channel.obs = ''
     channel.save!
+    @message = 'Log limpo com sucesso!'
+    nil
+  rescue StandardError => e
+    @error = true
+    @message = e.message
+  end
+
+  def change_name_device(params)
+    device = Device.find(params['id'])
+    if device.nil?
+      @error = true
+      @message = 'Dispositivo não encontrado!'
+    elsif device.update(description: params['description'])
+      @error = false
+      @message = "Nome do dispositivo alterado para '#{device.description}' com sucesso!"
+      { id: device.id, description: device.description }
+    else
+      @error = true
+      @message = 'Erro ao alterar o nome do dispositivo!'
+    end
   rescue StandardError => e
     @error = true
     @message = e.message

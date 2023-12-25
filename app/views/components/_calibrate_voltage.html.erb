@@ -1,0 +1,23 @@
+<div class="modal fade" id="calibrarDCMini" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Calibrar Tensão DC (Bateria) do dispositivo:</h5>
+        <h5 id="description_calibrate" class="modal-title" style="color: red;"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <span id ="idDeviceModal" hidden></span>
+        <div class="mb-3">
+          <span id="topic_calibrate" style="display: none;"></span>
+          <label class="form-label" for="new_voltage">Com ajuda de um multímetro, meça a tensão da fonte DC (bateria) que está sendo monitorada e insira o valor abaixo para fazer a calibração. Depois clique em calibrar.</label>
+          <input type="number" step="0.1" class="form-control" name="new_voltage" id="new_voltage">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-action="click->iot#calibrate_voltage">Calibrar</button>
+      </div>
+    </div>
+  </div>
+</div>

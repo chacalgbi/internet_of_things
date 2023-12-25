@@ -6,26 +6,48 @@
   </button>
 
   <div id="collapseOne<%= device.id %>" class="accordion-collapse collapse <%= @show %>" aria-labelledby="flush-headingOne" data-bs-parent="#list_devices_accordion">
-    <div class="accordion-body">
 
-      <div style="border: 1px solid lightblue; border-radius: 10px;">
-        <div class="row text-center d-flex align-items-center justify-content-center" style="height: 100%;">
-          <div class="col">
-            <%= render 'components/value', device: device, value: @ch['value'] %>
+    <div class="accordion-body">
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="control-tab<%= device.id %>" data-bs-toggle="tab" data-bs-target="#control<%= device.id %>" type="button" role="tab" aria-controls="control<%= device.id %>" aria-selected="true">Home</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profile-tab<%= device.id %>" data-bs-toggle="tab" data-bs-target="#profile<%= device.id %>" type="button" role="tab" aria-controls="profile<%= device.id %>" aria-selected="false">Configs</button>
+        </li>
+      </ul>
+
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="control<%= device.id %>" role="tabpanel" aria-labelledby="control-tab<%= device.id %>">
+          <% ch = object_of_channels(channels) %>
+          <div style="border: 1px solid lightblue; border-radius: 10px;">
+            <div class="row text-center d-flex align-items-center justify-content-center" style="height: 100%; margin-botton: 15px;">
+              <br>
+              <div class="col">
+                <%= render 'components/value', device: device, value: ch['value'] %>
+              </div>
+              <div class="col">
+                <%= render 'components/led', device: device, led: ch['led1'] %>
+              </div>
+              <div class="col">
+                <%= render 'components/led', device: device, led: ch['led2'] %>
+              </div>
+            </div>
           </div>
-          <div class="col">
-            <p>Conteúdo da segunda coluna</p>
+          <div>
+            <%= render 'components/terminal_view', device: device, terminal: ch['terminal_view'] %>
+            <%= render 'components/terminal_insert', device: device, terminal: ch['terminal_insert'] %>
+            <%= render 'components/info', device: device, info: ch['info'], reset: ch['reiniciar'] %>
           </div>
-          <div class="col">
-            <p>Conteúdo da terceira coluna</p>
-          </div>
+        </div>
+        <div class="tab-pane fade" id="profile<%= device.id %>" role="tabpanel" aria-labelledby="profile-tab<%= device.id %>">
+          <%= render 'components/configs', device: device, prefes_insert: ch['prefes_insert'] %>
         </div>
       </div>
 
-      <%= render 'components/terminal_view', device: device, terminal: @ch['terminal_view'] %>
-      <%= render 'components/terminal_insert', device: device, terminal: @ch['terminal_insert'] %>
-
     </div>
+
   </div>
 
+  <%= render 'components/calibrate_voltage' %>
 </div>
