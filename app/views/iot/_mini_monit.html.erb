@@ -36,18 +36,16 @@
           </div>
           <div>
             <%= render 'components/terminal_view', device: device, terminal: ch['terminal_view'] %>
-            <%= render 'components/terminal_insert', device: device, terminal: ch['terminal_insert'] %>
-            <%= render 'components/info', device: device, info: ch['info'], reset: ch['reiniciar'] %>
+            <%= render 'components/mini_monit_terminal_insert', device: device, terminal: ch['terminal_insert'] %>
+            <%= render 'components/mini_monit_info', device: device, info: ch['info'], reset: ch['reiniciar'] %>
           </div>
         </div>
         <div class="tab-pane fade" id="profile<%= device.id %>" role="tabpanel" aria-labelledby="profile-tab<%= device.id %>">
-          <%= render 'components/configs', device: device, prefes_insert: ch['prefes_insert'] %>
+          <%= render 'components/mini_monit_configs', device: device, prefes_insert: ch['prefes_insert'] %>
         </div>
       </div>
 
     </div>
 
   </div>
-
-  <%= render 'components/calibrate_voltage' %>
 </div>
