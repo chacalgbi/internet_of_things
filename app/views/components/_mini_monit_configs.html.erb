@@ -1,0 +1,130 @@
+<!-- Recuperar valores das Configurações -->
+<button class="btn btn-outline-danger" type="button" style="margin: 15px;" data-action="click->iot#get_values_configs" data-path="<%= prefes_insert.path %>" data-device="acti<%= device.id %>">
+  Recuperar configurações do Dispositivo
+</button>
+
+<!-- Cadastrar canais de comunicação de alerta -->
+<div class="border border-secondary rounded-3" style="padding: 10px; margin: 10px;">
+  <div class="alert alert-secondary text-center">Cadastrar canais de comunicação de alerta:</div>
+  <div class="input-group input-group-sm mb-1">
+    <label class="input-group-text" for="email_<%= device.id %>" >Email</label>
+    <input type="email" placeholder="email@gmail.com" class="form-control" name="email_<%= device.id %>" id="email_<%= device.id %>">
+    <button class="btn btn-outline-secondary" type="button" data-action="click->iot#preferences" data-device="acti<%= device.id %>" data-id="email_<%= device.id %>" data-path="<%= prefes_insert.path %>">Salvar</button>
+  </div>
+  <div class="input-group input-group-sm mb-1">
+    <label class="input-group-text" for="whatsapp_<%= device.id %>">WhatsApp</label>
+    <input type="text" maxlength="16" placeholder="Ex.: (00) 0000-0000" class="form-control" name="whatsapp_<%= device.id %>" id="whatsapp_<%= device.id %>">
+    <button class="btn btn-outline-secondary" data-action="click->iot#preferences" data-device="acti<%= device.id %>" data-id="whatsapp_<%= device.id %>" data-path="<%= prefes_insert.path %>" type="button">Salvar</button>
+  </div>
+  <div class="input-group input-group-sm mb-1">
+    <label class="input-group-text" for="telegram_<%= device.id %>" >Telegram</label>
+    <input type="text" class="form-control" placeholder="Cole o codigo recebido aqui." name="telegram_<%= device.id %>" id="telegram_<%= device.id %>">
+    <button class="btn btn-outline-secondary" data-action="click->iot#preferences" data-device="acti<%= device.id %>" data-id="telegram_<%= device.id %>" data-path="<%= prefes_insert.path %>" type="button">Salvar</button>
+  </div>
+  <p>OBS: Para saber como receber o chat_id do telegram <a href="http://thomelucas.com.br/manualv1/07_config_telegram.html" target="_blank" >Clique aqui</a>.</p>
+</div>
+
+<!-- Habilitar alerta nos canais de comunicação -->
+<div class="border border-info rounded-3" style="padding: 10px; margin: 10px;">
+  <div class="alert alert-info text-center">Habilitar alerta nos canais de comunicação:</div>
+  <div class="form-check form-switch mb-2">
+    <input class="form-check-input" type="checkbox" name="emailEnable_<%= device.id %>" id="emailEnable_<%= device.id %>" data-action="change->iot#preferences" data-device="acti<%= device.id %>" data-id="emailEnable_<%= device.id %>" data-path="<%= prefes_insert.path %>">
+    <label class="form-check-label" for="emailEnable_<%= device.id %>">E-mail</label>
+  </div>
+  <div class="form-check form-switch mb-2">
+    <input class="form-check-input" type="checkbox" name="telegramEnable_<%= device.id %>" id="telegramEnable_<%= device.id %>" data-action="change->iot#preferences" data-device="acti<%= device.id %>" data-id="telegramEnable_<%= device.id %>" data-path="<%= prefes_insert.path %>">
+    <label class="form-check-label" for="telegramEnable_<%= device.id %>" >Telegram</label>
+  </div>
+  <div class="form-check form-switch mb-2">
+    <input class="form-check-input" type="checkbox" name="whatsappEnable_<%= device.id %>" id="whatsappEnable_<%= device.id %>" data-action="change->iot#preferences" data-device="acti<%= device.id %>" data-id="whatsappEnable_<%= device.id %>" data-path="<%= prefes_insert.path %>">
+    <label class="form-check-label" for="whatsappEnable_<%= device.id %>" >WhatsApp</label>
+  </div>
+  <p>OBS: Os alertas serão enviados pelos métodos selecionados <strong>acima</strong> e quando os valores selecionados <strong>abaixo</strong> forem
+    maiores ou menores nos seus respectivos campos MIN e MAX. Serão enviados para os meios de comunicação <strong>cadastrados</strong>.</p>
+</div>
+
+<!-- Tensão AC -->
+<div class="border border-danger rounded-3" style="padding: 10px; margin: 10px;">
+  <div class="form-check form-switch  alert-danger">
+    <input class="form-check-input" type="checkbox" name="acEnable_<%= device.id %>" id="acEnable_<%= device.id %>"  data-action="change->iot#preferences" data-device="acti<%= device.id %>" data-id="acEnable_<%= device.id %>" data-path="<%= prefes_insert.path %>">
+    <label class="form-check-label" for="acEnable_<%= device.id %>" >Tensão AC - Habilitar envio de Alerta Energia AC</label>
+  </div>
+  <div class="input-group input-group-sm mb-1">
+    <label class="input-group-text" for="acName_<%= device.id %>" >Nome</label>
+    <input type="text" maxlength="20" placeholder="Limite: 20 caracteres" class="form-control" name="acName_<%= device.id %>" id="acName_<%= device.id %>">
+    <button class="btn btn-outline-danger" data-action="click->iot#preferences" data-device="acti<%= device.id %>" data-id="acName_<%= device.id %>" data-path="<%= prefes_insert.path %>" type="button">Salvar</button>
+  </div>
+  <div class="input-group input-group-sm mb-1">
+    <label class="input-group-text" for="acSelect_<%= device.id %>" >Alertar quando</label>
+    <select class="form-select" name="acSelect_<%= device.id %>" id="acSelect_<%= device.id %>">
+      <option selected disabled>Selecione</option>
+      <option value="ok">OK</option>
+      <option value="falha">Falha(Sem tensão)</option>
+    </select>
+    <button class="btn btn-outline-danger" type="button" data-action="click->iot#preferences" data-device="acti<%= device.id %>" data-id="acSelect_<%= device.id %>" data-path="<%= prefes_insert.path %>">Salvar</button>
+  </div>
+</div>
+
+<!-- Tensão DC1  -->
+<div class="border border-primary rounded-3" style="padding: 10px; margin: 10px;">
+  <div class="form-check form-switch alert-primary">
+    <input class="form-check-input" type="checkbox" name="dc1Enable_<%= device.id %>"  id="dc1Enable_<%= device.id %>" data-action="change->iot#preferences" data-device="acti<%= device.id %>" data-id="dc1Enable_<%= device.id %>" data-path="<%= prefes_insert.path %>">
+    <label class="form-check-label" for="dc1Enable_<%= device.id %>"  >Tensão DC1 - Habilitar envio de Alerta (7 a 60 vdc)</label>
+  </div>
+  <div class="input-group input-group-sm mb-1">
+    <label class="input-group-text" for="dc1Name_<%= device.id %>" >Nome</label>
+    <input type="text" maxlength="20" placeholder="Limite: 20 caracteres" class="form-control" name="dc1Name_<%= device.id %>" id="dc1Name_<%= device.id %>">
+    <button class="btn btn-outline-primary" data-action="click->iot#preferences" data-device="acti<%= device.id %>" data-id="dc1Name_<%= device.id %>" data-path="<%= prefes_insert.path %>" type="button">Salvar</button>
+  </div>
+  <div class="input-group input-group-sm mb-1">
+    <label class="input-group-text" for="dc1Min_<%= device.id %>" >Min</label>
+    <input type="number" step="0.1" class="form-control" name="dc1Min_<%= device.id %>" id="dc1Min_<%= device.id %>">
+    <button class="btn btn-outline-primary" data-action="click->iot#preferences" data-device="acti<%= device.id %>" data-id="dc1Min_<%= device.id %>" data-path="<%= prefes_insert.path %>" type="button">Salvar</button>
+  </div>
+  <div class="input-group input-group-sm mb-1">
+    <label class="input-group-text" for="dc1Max_<%= device.id %>" >Max</label>
+    <input type="number" step="0.1" class="form-control" name="dc1Max_<%= device.id %>" id="dc1Max_<%= device.id %>">
+    <button class="btn btn-outline-primary" data-action="click->iot#preferences" data-device="acti<%= device.id %>" data-id="dc1Max_<%= device.id %>" data-path="<%= prefes_insert.path %>" type="button">Salvar</button>
+  </div>
+</div>
+
+<!-- Sensor -->
+<div class="border border-dark rounded-3" style="padding: 10px; margin: 10px;">
+  <div class="form-check form-switch  alert-dark">
+    <input class="form-check-input" type="checkbox" name="sensorEnable_<%= device.id %>" id="sensorEnable_<%= device.id %>" data-action="change->iot#preferences" data-device="acti<%= device.id %>" data-id="sensorEnable_<%= device.id %>" data-path="<%= prefes_insert.path %>">
+    <label class="form-check-label" for="sensorEnable_<%= device.id %>" >Sensor - Habilitar envio de Alerta (Aberto/Fechado)</label>
+  </div>
+  <div class="input-group input-group-sm mb-1">
+    <label class="input-group-text" for="sensorName_<%= device.id %>" >Nome</label>
+    <input type="text" maxlength="20" placeholder="Limite: 20 caracteres" class="form-control" name="sensorName_<%= device.id %>" id="sensorName_<%= device.id %>">
+    <button class="btn btn-outline-dark" data-action="click->iot#preferences" data-device="acti<%= device.id %>" data-id="sensorName_<%= device.id %>" data-path="<%= prefes_insert.path %>" type="button">Salvar</button>
+  </div>
+  <div class="input-group input-group-sm mb-1">
+    <label class="input-group-text" for="sensorSelect_<%= device.id %>" >Alertar quando</label>
+    <select class="form-select" name="sensorSelect_<%= device.id %>" id="sensorSelect_<%= device.id %>">
+      <option selected disabled>Selecione</option>
+      <option value="aberto">Aberto</option>
+      <option value="fechado">Fechado</option>
+    </select>
+    <button class="btn btn-outline-dark" type="button" data-action="click->iot#preferences" data-device="acti<%= device.id %>" data-id="sensorSelect_<%= device.id %>" data-path="<%= prefes_insert.path %>">Salvar</button>
+  </div>
+</div>
+
+<!-- SMS -->
+<div class="border border-success rounded-3" style="padding: 10px; margin: 10px;">
+  <div class="form-check form-switch  alert-success">
+    <input class="form-check-input" type="checkbox" name="smsEnable_<%= device.id %>"  id="smsEnable_<%= device.id %>" data-action="change->iot#preferences" data-device="acti<%= device.id %>" data-id="smsEnable_<%= device.id %>" data-path="<%= prefes_insert.path %>">
+    <label class="form-check-label" for="smsEnable_<%= device.id %>" >SMS - Habilitar envio de SMS caso a internet cair</label>
+  </div>
+  <div class="input-group input-group-sm mb-1">
+    <label class="input-group-text" for="urlName_<%= device.id %>" >URL para PING</label>
+    <input type="text" maxlength="40" placeholder="Limite: 40 caracteres" class="form-control" name="urlName_<%= device.id %>" id="urlName_<%= device.id %>">
+    <button class="btn btn-outline-success" data-action="click->iot#preferences" data-device="acti<%= device.id %>" data-id="urlName_<%= device.id %>" data-path="<%= prefes_insert.path %>" type="button">Salvar</button>
+  </div>
+  <div class="input-group input-group-sm mb-1">
+    <label class="input-group-text" for="numeroSMS_<%= device.id %>" >N° receber SMS</label>
+    <input type="text" maxlength="11" placeholder="Limite: 11 caracteres" class="form-control" name="numeroSMS_<%= device.id %>" id="numeroSMS_<%= device.id %>">
+    <button class="btn btn-outline-success" data-action="click->iot#preferences" data-device="acti<%= device.id %>" data-id="numeroSMS_<%= device.id %>" data-path="<%= prefes_insert.path %>" type="button">Salvar</button>
+  </div>
+  <button class="btn btn-outline-success" data-action="click->iot#sms_test" data-device="acti<%= device.id %>" data-id="numeroSMS_<%= device.id %>" data-path="<%= prefes_insert.path %>" type="button">Enviar SMS de Teste</button>
+</div>

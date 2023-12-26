@@ -1,0 +1,21 @@
+<% range = slide.range.split('-') %>
+
+<div class="input-group mb-1">
+  <span class="input-group-text" id="slideValue<%= slide.id %>">
+    <%= slide.label %> <%= slide.previous_state %>
+  </span>
+  <input type="range" class="form-control" 
+    id=  "<%= slide.id %>"
+    min= "<%= range[0] %>"
+    max= "<%= range[1] %>"
+    step="<%= range[2] %>"
+    value="<%= slide.previous_state %>"
+
+    data-action="change->iot#slide"
+    data-span-value="slideValue<%= slide.id %>"
+    data-path="<%= slide.path %>"
+    data-label="<%= slide.label %>"
+    data-id="<%= slide.id %>"
+    data-device="acti<%= device.id %>"
+  >
+</div>

@@ -1,1 +1,16 @@
-<h1>HOME</h1>
+<div class="accordion" id="list_devices_accordion" data-controller="iot">
+
+  <% @devices.each do |device| %>
+    <% matching_channels = @channels.select { |channel| channel.device_id == device.id } %>
+    <% case device.tipo %>
+      <% when 'diversos' %>
+        <%= render 'iot/diversos', device: device, channels: matching_channels %>
+      <% when 'mini_monit' %>
+        <%= render 'iot/mini_monit', device: device, channels: matching_channels %>
+    <% end %>
+  <% end %>
+
+  <div id="propeties" data-client_id="<%= @client.id %>"></div>
+  <%= render 'components/change_name_device' %>
+  <%= render 'components/calibrate_voltage' %>
+</div>

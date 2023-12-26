@@ -6,6 +6,8 @@ ruby '3.2.2'
 
 gem 'activeadmin'
 gem 'bootsnap', require: false
+gem 'colorize'
+gem 'cssbundling-rails'
 gem 'devise'
 gem 'devise-i18n'
 gem 'dotenv-rails'
@@ -16,6 +18,8 @@ gem 'mqtt', github: 'njh/ruby-mqtt'
 gem 'mysql2', '~> 0.5'
 gem 'puma', '>= 5.0'
 gem 'rails', '~> 7.1.2'
+gem 'redis'
+gem 'rufus-scheduler', '~> 3.2'
 gem 'sassc-rails'
 gem 'sprockets-rails'
 gem 'sqlite3', '~> 1.4'
@@ -42,4 +46,5 @@ group :test do
   gem 'capybara'
   gem 'database_cleaner'
   gem 'selenium-webdriver'
+  gem 'shoulda-matchers'
 end

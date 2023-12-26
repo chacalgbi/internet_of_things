@@ -1,0 +1,19 @@
+<% lastValue, lastLabel, lastClass = button_atrributes(btn) %>
+
+<div style="margin: 15px; font-size: 13px;">
+  <button 
+    style="margin: 10px; font-size: 12px; padding: 5px;" 
+    type="button" 
+    id="<%= btn.id %>" 
+    class="btn btn-<%= lastClass %><%= btn.color %>"
+    data-action="click->iot#rele"
+    data-path="<%= btn.path %>"
+    data-label="<%= btn.label %>"
+    data-id="<%= btn.id %>"
+    data-array_info="<%= btn.array_info %>"
+    data-device="acti<%= device.id %>"
+    data-color="<%= btn.color %>"
+  >
+    <%= lastLabel %><%= btn.label %>
+  </button>
+</div>

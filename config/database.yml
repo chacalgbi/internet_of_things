@@ -4,7 +4,7 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: <%= ENV['DATABASE_USERNAME'] %>
   password: <%= ENV['DATABASE_PASSWORD'] %>
-  host: <%= ENV['DATABASE_HOST_DEVELOPMENT'] %>
+  host: <%= ENV['DATABASE_HOST'] %>
   socket: /var/run/mysqld/mysqld.sock
   timeout: 5000
 
@@ -19,4 +19,3 @@ test:
 production:
   <<: *default
   database: iot_production
-  host: <%= ENV['DATABASE_HOST_PRODUCTION'] %>

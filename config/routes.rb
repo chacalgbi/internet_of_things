@@ -5,9 +5,15 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   devise_for :users
   authenticate :user do
-    get '/list', to: 'home#list'
     resources :clients
+    resources :channels
+    resources :devices
+    root to: 'home#index'
+    post '/others', to: 'home#others'
+    get '/register_device', to: 'register_device#index'
   end
 
-  root to: 'home#index'
+  post '/device_login', to: 'iot#device_login'
+  post '/mqtt_info', to: 'iot#mqtt_info'
+  post '/alertaTelegram', to: 'iot#telegram'
 end
