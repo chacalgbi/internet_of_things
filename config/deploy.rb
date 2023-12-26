@@ -78,21 +78,14 @@ namespace :deploy do
   task :check_node_version do
     on roles(:app) do
       within release_path do
-        execute :node, '--version'
-      end
-    end
-  end
-
-  task :check_yarn_version do
-    on roles(:app) do
-      within release_path do
-        execute :yarn, '--version'
+        with rails_env: fetch(:rails_env) do
+          execute :rake, 'check_node_version'
+        end
       end
     end
   end
 
   before 'deploy:assets:precompile', :check_node_version
-  before 'deploy:assets:precompile', :check_yarn_version
   before :starting,     :check_revision
   after  :finishing,    :compile_assets
   after  :finishing,    :cleanup
