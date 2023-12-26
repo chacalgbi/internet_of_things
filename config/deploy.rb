@@ -75,11 +75,31 @@ namespace :deploy do
     end
   end
 
+  task :check_node_version do
+    on roles(:app) do
+      within release_path do
+        execute :node, '--version'
+      end
+    end
+  end
+
+  task :check_yarn_version do
+    on roles(:app) do
+      within release_path do
+        execute :yarn, '--version'
+      end
+    end
+  end
+
+  before 'deploy:assets:precompile', :check_node_version
+  before 'deploy:assets:precompile', :check_yarn_version
   before :starting,     :check_revision
   after  :finishing,    :compile_assets
   after  :finishing,    :cleanup
   after  :finishing,    :restart
 end
+
+append :linked_dirs, '.bundle', 'node_modules'
 
 # ps aux | grep puma    # Get puma pid
 # kill -s SIGUSR2 pid   # Restart puma
