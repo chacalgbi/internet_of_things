@@ -52,7 +52,7 @@ ActiveAdmin.register Channel do
     redirect_to collection_path, alert: 'Canais criados com sucesso.'
   end
 
-  batch_action :Importar_Channels_do_Sistema_antigo, form: { array_channels: :text_area } do |_ids, inputs|
+  batch_action :Importar_Channels_do_Sistema_antigo, form: { array_channels: :text } do |_ids, inputs|
     array_channels = inputs['array_channels']
     data = JSON.parse(array_channels)
     alert = "#{data.count} Canais: "

@@ -11,7 +11,7 @@ class IotController < ApplicationController
     status = 200
     data = {}
     @device = Device.find_by(token: params[:token])
-    @config = Config.last
+    @config = Config.find_by(tipo: @device.tipo)
     if @device.nil?
       status = 404
       data = { msg: 'Token invalido!', erroGeral: 'sim' }
