@@ -18,7 +18,7 @@ class IotController < ApplicationController
     else
       data = {
         msg: 'Acesso permitido',
-        dados: @device,
+        dados: [@device], # array para manter o padrão de resposta dos dispositivos já em produção
         versao: @config['version'].to_f,
         path_auto_update: @config['path_update'],
         erroGeral: 'nao'

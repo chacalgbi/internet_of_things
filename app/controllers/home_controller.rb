@@ -24,6 +24,8 @@ class HomeController < LoggedController
                        clear_log(params['param2'])
                      when 'change_name_device'
                        change_name_device(params['param2'])
+                     when 'rele'
+                       rele(params['param2'])
                      else
                        'Teste de default'
                      end
@@ -48,9 +50,7 @@ class HomeController < LoggedController
   end
 
   def clear_log(id)
-    channel = Channel.find(id)
-    channel.obs = ''
-    channel.save!
+    Channel.find(id).update!(obs: '')
     @message = 'Log limpo com sucesso!'
     nil
   rescue StandardError => e
@@ -59,18 +59,29 @@ class HomeController < LoggedController
   end
 
   def change_name_device(params)
-    device = Device.find(params['id'])
-    if device.nil?
-      @error = true
-      @message = 'Dispositivo não encontrado!'
-    elsif device.update(description: params['description'])
-      @error = false
-      @message = "Nome do dispositivo alterado para '#{device.description}' com sucesso!"
-      { id: device.id, description: device.description }
-    else
-      @error = true
-      @message = 'Erro ao alterar o nome do dispositivo!'
-    end
+    Device.find(params['id']).update!(description: params['description'])
+    @message = "Nome alterado para '#{params['description']}'"
+    { id: params['id'], description: params['description'] }
+  rescue ActiveRecord::RecordNotFound
+    @error = true
+    @message = 'Device não encontrado!'
+  rescue ActiveRecord::RecordInvalid
+    @error = true
+    @message = 'Falha ao atualizar o device!'
+  rescue StandardError => e
+    @error = true
+    @message = e.message
+  end
+
+  def rele(params)
+    Channel.find(params['id_channel']).update!(previous_state: params['previous_state'])
+    nil
+  rescue ActiveRecord::RecordNotFound
+    @error = true
+    @message = 'Channel não encontrado!'
+  rescue ActiveRecord::RecordInvalid
+    @error = true
+    @message = 'Falha ao atualizar o Channel!'
   rescue StandardError => e
     @error = true
     @message = e.message

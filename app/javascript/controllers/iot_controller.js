@@ -8,6 +8,8 @@ window.ArrayDevices = []
 window.ArraySubscribles = []
 window.ArrayAtivo = []
 window.ArrayStateRele = []
+window.ArrayStateSlide = []
+window.ArrayEnter = []
 
 export default class extends Controller {
 
@@ -218,13 +220,25 @@ export default class extends Controller {
     btnInitialize && btnInitialize.click()
   }
 
+  press_enter_terminal(){
+    ArrayEnter.map((item, index, array) => {
+      const a = item.split('_')
+      window['press' + index] = document.getElementById(a[0]).addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+          event.preventDefault()
+          document.getElementById(a[1]).click()
+        }
+      })
+    })
+  }
+
   connect_mqtt() {
     let that = this; // Armazena uma referência ao controlador
     let arrayMqtt = objCliente.address_mqtt.split(":")
 
     const options = {
       port: 8883,
-      clientId: objCliente.name,
+      clientId: `${objCliente.name}_${Math.floor(Math.random() * 900) + 100}`,
       username: arrayMqtt[0],
       password: arrayMqtt[1],
       clean: true,
@@ -239,16 +253,23 @@ export default class extends Controller {
       if(i.tipo == 'button'){
         ArrayStateRele.push({ path: i.path, estado: i.previous_state })
       }
-    })
 
-    ArrayChannels.map((i) => {
+      if(i.tipo == 'slide'){
+        ArrayStateSlide.push({ path: i.path, estado: i.previous_state })
+      }
+
+      if(i.tipo == 'terminal_insert'){
+        ArrayEnter.push(`input${i.id}_inputButton${i.id}`)
+      }
+
       if (i.category === 'subscrible') {
         ArraySubscribles.push(i.path)
       } else if (i.category === 'publish') {
-        if (i.type === 'button' || i.type === 'slide') {
+        if (i.tipo === 'button' || i.tipo === 'slide') {
           ArraySubscribles.push(i.path)
         }
       }
+
     })
 
     client = mqtt.connect(`ws://${arrayMqtt[2]}`, options)
@@ -256,19 +277,21 @@ export default class extends Controller {
     client.on('connect', function () {
       console.log('Broker Conectado!')
       client.subscribe(ArraySubscribles)
-      // Avisa a placa  8 segundos depois do completo carregamento, que a página foi aberta.
-      setTimeout(() => { that.notice_dashboard_open() }, 8000)
+      // Avisa a placa  5 segundos depois do completo carregamento, que a página foi aberta.
+      setTimeout(() => { that.notice_dashboard_open() }, 5000)
+      //Seta os campos de input do terminal para aceitarem enter criando variaveis dinamicamente
+      setTimeout(() => { that.press_enter_terminal() }, 1000)
     })
 
     client.on('message', function (topic, message) {
       //console.log(topic + ': ' + message.toString());
       ArrayChannels.map((i) => {
         if (topic === i.path) {
-          if (i.tipo === 'value') { that.dados_grafico(i.id, message.toString()); document.getElementById(`${i.id}`).innerHTML = message.toString() }
-          if (i.tipo === 'info')  { document.getElementById(`${i.id}`).innerHTML = message.toString() }
-          // if (i.tipo === 'button') { alteraStateRele(topic, i.label, i.id, message.toString()) }
-          // if (i.tipo === 'slide') { alteraStateSlide(topic, i.label, i.id, message.toString()) }
-          if (i.tipo === 'led') { that.change_led(`${i.id}`, message.toString()) }
+          if (i.tipo === 'value')  { that.dados_grafico(i.id, message.toString()); document.getElementById(`${i.id}`).innerHTML = message.toString() }
+          if (i.tipo === 'info')   { document.getElementById(`${i.id}`).innerHTML = message.toString() }
+          if (i.tipo === 'button') { that.change_state_rele(topic, i.label, i.id, message.toString()) }
+          if (i.tipo === 'slide')  { that.change_state_slide(topic, i.label, i.id, message.toString()) }
+          if (i.tipo === 'led')    { that.change_led(`${i.id}`, message.toString()) }
           if (i.tipo === 'terminal_view') { that.terminal_view(message.toString(), `${i.id}`) }
           if (i.tipo === 'prefes_view') { that.recuperar_preferencias(message.toString(), `${i.device_id}`) }
 
@@ -306,23 +329,42 @@ export default class extends Controller {
   }
 
   update_previous_state(id_channel, previous_state) {
-    // const endpoint = `${server}${prev_state}`
-    // axios.post(endpoint, { id: id_channel, previous_state: previous_state }, header)
-    //   .then(function (response) {
-    //       if (response.data.erroGeral == 'nao') {
-    //           //console.log(response.data.msg)
-    //       } else {
-    //           console.error(response.data.msg)
-    //       }
-    //   })
-    //   .catch(function (error) {
-    //       console.error(error.response)
-    //       if (error.response.status == 401) {
-    //           $.notify(`${error.response.data.error.message} - ${error.response.data.error.name}`, "error")
-    //           $.notify(`${error.response.data.message}`, "info")
-    //           JwtExpired()
-    //       }
-    //   })
+    this.others('rele', { id_channel: id_channel, previous_state: previous_state })
+  }
+
+  change_state_rele(topic, label, id, message) {
+    // Se algum outro cliente publicar no tópico do relé, 
+    // aqui atualiza o status do botão e de seu array de controle de estado
+    let newArray = ArrayStateRele.map((s) => {
+      if (s.path === topic) {
+        //console.log(s)
+        if (message === '0') {
+          document.getElementById(id).textContent = 'Ligar ' + label
+          s.estado = '0'
+        } else {
+          document.getElementById(id).textContent = 'Desl ' + label
+          s.estado = '1'
+        }
+        return s
+      } else {
+        return s
+      }
+    })
+    ArrayStateRele = newArray
+  }
+
+  change_state_slide(topic, label, id, message) {
+    let newArray = ArrayStateSlide.map((s) => {
+      if (s.path === topic) {
+        document.getElementById(`slideValue${id}`).innerHTML = message
+        document.getElementById(`${id}`).value = message
+        s.estado = message
+        return s
+      } else {
+        return s
+      }
+    })
+    ArrayStateSlide = newArray
   }
 
   rele(event) {
@@ -371,7 +413,29 @@ export default class extends Controller {
             }
         }
     })
-}
+  }
+
+  slide(event) {
+    const e = event.target
+    const spanValue = e.getAttribute("data-span-value")
+    const path = e.getAttribute("data-path")
+    const id = e.getAttribute("data-id")
+    const device = e.getAttribute("data-device")
+    const label = e.getAttribute("data-label")
+    const value = document.getElementById(id).value
+
+    ArrayAtivo.map((a) => {
+      if (a.device === device) {
+        if (a.online === 'sim') {
+          client.publish(path, value.toString())
+          document.getElementById(spanValue).innerHTML = `${label} ${value}`
+          this.update_previous_state(id, value.toString())
+        } else {
+          $.notify(`${a.nome} OffLine`, "error")
+        }
+      }
+    })
+  }
 
   change_led(id, message) {
     let classAtual = ''
@@ -403,22 +467,26 @@ export default class extends Controller {
     fetch('/others', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken }, body: JSON.stringify(dados) })
     .then(response => response.json())
     .then(dt => {
-        if (dt.error == false && param1 == 'objCliente') {
-          objCliente = dt.data.client
-          ArrayChannels = dt.data.channels
-          ArrayDevices = dt.data.devices
-          this.connect_mqtt()
-        }else if (dt.error == false && param1 == 'change_name_device') {
-          console.log(dt.data.description)
-          document.getElementById(`nomeDevice${dt.data.id}`).innerHTML = dt.data.description
-          document.getElementById('btn_set_new_name').setAttribute('data-description', dt.data.description)
-          $.notify(dt.message, "success")
+      console.log(dt)
+      if (dt.error == false && param1 == 'objCliente') {
+        objCliente = dt.data.client
+        ArrayChannels = dt.data.channels
+        ArrayDevices = dt.data.devices
+        this.connect_mqtt()
+      }else if (dt.error == false && param1 == 'change_name_device') {
+        document.getElementById(`nomeDevice${dt.data.id}`).innerHTML = dt.data.description
+        document.getElementById(`btn_set_new_name_${dt.data.id}`).setAttribute('data-description', dt.data.description)
+        $.notify(dt.message, "success")
+      }else if (dt.error == false && param1 == 'rele') {
 
-        }else{
-          $.notify(dt.message, "success")
-        }
+      }else{
+        $.notify(dt.message, "success")
+      }
 
-        if (dt.error == true) { $.notify(dt.message, "error") }
+      if (dt.error == true) {
+        console.log(dt)
+        $.notify(dt.message, "error")
+      }
     })
     .catch(error => console.error('Erro ao fazer fetch:', error))
   }

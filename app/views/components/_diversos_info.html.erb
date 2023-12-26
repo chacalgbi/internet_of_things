@@ -1,13 +1,13 @@
 <div class="container">
   <div class="row text-center d-flex align-items-center justify-content-center" style="height: 100%;">
     <div class="col">
-      <span class="badge bg-warning text-dark">Core: <%= device.device %></span>
+      <span style="margin: 10px;" class="badge bg-warning text-dark">Core: <%= device.device %></span>
     </div>
     <div class="col">
-      <%= info.label %> <span id="<%= info.id %>" class="badge bg-<%= info.color %>">Aguardando...</span>
+      <span style="margin: 10px; font-size: 10px;" id="<%= info.id %>" class="badge bg-<%= info.color %>">Aguardando...</span>
     </div>
     <div class="col">
-      <button id="btn_set_new_name" style="font-size: 12px; padding: 5px;" type="button" class="btn btn-secondary" 
+      <button style="margin: 10px;" id="btn_set_new_name_<%= device.id %>" style="font-size: 12px; padding: 5px;" type="button" class="btn btn-secondary" 
         data-bs-toggle="modal" data-bs-target="#mudarNomeDevice" 
         data-action="click->iot#set_modal_name" data-description="<%= device.description %>" data-id="<%= device.id %>">
         Renomear
