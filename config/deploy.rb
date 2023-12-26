@@ -1,7 +1,7 @@
 # config valid for current version and patch releases of Capistrano
 lock '~> 3.18.0'
 
-server '144.91.73.83', port: your_port_num, roles: %i[web app db], primary: true
+server '144.91.73.83', port: 22, roles: %i[web app db], primary: true
 set :repo_url, 'git@github.com:chacalgbi/internet_of_things.git'
 set :application, 'internet_of_things'
 
