@@ -81,8 +81,6 @@ namespace :deploy do
   after  :finishing,    :restart
 end
 
-append :linked_dirs, '.bundle', 'node_modules'
-
 # ps aux | grep puma    # Get puma pid
 # kill -s SIGUSR2 pid   # Restart puma
 # kill -s SIGTERM pid   # Stop puma
