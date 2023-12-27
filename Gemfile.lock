@@ -100,6 +100,7 @@ GEM
     ast (2.4.2)
     base64 (0.2.0)
     bcrypt (3.1.20)
+    bcrypt_pbkdf (1.1.0)
     bigdecimal (3.1.5)
     bindex (0.8.1)
     bootsnap (1.17.0)
@@ -162,6 +163,7 @@ GEM
       railties (>= 3.2)
     drb (2.2.0)
       ruby2_keywords
+    ed25519 (1.3.0)
     erubi (1.12.0)
     et-orbi (1.2.7)
       tzinfo
@@ -431,6 +433,7 @@ PLATFORMS
 
 DEPENDENCIES
   activeadmin
+  bcrypt_pbkdf (>= 1.0, < 2.0)
   bootsnap
   capistrano (~> 3.11)
   capistrano-passenger (~> 0.2.0)
@@ -444,6 +447,7 @@ DEPENDENCIES
   devise
   devise-i18n
   dotenv-rails
+  ed25519 (>= 1.2, < 2.0)
   httparty
   importmap-rails
   jbuilder
