@@ -438,7 +438,7 @@ DEPENDENCIES
   capistrano-bundler
   capistrano-rails
   capistrano-rvm
-  capistrano3-puma (~> 5.0.0)
+  capistrano3-puma
   capybara
   colorize
   cssbundling-rails
