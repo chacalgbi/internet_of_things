@@ -33,7 +33,7 @@ class MqttConnectJob < ApplicationJob
     @@client_mqtt.port = ENV['MQTT_PORT']
     @@client_mqtt.username = ENV['MQTT_USER']
     @@client_mqtt.password = ENV['MQTT_PASSWORD']
-    @@client_mqtt.client_id = ENV['MQTT_CLIENT_ID']
+    @@client_mqtt.client_id = "#{ENV['MQTT_CLIENT_ID']}_#{rand(1001)}"
     @@client_mqtt.connect
   end
 
