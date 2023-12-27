@@ -8,6 +8,12 @@ class MqttConnectJob < ApplicationJob
 
   def perform
     Log.alert('MQTT: Conectando ao broker...')
+    Log.alert("Rails is running from: #{Rails.root}")
+    Log.alert("DATABASE_USERNAME: #{ENV['DATABASE_USERNAME']}")
+    Log.alert("DATABASE_HOST: #{ENV['DATABASE_HOST']}")
+    Log.alert("DATABASE_PASSWORD: #{ENV['DATABASE_PASSWORD']}")
+    Log.alert("MQTT_CLIENT_ID: #{ENV['MQTT_CLIENT_ID']}")
+    Log.alert("MQTT_USER: #{ENV['MQTT_USER']}")
     subscribles = path_subscribles
 
     conect unless @@client_mqtt.connected?
