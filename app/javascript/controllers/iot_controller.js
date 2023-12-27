@@ -236,9 +236,10 @@ export default class extends Controller {
     let that = this; // Armazena uma referência ao controlador
     let arrayMqtt = objCliente.address_mqtt.split(":")
     const socket_host_prefix = window.location.protocol === 'https:' ? 'wss://' : 'ws://'
+    const port_socket = window.location.protocol === 'https:' ? 8083 : 8883
 
     const options = {
-      port: 8883,
+      port: port_socket,
       clientId: `${objCliente.name}_${Math.floor(Math.random() * 900) + 100}`,
       username: arrayMqtt[0],
       password: arrayMqtt[1],
