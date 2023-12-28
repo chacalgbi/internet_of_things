@@ -235,11 +235,9 @@ export default class extends Controller {
   connect_mqtt() {
     let that = this; // Armazena uma referência ao controlador
     let arrayMqtt = objCliente.address_mqtt.split(":")
-    const socket_host_prefix = window.location.protocol === 'https:' ? 'wss://' : 'ws://'
-    const port_socket = window.location.protocol === 'https:' ? 8083 : 8883
 
     const options = {
-      port: port_socket,
+      port: 8883,
       clientId: `${objCliente.name}_${Math.floor(Math.random() * 900) + 100}`,
       username: arrayMqtt[0],
       password: arrayMqtt[1],
@@ -274,7 +272,7 @@ export default class extends Controller {
 
     })
 
-    client = mqtt.connect(`${socket_host_prefix}${arrayMqtt[2]}`, options)
+    client = mqtt.connect(`ws://${arrayMqtt[2]}`, options)
 
     client.on('connect', function () {
       console.log('Broker Conectado!')
