@@ -323,8 +323,17 @@ GEM
       psych (>= 4.0.0)
     redis (5.0.8)
       redis-client (>= 0.17.0)
+    redis-actionpack (5.4.0)
+      actionpack (>= 5, < 8)
+      redis-rack (>= 2.1.0, < 4)
+      redis-store (>= 1.1.0, < 2)
     redis-client (0.19.1)
       connection_pool
+    redis-rack (3.0.0)
+      rack-session (>= 0.2.0)
+      redis-store (>= 1.2, < 2)
+    redis-store (1.10.0)
+      redis (>= 4, < 6)
     regexp_parser (2.8.3)
     reline (0.4.1)
       io-console (~> 0.5)
@@ -458,7 +467,8 @@ DEPENDENCIES
   pry-rails
   puma (>= 5.0)
   rails (~> 7.1.2)
-  redis
+  redis (~> 5.0)
+  redis-actionpack (~> 5.3)
   rspec-rails
   rubocop
   rufus-scheduler (~> 3.2)

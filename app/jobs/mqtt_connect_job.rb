@@ -54,7 +54,7 @@ class MqttConnectJob < ApplicationJob
   def handle_message(topic, message)
     if topic.include?('ativo') && message == '1'
       @@client_mqtt.publish('/test/rails', '1')
-      RedisConnection.client.set("timeMqtt#{topic}", Time.now.to_s)
+      RedisClient.set("timeMqtt#{topic}", Time.now.to_s)
       Log.info("Tópico: #{topic}")
     elsif topic.include?('terminal_OUT')
       record_logs(topic, message)

@@ -18,7 +18,8 @@ gem 'mqtt', github: 'njh/ruby-mqtt'
 gem 'mysql2', '~> 0.5'
 gem 'puma', '>= 5.0'
 gem 'rails', '~> 7.1.2'
-gem 'redis'
+gem "redis", "~> 5.0"
+gem "redis-actionpack", "~> 5.3"
 gem 'rufus-scheduler', '~> 3.2'
 gem 'sassc-rails'
 gem 'sprockets-rails'

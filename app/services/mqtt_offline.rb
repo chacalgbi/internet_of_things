@@ -3,12 +3,12 @@
 class MqttOffline
   def self.verify
     if MqttConnectJob.mqtt_client.connected?
-      keys = RedisConnection.client.keys('*')
+      keys = RedisClient.all_keys
       # Log.info("#{Time.now} Redis: #{keys}")
 
       keys.each do |key|
         if key.include?('timeMqtt')
-          time = Time.parse(RedisConnection.client.get(key))
+          time = Time.parse(RedisClient.get(key))
           compare_time(key, time)
         end
       end
@@ -27,7 +27,8 @@ class MqttOffline
       formatted_time = Time.now.strftime('%d\%m\%Y %H:%M')
 
       MqttConnectJob.mqtt_client.publish(parse2, "#{formatted_time} Offline")
-      RedisConnection.client.del(key)
+      Log.info("#{Time.now} OFFLINE: #{parse1}")
+      RedisClient.del(key)
     end
   end
 end
