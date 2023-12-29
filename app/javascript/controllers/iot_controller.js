@@ -235,6 +235,7 @@ export default class extends Controller {
   connect_mqtt() {
     let that = this; // Armazena uma referência ao controlador
     let arrayMqtt = objCliente.address_mqtt.split(":")
+    const socket_host_prefix = window.location.protocol === 'https:' ? 'wss://' : 'ws://'
 
     const options = {
       port: 8883,
@@ -242,6 +243,7 @@ export default class extends Controller {
       username: arrayMqtt[0],
       password: arrayMqtt[1],
       clean: true,
+      useSSL: false,
     }
 
     ArrayChannels.map((i) => {
@@ -272,7 +274,7 @@ export default class extends Controller {
 
     })
 
-    client = mqtt.connect(`ws://${arrayMqtt[2]}`, options)
+    client = mqtt.connect(`${socket_host_prefix}${arrayMqtt[2]}`, options)
 
     client.on('connect', function () {
       console.log('Broker Conectado!')
@@ -467,7 +469,6 @@ export default class extends Controller {
     fetch('/others', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken }, body: JSON.stringify(dados) })
     .then(response => response.json())
     .then(dt => {
-      console.log(dt)
       if (dt.error == false && param1 == 'objCliente') {
         objCliente = dt.data.client
         ArrayChannels = dt.data.channels
