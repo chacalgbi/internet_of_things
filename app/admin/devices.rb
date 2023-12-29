@@ -20,6 +20,26 @@ ActiveAdmin.register Device do
     actions
   end
 
+  batch_action :Importar_Devices_do_Sistema_antigo, form: { array_devices: :text } do |_ids, inputs|
+    array_devices = inputs['array_devices']
+    data = JSON.parse(array_devices)
+    alert = "#{data.count} Devices: "
+
+    begin
+      Device.transaction do
+        data.each do |device_data|
+          alert += "#{device_data['description']}, "
+          Device.create!(device_data)
+        end
+        alert += 'criados com sucesso.'
+      end
+    rescue StandardError => e
+      alert = "Rollback realizado devido ao erro: #{e.class} | #{e.message}"
+    end
+
+    redirect_to collection_path, alert:
+  end
+
   form do |f|
     f.inputs do
       f.input :client_id, as: :select, collection: Client.all.map { |client| [client.name, client.id] }
