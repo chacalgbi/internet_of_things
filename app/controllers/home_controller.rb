@@ -33,6 +33,12 @@ class HomeController < LoggedController
     render json: { error: @error, message: @message, data: @data_response }
   end
 
+  def info
+    render json: { memory: memory_string, cpu: cpu_string, disk: disk_string }
+  rescue StandardError => e
+    render json: { memory: 'Error', cpu: e.class, disk: e.message }
+  end
+
   private
 
   def data_from_client(client_id)
@@ -85,5 +91,26 @@ class HomeController < LoggedController
   rescue StandardError => e
     @error = true
     @message = e.message
+  end
+
+  def memory_string
+    lines = `free -h`.gsub!('Gi', 'Gb').split("\n")
+    memory_line = lines[1].split
+
+    "MEMÓRIA: Total: #{memory_line[1]} - Usada: #{memory_line[2]} - Disponível: #{memory_line[6]}"
+  end
+
+  def cpu_string
+    lines = `mpstat`.split("\n")
+    cpu_line = lines[3].split
+
+    "CPU: Usuário: #{cpu_line[2]}% - Sistema: #{cpu_line[4]}% - Livre: #{cpu_line[11]}%"
+  end
+
+  def disk_string
+    lines = `df -h /home`.split("\n")
+    disk_line = lines[1].split
+
+    "DISCO: - Tam: #{disk_line[1]} - Usado: #{disk_line[2]}(#{disk_line[4]}) - Livre: #{disk_line[3]}"
   end
 end

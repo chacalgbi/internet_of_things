@@ -11,6 +11,7 @@ rerun.txt
 pickle-email-*.html
 temp.txt
 IMPORTAR CHANNELS ANTIGOS.txt
+MODIFICAÇÕES A FAZER.txt
 
 # Ignore all logfiles and tempfiles.
 /log/*

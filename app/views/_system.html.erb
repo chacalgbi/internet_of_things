@@ -1,0 +1,23 @@
+<div id="div_system" class="alert alert-primary" role="alert">
+  <ul>
+    <li id="list_memory"></li>
+    <li id="list_cpu">Clique para ver informações do servidor (apenas admin)</li>
+    <li id="list_disk"></li>
+  </ul>
+</div>
+
+<script>
+  $(document).ready(function() {
+    $('#div_system').click(function() {
+      $.ajax({
+        url: '/info',
+        method: 'GET',
+        success: function(data) {
+          $('#list_memory').text(data.memory)
+          $('#list_cpu').text(data.cpu)
+          $('#list_disk').text(data.disk)
+        }
+      })
+    })
+  })
+</script>

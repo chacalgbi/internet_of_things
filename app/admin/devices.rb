@@ -26,7 +26,7 @@ ActiveAdmin.register Device do
       f.input :description
       f.input :device
       f.input :token
-      f.input :tipo
+      f.input :tipo, as: :select, collection: %w[mini_monit diversos]
       f.input :versao
       f.input :linkAjuda
       f.input :pathUpdate

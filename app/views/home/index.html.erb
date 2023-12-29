@@ -14,3 +14,5 @@
   <%= render 'components/change_name_device' %>
   <%= render 'components/calibrate_voltage' %>
 </div>
+<br>
+<%= render '/system' if current_user.role == 'admin' %>
