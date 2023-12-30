@@ -97,20 +97,20 @@ class HomeController < LoggedController
     lines = `free -h`.gsub!('Gi', 'Gb').split("\n")
     memory_line = lines[1].split
 
-    "MEMÓRIA: Total: #{memory_line[1]} - Usada: #{memory_line[2]} - Disponível: #{memory_line[6]}"
+    "MEMÓRIA: Total: #{memory_line[1]} - Usado: #{memory_line[2]} - Livre: #{memory_line[6]}"
   end
 
   def cpu_string
     lines = `mpstat`.split("\n")
     cpu_line = lines[3].split
 
-    "CPU: Usuário: #{cpu_line[2]}% - Sistema: #{cpu_line[4]}% - Livre: #{cpu_line[11]}%"
+    "CPU:    Usuário: #{cpu_line[2]}% - Sistema: #{cpu_line[4]}% - Livre: #{cpu_line[11]}%"
   end
 
   def disk_string
     lines = `df -h /home`.split("\n")
     disk_line = lines[1].split
 
-    "DISCO: - Tam: #{disk_line[1]} - Usado: #{disk_line[2]}(#{disk_line[4]}) - Livre: #{disk_line[3]}"
+    "DISCO:   Total: #{disk_line[1]} - Usado: #{disk_line[2]}(#{disk_line[4]}) - Livre: #{disk_line[3]}"
   end
 end

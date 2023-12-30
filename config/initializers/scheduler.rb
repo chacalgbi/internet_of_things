@@ -2,10 +2,10 @@
 
 require 'rufus-scheduler'
 
-return if defined?(Rails::Console) || Rails.env.test? || File.split($PROGRAM_NAME).last == 'rake'
+return if Rails.env.test? || File.split($PROGRAM_NAME).last == 'rake'
 
 s = Rufus::Scheduler.singleton
 
-s.every '40s' do
+s.every '1m' do
   MqttOffline.verify
 end
