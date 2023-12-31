@@ -20,51 +20,15 @@
       <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="control<%= device.id %>" role="tabpanel" aria-labelledby="control-tab<%= device.id %>">
 
-
-          <br>
-          <div style="border: 1px solid lightblue; border-radius: 10px;">
-            <div class="row text-center d-flex align-items-center justify-content-center" style="height: 100%; margin-botton: 15px;">
-              <% channels.each do |ch| %>
-                <% if ch.tipo == 'value' %>
-                  <div class="col">
-                    <%= render 'components/value', device: device, value: ch %>
-                  </div>
-                <% end %>
-              <% end %>
-            </div>
-          </div>
-
-          <br>
-          <div style="border: 1px solid lightblue; border-radius: 10px;">
-            <div class="row text-center d-flex align-items-center justify-content-center" style="height: 100%; margin-botton: 15px;">
-              <% channels.each do |ch| %>
-                <% if ch.tipo == 'led' %>
-                  <div class="col">
-                    <%= render 'components/led', device: device, led: ch %>
-                  </div>
-                <% end %>
-              <% end %>
-            </div>
-          </div>
-
-          <br>
-          <div style="border: 1px solid lightblue; border-radius: 10px;">
-            <div class="row text-center d-flex align-items-center justify-content-center" style="height: 100%; margin-botton: 15px;">
-              <% channels.each do |ch| %>
-                <% if ch.tipo == 'button' %>
-                  <div class="col">
-                    <%= render 'components/button', device: device, btn: ch %>
-                  </div>
-                <% end %>
-              <% end %>
-            </div>
-          </div>
+          <%= render 'components/groups/values',  channels: channels %>
+          <%= render 'components/groups/leds',    channels: channels %>
+          <%= render 'components/groups/buttons', channels: channels %>
 
         </div>
         <div class="tab-pane fade" id="profile<%= device.id %>" role="tabpanel" aria-labelledby="profile-tab<%= device.id %>">
           <%= render 'components/terminal_view', device: device, terminal: find_channel_for_type(channels, 'terminal_view') %>
-          <%= render 'components/diversos_terminal_insert', device: device, terminal: find_channel_for_type(channels, 'terminal_insert') %>
-          <%= render 'components/diversos_info', device: device, info: find_channel_for_type(channels, 'info') %>
+          <%= render 'components/diversos/terminal_insert', device: device, terminal: find_channel_for_type(channels, 'terminal_insert') %>
+          <%= render 'components/diversos/info', device: device, info: find_channel_for_type(channels, 'info') %>
         </div>
       </div>
 
