@@ -1,3 +1,5 @@
 <% array_info, last_label, actual_class = led_atrributes(led) %>
 
-<span style="margin: 15px; font-size: 13px;" id="<%= led.id %>" name="<%= led.array_info %>" class="badge rounded-pill bg-<%= actual_class %>"><%= led.label %> - <%= last_label %></span>
+<span style="margin: 15px; font-size: 13px;" id="<%= led.id %>" name="<%= led.array_info %>" class="badge rounded-pill bg-<%= actual_class %>">
+  <%= led.label %> - <%= last_label %>
+</span>

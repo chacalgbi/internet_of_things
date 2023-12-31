@@ -38,6 +38,19 @@
           <div style="border: 1px solid lightblue; border-radius: 10px;">
             <div class="row text-center d-flex align-items-center justify-content-center" style="height: 100%; margin-botton: 15px;">
               <% channels.each do |ch| %>
+                <% if ch.tipo == 'led' %>
+                  <div class="col">
+                    <%= render 'components/led', device: device, led: ch %>
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+
+          <br>
+          <div style="border: 1px solid lightblue; border-radius: 10px;">
+            <div class="row text-center d-flex align-items-center justify-content-center" style="height: 100%; margin-botton: 15px;">
+              <% channels.each do |ch| %>
                 <% if ch.tipo == 'button' %>
                   <div class="col">
                     <%= render 'components/button', device: device, btn: ch %>

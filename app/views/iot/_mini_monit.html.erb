@@ -8,6 +8,7 @@
   <div id="collapseOne<%= device.id %>" class="accordion-collapse collapse <%= @show %>" aria-labelledby="flush-headingOne" data-bs-parent="#list_devices_accordion">
 
     <div class="accordion-body">
+
       <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="control-tab<%= device.id %>" data-bs-toggle="tab" data-bs-target="#control<%= device.id %>" type="button" role="tab" aria-controls="control<%= device.id %>" aria-selected="true">Home</button>
@@ -16,8 +17,6 @@
             <button class="nav-link" id="profile-tab<%= device.id %>" data-bs-toggle="tab" data-bs-target="#profile<%= device.id %>" type="button" role="tab" aria-controls="profile<%= device.id %>" aria-selected="false">Configs</button>
         </li>
       </ul>
-
-
 
 
       <div class="tab-content" id="myTabContent">
@@ -47,8 +46,6 @@
           <%= render 'components/mini_monit_configs', device: device, prefes_insert: ch['prefes_insert'] %>
         </div>
       </div>
-
-
 
 
     </div>
