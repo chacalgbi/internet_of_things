@@ -423,14 +423,12 @@ export default class extends Controller {
     const path = e.getAttribute("data-path")
     const id = e.getAttribute("data-id")
     const device = e.getAttribute("data-device")
-    const label = e.getAttribute("data-label")
     const value = document.getElementById(id).value
 
     ArrayAtivo.map((a) => {
       if (a.device === device) {
         if (a.online === 'sim') {
           client.publish(path, value.toString())
-          document.getElementById(spanValue).innerHTML = `${label} ${value}`
           this.update_previous_state(id, value.toString())
         } else {
           $.notify(`${a.nome} OffLine`, "error")
