@@ -1,8 +1,12 @@
 <div class="accordion-item">
 
-  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne<%= device.id %>" aria-expanded="false" aria-controls="collapseOne<%= device.id %>">
-    <span id="nomeDevice<%= device.id %>"><%= device.description %> - <%= device.versao %></span> &nbsp;&nbsp;
-    <div style=" height: 30; width: 30; background-color: #FA8072; border-radius: '50%'; justify-content: 'center'; align-items: 'center'" id="acti<%= device.id %>">Offline</div>
+  <button class="accordion-button collapsed d-flex" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne<%= device.id %>" aria-expanded="false" aria-controls="collapseOne<%= device.id %>">
+    <span class="me-auto" id="nomeDevice<%= device.id %>">
+      <%= device.description %> - <%= device.versao %>
+    </span>
+    <div  class="ms-auto" style="background-color: #FA8072;" id="acti<%= device.id %>">
+      Offline
+    </div>
   </button>
 
   <div id="collapseOne<%= device.id %>" class="accordion-collapse collapse <%= @show %>" aria-labelledby="flush-headingOne" data-bs-parent="#list_devices_accordion">
