@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
 require 'mqtt'
-require 'redis'
 
 class MqttSubscrible
   def initialize
     @client_mqtt = MQTT::Client.new
-    @redis = Redis.new
     @count = 0
     connect
   end
@@ -58,7 +56,7 @@ class MqttSubscrible
 
   def handle_message(topic, message)
     if topic.include?('ativo') && message == '1'
-      @redis.set("timeMqtt#{topic}", Time.now.to_s)
+      REDIS.set("timeMqtt#{topic}", Time.now.to_s)
     elsif topic.include?('terminal_OUT')
       Log.info("terminal_OUT: #{message}")
       record_logs(topic, message)
