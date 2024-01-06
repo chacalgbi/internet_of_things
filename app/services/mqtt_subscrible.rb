@@ -6,6 +6,7 @@ class MqttSubscrible
   def initialize
     @client_mqtt = MQTT::Client.new
     @count = 0
+    @@count_verify = Time.now
     connect
   end
 
@@ -55,11 +56,20 @@ class MqttSubscrible
   end
 
   def handle_message(topic, message)
+    time_verify_offline
+
     if topic.include?('ativo') && message == '1'
       REDIS.set("timeMqtt#{topic}", Time.now.to_s)
     elsif topic.include?('terminal_OUT')
       Log.info("terminal_OUT: #{message}")
       record_logs(topic, message)
+    end
+  end
+
+  def time_verify_offline
+    if Time.now - @@count_verify > 30
+      MqttOffline.verify
+      @@count_verify = Time.now
     end
   end
 end
