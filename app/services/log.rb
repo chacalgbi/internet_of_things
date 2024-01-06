@@ -2,17 +2,21 @@
 
 class Log
   def self.error(log)
-    puts "#{Time.now} --- ERROR: #{log} --- \n".colorize(:red)
-    Rails.logger.error "\n --- ERROR: #{log} --- \n" if Rails.env.production?
+    puts "#{time_now} ERROR: #{log}".colorize(:red) if Rails.env.development?
+    Rails.logger.error log.to_s if Rails.env.production?
   end
 
   def self.info(log)
-    puts "#{Time.now} --- INFO: #{log} --- \n".colorize(:green)
-    Rails.logger.info "\n --- INFO: #{log} --- \n" if Rails.env.production?
+    puts "#{time_now} INFO: #{log}".colorize(:green) if Rails.env.development?
+    Rails.logger.info log.to_s if Rails.env.production?
   end
 
   def self.alert(log)
-    puts "#{Time.now} --- ALERTA: #{log} --- \n".colorize(:yellow)
-    Rails.logger.warn "\n --- ALERTA: #{log} --- \n" if Rails.env.production?
+    puts "#{time_now} ALERTA: #{log}".colorize(:yellow) if Rails.env.development?
+    Rails.logger.warn log.to_s if Rails.env.production?
+  end
+
+  def self.time_now
+    Time.now.strftime('%d\%m\%Y %H:%M:%S')
   end
 end

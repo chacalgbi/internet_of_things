@@ -34,7 +34,7 @@ class HomeController < LoggedController
   end
 
   def info
-    render json: { memory: memory_string, cpu: cpu_string, disk: disk_string }
+    render json: { memory: memory_string, cpu: cpu_string, disk: disk_string, redis: REDIS.keys }
   rescue StandardError => e
     render json: { memory: 'Error', cpu: e.class, disk: e.message }
   end

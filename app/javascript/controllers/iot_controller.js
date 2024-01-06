@@ -236,7 +236,7 @@ export default class extends Controller {
     let that = this; // Armazena uma referência ao controlador
     let arrayMqtt = objCliente.address_mqtt.split(":")
     const socket_host_prefix = window.location.protocol === 'https:' ? 'wss://' : 'ws://'
-    const port = window.location.protocol === 'https:' ? 8883 : 1883
+    const port = window.location.protocol === 'https:' ? 8883 : 8881
 
     const options = {
       port: port,

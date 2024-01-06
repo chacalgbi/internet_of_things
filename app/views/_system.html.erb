@@ -3,6 +3,9 @@
     <li id="list_memory"></li>
     <li id="list_disk">Clique para ver informações do servidor (apenas admin)</li>
     <li id="list_cpu"></li>
+    <br>
+    <span>Ativos no Redis:</span>
+    <p id="redis" style="font-size: 10px"></p>
   </ul>
 </div>
 
@@ -16,6 +19,7 @@
           $('#list_memory').text(data.memory)
           $('#list_cpu').text(data.cpu)
           $('#list_disk').text(data.disk)
+          $('#redis').html(data.redis.join('<br>'))
         }
       })
     })

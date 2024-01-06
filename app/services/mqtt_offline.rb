@@ -1,15 +1,14 @@
 # frozen_string_literal: true
 
-require 'redis'
-
 class MqttOffline
   def self.verify
-    @redis = Redis.new
-    keys = @redis.keys
+    keys = REDIS.keys
+
+    Log.info("QTD DE KEYS NO REDIS: #{keys.count}")
 
     keys.each do |key|
       if key.include?('timeMqtt')
-        time = Time.parse(@redis.get(key))
+        time = Time.parse(REDIS.get(key))
         compare_time(key, time)
       end
     end
@@ -22,8 +21,8 @@ class MqttOffline
       parse1 = key.gsub('timeMqtt', '')
       parse2 = parse1.gsub('ativo', 'terminal_OUT')
       formatted_time = Time.now.strftime('%d\%m\%Y %H:%M')
-      Log.alert("OFFLINE: #{parse1}")
-      @redis.del(key)
+      Log.alert("DEVICE OFFLINE #{parse1}")
+      REDIS.del(key)
 
       record_logs(parse2, "#{formatted_time} Offline")
     end
