@@ -17,4 +17,6 @@ Rails.application.routes.draw do
   post '/device_login', to: 'iot#device_login'
   post '/mqtt_info', to: 'iot#mqtt_info'
   post '/alertaTelegram', to: 'iot#telegram'
+  post '/alertaWhatsApp', to: 'iot#whatsapp'
+  post '/alertaEmail', to: 'iot#email'
 end

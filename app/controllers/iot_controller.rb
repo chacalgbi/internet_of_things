@@ -4,8 +4,8 @@ require 'httparty'
 
 class IotController < ApplicationController
   include HTTParty
-  skip_before_action :verify_authenticity_token, only: %i[device_login mqtt_info telegram]
-  before_action :credentials, only: %i[telegram]
+  skip_before_action :verify_authenticity_token, only: %i[device_login mqtt_info telegram whatsapp email]
+  before_action :credentials, only: %i[telegram whatsapp email]
 
   def device_login
     status = 200
@@ -54,7 +54,42 @@ class IotController < ApplicationController
   end
 
   def telegram
-    response = HTTParty.post("#{ENV['TELEGRAM_URL']}#{params['chat_id']}&text=#{params['msg']}")
+    response = HTTParty.post(
+      'http://127.0.0.1:8087/alertaTelegram',
+      body: { 'chat_id' => params['chat_id'], 'msg' => params['msg'] }.to_json,
+      headers: { 'Content-Type' => 'application/json' }
+    )
+
+    resp_obj = JSON.parse(response.body, symbolize_names: true)
+    erro = response.code == 200 ? 'nao' : 'sim'
+    data = { msg: response.message, erroGeral: erro, body: resp_obj }
+    render json: data, status: response.code
+  rescue StandardError => e
+    resp_error(e)
+  end
+
+  def whatsapp
+    response = HTTParty.post(
+      'http://127.0.0.1:8087/alertaWhatsapp',
+      body: { 'cel' => params['cel'], 'msg' => params['msg'] }.to_json,
+      headers: { 'Content-Type' => 'application/json' }
+    )
+
+    resp_obj = JSON.parse(response.body, symbolize_names: true)
+    erro = response.code == 200 ? 'nao' : 'sim'
+    data = { msg: response.message, erroGeral: erro, body: resp_obj }
+    render json: data, status: response.code
+  rescue StandardError => e
+    resp_error(e)
+  end
+
+  def email
+    response = HTTParty.post(
+      'http://127.0.0.1:8087/alertaEmail',
+      body: { 'email' => params['email'], 'titulo' => params['titulo'], 'corpo' => params['corpo'] }.to_json,
+      headers: { 'Content-Type' => 'application/json' }
+    )
+
     resp_obj = JSON.parse(response.body, symbolize_names: true)
     erro = response.code == 200 ? 'nao' : 'sim'
     data = { msg: response.message, erroGeral: erro, body: resp_obj }
