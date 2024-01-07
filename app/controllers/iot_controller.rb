@@ -60,10 +60,7 @@ class IotController < ApplicationController
       headers: { 'Content-Type' => 'application/json' }
     )
 
-    resp_obj = JSON.parse(response.body, symbolize_names: true)
-    erro = response.code == 200 ? 'nao' : 'sim'
-    data = { msg: response.message, erroGeral: erro, body: resp_obj }
-    render json: data, status: response.code
+    resp_success(response)
   rescue StandardError => e
     resp_error(e)
   end
@@ -75,10 +72,7 @@ class IotController < ApplicationController
       headers: { 'Content-Type' => 'application/json' }
     )
 
-    resp_obj = JSON.parse(response.body, symbolize_names: true)
-    erro = response.code == 200 ? 'nao' : 'sim'
-    data = { msg: response.message, erroGeral: erro, body: resp_obj }
-    render json: data, status: response.code
+    resp_success(response)
   rescue StandardError => e
     resp_error(e)
   end
@@ -90,15 +84,19 @@ class IotController < ApplicationController
       headers: { 'Content-Type' => 'application/json' }
     )
 
-    resp_obj = JSON.parse(response.body, symbolize_names: true)
-    erro = response.code == 200 ? 'nao' : 'sim'
-    data = { msg: response.message, erroGeral: erro, body: resp_obj }
-    render json: data, status: response.code
+    resp_success(response)
   rescue StandardError => e
     resp_error(e)
   end
 
   private
+
+  def resp_success(res)
+    resp_obj = JSON.parse(res.body, symbolize_names: true)
+    data = { msg: resp_obj[:msg], erroGeral: resp_obj[:erroGeral] }
+
+    render json: data, status: res.code
+  end
 
   def credentials
     return unless params['userAdmin'] != ENV['USER_ADMIN'] || params['passAdmin'] != ENV['PASS_ADMIN']
