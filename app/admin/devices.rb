@@ -1,20 +1,24 @@
 # frozen_string_literal: true
 
-ActiveAdmin.register Device do
+ActiveAdmin.register Device do # rubocop:disable Metrics/BlockLength
   permit_params :description, :device, :token, :tipo, :versao, :linkAjuda, :pathUpdate, :obs, :client_id
 
-  index do
+  config.per_page = 60
+
+  index pagination_total: false do
     selectable_column
     column :id
-    column :client_id
+    column :client_id do |device|
+      @client ||= Client.all.index_by(&:id)
+      client = @client[device.client_id]
+      client ? "#{device.client_id} #{client.name}" : 'N/A'
+    end
     column :description
     column :device
     column :token
     column :tipo
     column :versao
-    column :linkAjuda
     column :pathUpdate
-    column :obs
     column :created_at
     column :updated_at
     actions

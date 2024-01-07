@@ -2,15 +2,25 @@
 
 require 'json'
 
-ActiveAdmin.register Channel do
+ActiveAdmin.register Channel do # rubocop:disable Metrics/BlockLength
   permit_params :client_id, :device_id, :category, :platform, :path, :tipo, :color, :range, :array_info, :label, :previous_state,
                 :obs
 
-  index do
+  config.per_page = 60
+
+  index pagination_total: false do
     selectable_column
     column :id
-    column :client_id
-    column :device_id
+    column :client_id do |channel|
+      @client ||= Client.all.index_by(&:id)
+      client = @client[channel.client_id]
+      client ? "#{channel.client_id} #{client.name}" : 'N/A'
+    end
+    column :device_id do |channel|
+      @device ||= Device.all.index_by(&:id)
+      device = @device[channel.device_id]
+      device ? "#{channel.device_id} #{device.description}" : 'N/A'
+    end
     column :category
     column :platform
     column :path
@@ -52,6 +62,23 @@ ActiveAdmin.register Channel do
     redirect_to collection_path, alert: 'Canais criados com sucesso.'
   end
 
+  batch_action :Criar_Channels_para_Diversos, form: { client_id: :text, device_id: :text, path: :text } do |_ids, inputs|
+    Channel.create(client_id: inputs['client_id'], device_id: inputs['device_id'], path: "#{inputs['path']}ativo", category: 'subscrible',
+                   tipo: 'ativo')
+    Channel.create(client_id: inputs['client_id'], device_id: inputs['device_id'], path: "#{inputs['path']}terminal_OUT", category: 'subscrible',
+                   tipo: 'terminal_view')
+    Channel.create(client_id: inputs['client_id'], device_id: inputs['device_id'], path: "#{inputs['path']}update", category: 'publish',
+                   tipo: 'update')
+    Channel.create(client_id: inputs['client_id'], device_id: inputs['device_id'], path: "#{inputs['path']}terminal_IN", category: 'publish',
+                   tipo: 'terminal_insert')
+    Channel.create(client_id: inputs['client_id'], device_id: inputs['device_id'], path: "#{inputs['path']}info", category: 'subscrible',
+                   tipo: 'info', color: 'dark')
+    Channel.create(client_id: inputs['client_id'], device_id: inputs['device_id'], path: "#{inputs['path']}reiniciar", category: 'publish',
+                   tipo: 'reiniciar', color: 'danger', label: 'Reiniciar Dispositivo', previous_state: '0', range: '0-1', array_info: 'push')
+
+    redirect_to collection_path, alert: 'Canais criados com sucesso.'
+  end
+
   batch_action :Importar_Channels_do_Sistema_antigo, form: { array_channels: :text } do |_ids, inputs|
     array_channels = inputs['array_channels']
     data = JSON.parse(array_channels)
@@ -69,6 +96,30 @@ ActiveAdmin.register Channel do
       alert = "Rollback realizado devido ao erro: #{e.class} | #{e.message}"
     end
 
+    redirect_to collection_path, alert:
+  end
+
+  batch_action :Alterar_ClientId_e_deviceId, form: { client_id: :text, device_id: :text } do |ids, inputs|
+    alert = 'Client e Device atualizados com sucesso.'
+    begin
+      Channel.transaction do
+        Channel.where(id: ids).update_all(client_id: inputs['client_id'], device_id: inputs['device_id'])
+      end
+    rescue StandardError => e
+      alert = "Rollback realizado devido ao erro: #{e.class} | #{e.message}"
+    end
+    redirect_to collection_path, alert:
+  end
+
+  batch_action :Apagar_Channels_Selecionados, confirm: 'Você tem certeza que deseja apagar todos os canais selecionados?' do |ids|
+    alert = 'Os canais selecionados foram apagados.'
+    begin
+      Channel.transaction do
+        Channel.where(id: ids).destroy_all
+      end
+    rescue StandardError => e
+      alert = "Rollback realizado devido ao erro: #{e.class} | #{e.message}"
+    end
     redirect_to collection_path, alert:
   end
 

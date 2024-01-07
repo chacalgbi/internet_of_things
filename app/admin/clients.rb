@@ -3,6 +3,20 @@
 ActiveAdmin.register Client do
   permit_params :name, :email, :cel, :address_mqtt, :obs
 
+  config.per_page = 60
+
+  index pagination_total: false do
+    selectable_column
+    column :id
+    column :name
+    column :email
+    column :cel
+    column :address_mqtt
+    column :created_at
+    column :updated_at
+    actions
+  end
+
   batch_action :Importar_Clientes_do_Sistema_antigo, form: { array_clients: :text } do |_ids, inputs|
     array_clients = inputs['array_clients']
     data = JSON.parse(array_clients)
