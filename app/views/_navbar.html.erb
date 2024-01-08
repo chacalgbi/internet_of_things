@@ -11,6 +11,9 @@
       <div class="navbar-nav">
         <a class="nav-link" href= '<%= root_path %>' data-turbolinks="false">HOME</a>
         <% if user_signed_in? %>
+          <% if current_user.admin? %>
+            <a class="nav-link" href= '<%= monitoring_path %>' data-turbolinks="false">Monitor</a>
+          <% end %>
           <%= link_to "Alterar Senha", edit_user_registration_path, class: "nav-link", data: { turbolinks: false } %>
           <%= link_to "Sair(#{current_user.email})", destroy_user_session_path, class: "nav-link" %>
         <% end %>

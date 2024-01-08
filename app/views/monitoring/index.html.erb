@@ -1,0 +1,57 @@
+<div id="propeties" data-client_id="<%= @client.address_mqtt %>" data-controller="monitoring">
+  <button type="button" class="btn btn-danger"
+    data-action="click->monitoring#confirm_update_massa_mini_v1"
+    data-title="Deseja fazer atualização em massa dos Dispositivos da Versão Mini 1?"
+    data-text="Todos os dispositivos deverão estar subscritos nesse tópico. E para atualizar, deverá existir o arquivo bin no endereço: thomelucas.com.br/img/atualizar_em_massa_mini_v1.bin. Topico: /monitoramento/atualizar_em_massa_mini_v1 Mensagem: atualizar_em_massa_mini_v1"
+    data-icon="question" >
+    Atualização em Massa: MINI Versão 1
+  </button>
+  <br><br>
+  <table id="tabela4" class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col" width="30px">ID</th>
+        <th scope="col" width="100px">Cli</th>
+        <th scope="col" width="100px">Device</th>
+        <th scope="col" width="150px">Ativo</th>
+        <th scope="col" width="200px">Infor</th>
+        <th scope="col" width="100px">Code Upload</th>
+        <th scope="col" width="100px">Reiniciar</th>
+      </tr>
+    </thead>
+    <tbody id="corpo_monit"></tbody>
+    <% @channels.each do |ch| %>
+      <tr>
+        <td><%= ch.id %></td>
+        <td><%= ch.client_name %></td>
+        <td><%= ch.device_description %></td>
+        <td id="monitAtivo<%= ch.id %>" style="background-color:#FA8072;">ativo</td>
+        <td id="monitInfo<%= ch.id %>"><%= ch.terminal_view_obs.split("\n").last %></td>
+        <td>
+          <button type="button" class="btn btn-danger"
+            data-action="click->monitoring#confirm_update"
+            data-title="Deseja fazer Upload de código?"
+            data-text="Esta operação não pode ser desfeita"
+            data-icon="question"
+            data-path="<%= ch.path.gsub("ativo", "update") %>" >
+            Upload
+          </button>
+        </td>
+        <td>
+          <button type="button" class="btn btn-secondary"
+            data-action="click->monitoring#confirm_restart"
+            data-title="Deseja reiniciar o Dispositivo?"
+            data-text="Você perderá momentaneamente o acesso até a conexão ser restabelecida"
+            data-icon="question"
+            data-path="<%= ch.path.gsub("ativo", "reiniciar") %>" >
+            Reiniciar
+          </button>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+
+  <script>
+    var channels = <%= raw @channels.to_json %>
+  </script>
+</div>

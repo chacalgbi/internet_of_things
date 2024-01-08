@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     post '/others', to: 'home#others'
     get '/register_device', to: 'register_device#index'
     get '/info', to: 'home#info'
+    get '/monitoring', to: 'monitoring#index'
   end
 
   post '/device_login', to: 'iot#device_login'
