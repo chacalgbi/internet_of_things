@@ -25,8 +25,8 @@
         <td><%= ch.id %></td>
         <td><%= ch.client_name %></td>
         <td><%= ch.device_description %></td>
-        <td id="monitAtivo<%= ch.id %>" style="background-color:#FA8072;">ativo</td>
-        <td id="monitInfo<%= ch.id %>"><%= ch.terminal_view_obs.split("\n").last %></td>
+        <td id="monitAtivo<%= ch.id %>" style="background-color:#FA8072;">OffLine</td>
+        <td id="monitInfo<%= ch.id %>"><%= ch.terminal_view_obs.split("\n").last if ch.terminal_view_obs.present? %></td>
         <td>
           <button type="button" class="btn btn-danger"
             data-action="click->monitoring#confirm_update"
