@@ -1,7 +1,5 @@
 <div id="propeties" data-data_mqtt="<%= @client.address_mqtt %>" data-controller="monitoring">
-  <div id="draggable-area" style="padding: 10px; position: absolute; right: 0; top: 0;">
-    <%= text_area_tag :movable_text_area, '', id: 'info_text_area', style: 'width: 600px;' %>
-  </div>
+  <%= text_area_tag :movable_text_area, '', id: 'info_text_area', style: 'width: 40%; margin: 10px; margin-top: 50px; position: absolute; right: 0; top: 0;' %>
   <button type="button" class="btn btn-danger"
     data-action="click->monitoring#confirm_update_massa_mini_v1"
     data-title="Deseja fazer atualização em massa dos Dispositivos da Versão Mini 1?"
@@ -10,18 +8,18 @@
     Atualização em Massa: MINI Versão 1
   </button>
   <br><br>
-  <table id="tabela4" class="table table-hover">
+  <table class="table table-hover">
     <thead>
       <tr>
-        <th scope="col" width="100px">Cli</th>
-        <th scope="col" width="100px">Device</th>
-        <th scope="col" width="50px">Value</th>
-        <th scope="col" width="80px">Ativo</th>
-        <th scope="col" width="200px">Infor</th>
-        <th scope="col" width="100px">Path Update</th>
-        <th scope="col" width="80px">Code Upload</th>
-        <th scope="col" width="80px">Reiniciar</th>
-        <th scope="col" width="80px">Info</th>
+        <th scope="col" width="10%">Cli</th>
+        <th scope="col" width="10%">Device</th>
+        <th scope="col" width="10%">Value</th>
+        <th scope="col" width="7%">Ativo</th>
+        <th scope="col" width="20%">Infor</th>
+        <th scope="col" width="20%">Path Update</th>
+        <th scope="col" width="8%">Code Upload</th>
+        <th scope="col" width="8%">Reiniciar</th>
+        <th scope="col" width="7%">Info</th>
       </tr>
     </thead>
     <tbody id="corpo_monit"></tbody>
@@ -31,7 +29,7 @@
         <td><%= ch.device_description %> <%= ch.versao %></td>
         <td id="value<%= ch.id %>"></td>
         <td id="monitAtivo<%= ch.id %>" style="background-color:#FA8072;">OffLine</td>
-        <td id="monitInfo<%= ch.id %>"><%= ch.terminal_view_obs.split("\n").last if ch.terminal_view_obs.present? %></td>
+        <td style="font-size: 11px;" id="monitInfo<%= ch.id %>"><%= ch.terminal_view_obs.split("\n").last if ch.terminal_view_obs.present? %></td>
         <td style="font-size: 11px;"><%= ch.path_update %></td>
         <td>
           <button type="button" class="btn btn-warning"

@@ -156,7 +156,7 @@ export default class extends Controller {
     client = mqtt.connect(`${socket_host_prefix}${arrayMqtt[2]}`, options)
 
     client.on('connect', function () {
-      console.log('Broker Conectado!')
+      $.notify('Broker Conectado!', "success")
       client.subscribe(ArraySubscribles)
     })
 
@@ -182,7 +182,8 @@ export default class extends Controller {
         }else if (topic === i.pathInfo) {
           document.getElementById(`monitInfo${i.id}`).innerHTML = `<p style="color:blue;font-size:12px">${message.toString()}</p>`
         }else if (topic === i.pathTerminal) {
-          document.getElementById('info_text_area').value += `\n${message.toString()}`
+          document.getElementById('info_text_area').value += `${message.toString()}\n`
+          $('#info_text_area').notify(topic, {elementPosition: 'bottom left', className: 'info', autoHideDelay: 15000, })
         }else if (topic === i.pathVcc1 || topic === i.pathVcc) {
           document.getElementById(`value${i.id}`).innerHTML = `${message.toString()}V`
         }else if (topic === i.pathTemp) {
