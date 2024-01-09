@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 
-window.client_mqtt = document.getElementById('propeties') ? document.getElementById('propeties').dataset.client_id : null;
+window.data_mqtt = document.getElementById('propeties') ? document.getElementById('propeties').dataset.data_mqtt : null;
 window.ArraySubscribles = []
 window.ArrayMonitoramento = []
 
@@ -111,7 +111,7 @@ export default class extends Controller {
   }
 
   connect_mqtt() {
-    let arrayMqtt = client_mqtt.split(":")
+    let arrayMqtt = data_mqtt.split(":")
     const socket_host_prefix = window.location.protocol === 'https:' ? 'wss://' : 'ws://'
     const port = window.location.protocol === 'https:' ? 8883 : 8881
 
@@ -135,13 +135,22 @@ export default class extends Controller {
         reiniciar: i.path.replace("ativo", "reiniciar"),
         pathAtivo: i.path,
         pathInfo: i.path.replace("ativo", "info"),
+        pathTerminal: i.path.replace("ativo", "terminal_OUT"),
+        pathVcc1: i.path.replace("ativo", "vcc1"),
+        pathVcc: i.path.replace("ativo", "vcc"),
+        pathTemp: i.path.replace("ativo", "temp"),
         func: null,
         obs: i.terminal_view_obs
       }
 
       ArrayMonitoramento.push(obj)
-      ArraySubscribles.push(i.path)
-      ArraySubscribles.push(obj.pathInfo)
+
+      ArraySubscribles.push(i.path) // Ativo
+      ArraySubscribles.push(obj.pathTerminal) // terminal_OUT
+      ArraySubscribles.push(obj.pathInfo) // Info
+      ArraySubscribles.push(obj.pathVcc1) // Tensão vdc dos dispositivos Mini_monit
+      ArraySubscribles.push(obj.pathVcc) // Tensão vdc de alguns dispositivos
+      ArraySubscribles.push(obj.pathTemp) // Temperatura de dispositivos diversos
     })
 
     client = mqtt.connect(`${socket_host_prefix}${arrayMqtt[2]}`, options)
@@ -172,6 +181,12 @@ export default class extends Controller {
           }, 20000)
         }else if (topic === i.pathInfo) {
           document.getElementById(`monitInfo${i.id}`).innerHTML = `<p style="color:blue;font-size:12px">${message.toString()}</p>`
+        }else if (topic === i.pathTerminal) {
+          document.getElementById('info_text_area').value += `\n${message.toString()}`
+        }else if (topic === i.pathVcc1 || topic === i.pathVcc) {
+          document.getElementById(`value${i.id}`).innerHTML = `${message.toString()}V`
+        }else if (topic === i.pathTemp) {
+          document.getElementById(`value${i.id}`).innerHTML = `${message.toString()}`
         }
       })
     })
@@ -180,18 +195,8 @@ export default class extends Controller {
   generic_comand(event) {
     let button = event.target;
     let path = button.getAttribute("data-path");
-    let device = button.getAttribute("data-device-id");
     let command = button.getAttribute("data-type");
-
-    ArrayAtivo.map((a) => {
-      if (a.device === device) {
-        if (a.online === 'sim') {
-          client.publish(path, command)
-        } else {
-          $.notify(`${a.nome} OffLine`, "error")
-        }
-      }
-    })
+    client.publish(path, command)
   }
 
 }

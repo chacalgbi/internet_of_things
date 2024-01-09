@@ -5,7 +5,11 @@ class MonitoringController < AdminController
     @client = Client.find_by(email: current_user.email)
     @channels = Channel.joins('INNER JOIN clients ON channels.client_id = clients.id INNER JOIN devices ON channels.device_id = devices.id')
                        .where(tipo: 'ativo')
-                       .select('channels.*, clients.name as client_name, devices.description as device_description',
+                       .select('channels.*, clients.name as client_name,
+                                            devices.description as device_description,
+                                            devices.pathUpdate as path_update,
+                                            devices.versao as versao,
+                                            devices.tipo as device_tipo',
                                '( SELECT obs
                                   FROM channels AS c2
                                   WHERE c2.tipo = "terminal_view"

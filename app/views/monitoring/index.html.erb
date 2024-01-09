@@ -1,4 +1,7 @@
-<div id="propeties" data-client_id="<%= @client.address_mqtt %>" data-controller="monitoring">
+<div id="propeties" data-data_mqtt="<%= @client.address_mqtt %>" data-controller="monitoring">
+  <div id="draggable-area" style="padding: 10px; position: absolute; right: 0; top: 0;">
+    <%= text_area_tag :movable_text_area, '', id: 'info_text_area', style: 'width: 600px;' %>
+  </div>
   <button type="button" class="btn btn-danger"
     data-action="click->monitoring#confirm_update_massa_mini_v1"
     data-title="Deseja fazer atualização em massa dos Dispositivos da Versão Mini 1?"
@@ -10,25 +13,28 @@
   <table id="tabela4" class="table table-hover">
     <thead>
       <tr>
-        <th scope="col" width="30px">ID</th>
         <th scope="col" width="100px">Cli</th>
         <th scope="col" width="100px">Device</th>
-        <th scope="col" width="150px">Ativo</th>
+        <th scope="col" width="50px">Value</th>
+        <th scope="col" width="80px">Ativo</th>
         <th scope="col" width="200px">Infor</th>
-        <th scope="col" width="100px">Code Upload</th>
-        <th scope="col" width="100px">Reiniciar</th>
+        <th scope="col" width="100px">Path Update</th>
+        <th scope="col" width="80px">Code Upload</th>
+        <th scope="col" width="80px">Reiniciar</th>
+        <th scope="col" width="80px">Info</th>
       </tr>
     </thead>
     <tbody id="corpo_monit"></tbody>
     <% @channels.each do |ch| %>
       <tr>
-        <td><%= ch.id %></td>
         <td><%= ch.client_name %></td>
-        <td><%= ch.device_description %></td>
+        <td><%= ch.device_description %> <%= ch.versao %></td>
+        <td id="value<%= ch.id %>"></td>
         <td id="monitAtivo<%= ch.id %>" style="background-color:#FA8072;">OffLine</td>
         <td id="monitInfo<%= ch.id %>"><%= ch.terminal_view_obs.split("\n").last if ch.terminal_view_obs.present? %></td>
+        <td style="font-size: 11px;"><%= ch.path_update %></td>
         <td>
-          <button type="button" class="btn btn-danger"
+          <button type="button" class="btn btn-warning"
             data-action="click->monitoring#confirm_update"
             data-title="Deseja fazer Upload de código?"
             data-text="Esta operação não pode ser desfeita"
@@ -38,13 +44,21 @@
           </button>
         </td>
         <td>
-          <button type="button" class="btn btn-secondary"
+          <button type="button" class="btn btn-success"
             data-action="click->monitoring#confirm_restart"
             data-title="Deseja reiniciar o Dispositivo?"
             data-text="Você perderá momentaneamente o acesso até a conexão ser restabelecida"
             data-icon="question"
             data-path="<%= ch.path.gsub("ativo", "reiniciar") %>" >
             Reiniciar
+          </button>
+        </td>
+        <td>
+          <button type="button" class="btn btn-info"
+            data-action="click->monitoring#generic_comand"
+            data-type="info"
+            data-path="<%= ch.path.gsub("ativo", "terminal_IN") %>" >
+            Info
           </button>
         </td>
       </tr>
