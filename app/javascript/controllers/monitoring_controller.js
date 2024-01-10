@@ -111,6 +111,7 @@ export default class extends Controller {
   }
 
   connect_mqtt() {
+    let that = this; 
     let arrayMqtt = data_mqtt.split(":")
     const socket_host_prefix = window.location.protocol === 'https:' ? 'wss://' : 'ws://'
     const port = window.location.protocol === 'https:' ? 8883 : 8881

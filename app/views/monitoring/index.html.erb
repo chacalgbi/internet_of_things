@@ -3,7 +3,7 @@
   <button type="button" class="btn btn-danger"
     data-action="click->monitoring#confirm_update_massa_mini_v1"
     data-title="Deseja fazer atualização em massa dos Dispositivos da Versão Mini 1?"
-    data-text="Todos os dispositivos deverão estar subscritos nesse tópico. E para atualizar, deverá existir o arquivo bin no endereço: thomelucas.com.br/img/atualizar_em_massa_mini_v1.bin. Topico: /monitoramento/atualizar_em_massa_mini_v1 Mensagem: atualizar_em_massa_mini_v1"
+    data-text="Todos os dispositivos deverão estar subscritos nesse tópico. E para atualizar, deverá existir o arquivo bin no endereço: dev.com.br/assets/atualizar_em_massa_mini_v1.bin. Topico: /monitoramento/atualizar_em_massa_mini_v1 Mensagem: atualizar_em_massa_mini_v1"
     data-icon="question" >
     Atualização em Massa: MINI Versão 1
   </button>
@@ -30,7 +30,7 @@
         <td id="value<%= ch.id %>"></td>
         <td id="monitAtivo<%= ch.id %>" style="background-color:#FA8072;">OffLine</td>
         <td style="font-size: 11px;" id="monitInfo<%= ch.id %>"><%= ch.terminal_view_obs.split("\n").last if ch.terminal_view_obs.present? %></td>
-        <td style="font-size: 11px;"><%= ch.path_update %></td>
+        <td style="font-size: 11px;"><a href="<%= ch.path_update %>" target="_blank"><%= ch.path_update %></a></td>
         <td>
           <button type="button" class="btn btn-warning"
             data-action="click->monitoring#confirm_update"
