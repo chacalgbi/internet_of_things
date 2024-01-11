@@ -278,12 +278,15 @@ export default class extends Controller {
     client = mqtt.connect(`${socket_host_prefix}${arrayMqtt[2]}`, options)
 
     client.on('connect', function () {
-      console.log('Broker Conectado!')
+      $.notify('Broker Conectado!', "success")
       client.subscribe(ArraySubscribles)
       // Avisa a placa  5 segundos depois do completo carregamento, que a página foi aberta.
       setTimeout(() => { that.notice_dashboard_open() }, 5000)
       //Seta os campos de input do terminal para aceitarem enter criando variaveis dinamicamente
       setTimeout(() => { that.press_enter_terminal() }, 1000)
+
+      // Mantem o cliente atual conectado, enviando um publish a cada 5 segundos
+      setInterval(() => { client.publish('/monitoramento/ativo', '1') }, 5000)
     })
 
     client.on('message', function (topic, message) {

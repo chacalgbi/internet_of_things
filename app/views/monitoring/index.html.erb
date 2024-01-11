@@ -13,7 +13,6 @@
       <tr>
         <th scope="col" width="10%">Cli</th>
         <th scope="col" width="10%">Device</th>
-        <th scope="col" width="10%">Value</th>
         <th scope="col" width="7%">Ativo</th>
         <th scope="col" width="20%">Infor</th>
         <th scope="col" width="20%">Path Update</th>
@@ -27,7 +26,6 @@
       <tr>
         <td><%= ch.client_name %></td>
         <td><%= ch.device_description %> <%= ch.versao %></td>
-        <td id="value<%= ch.id %>"></td>
         <td id="monitAtivo<%= ch.id %>" style="background-color:#FA8072;">OffLine</td>
         <td style="font-size: 11px;" id="monitInfo<%= ch.id %>"><%= ch.terminal_view_obs.split("\n").last if ch.terminal_view_obs.present? %></td>
         <td style="font-size: 11px;"><a href="<%= ch.path_update %>" target="_blank"><%= ch.path_update %></a></td>

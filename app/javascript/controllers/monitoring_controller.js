@@ -149,9 +149,9 @@ export default class extends Controller {
       ArraySubscribles.push(i.path) // Ativo
       ArraySubscribles.push(obj.pathTerminal) // terminal_OUT
       ArraySubscribles.push(obj.pathInfo) // Info
-      ArraySubscribles.push(obj.pathVcc1) // Tensão vdc dos dispositivos Mini_monit
-      ArraySubscribles.push(obj.pathVcc) // Tensão vdc de alguns dispositivos
-      ArraySubscribles.push(obj.pathTemp) // Temperatura de dispositivos diversos
+      //ArraySubscribles.push(obj.pathVcc1) // Tensão vdc dos dispositivos Mini_monit
+      //ArraySubscribles.push(obj.pathVcc) // Tensão vdc de alguns dispositivos
+      //ArraySubscribles.push(obj.pathTemp) // Temperatura de dispositivos diversos
     })
 
     client = mqtt.connect(`${socket_host_prefix}${arrayMqtt[2]}`, options)
@@ -159,6 +159,8 @@ export default class extends Controller {
     client.on('connect', function () {
       $.notify('Broker Conectado!', "success")
       client.subscribe(ArraySubscribles)
+      // Mantem o cliente atual conectado, enviando um publish a cada 5 segundos
+      setInterval(() => { client.publish('/monitoramento/ativo', '1') }, 5000)
     })
 
     client.on('message', function (topic, message) {
