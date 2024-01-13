@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class HomeController < LoggedController
+class HomeController < LoggedController # rubocop:disable Metrics/ClassLength
   def index
     @client = Client.find_by(email: current_user.email)
     if @client.nil?
@@ -16,16 +16,19 @@ class HomeController < LoggedController
     @data_response = nil
     @error = false
     @message = nil
+    @param = params['param2']
 
     @data_response = case params['param1']
                      when 'objCliente'
-                       data_from_client(params['param2'])
+                       data_from_client(@param)
                      when 'clear_log'
-                       clear_log(params['param2'])
+                       clear_log(@param)
                      when 'change_name_device'
-                       change_name_device(params['param2'])
+                       change_name_device(@param)
                      when 'rele'
-                       rele(params['param2'])
+                       rele(@param)
+                     when 'chart'
+                       chart(@param)
                      else
                        'Teste de default'
                      end
@@ -112,5 +115,9 @@ class HomeController < LoggedController
     disk_line = lines[1].split
 
     "DISCO:   Total: #{disk_line[1]} - Usado: #{disk_line[2]}(#{disk_line[4]}) - Livre: #{disk_line[3]}"
+  end
+
+  def chart(params)
+    REDIS.get(params)
   end
 end

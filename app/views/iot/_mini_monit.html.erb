@@ -41,9 +41,13 @@
             </div>
           </div>
           <div>
+            <canvas style="display: none;" id="chart_<%= device.id %>"></canvas>
+            <button style="display: none;" id="hide_chart_<%= device.id %>" class="btn btn-sm btn-outline-info" onclick="hide_chart()">Ocultar gráfico</button>
+          </div>
+          <div>
             <%= render 'components/terminal_view', device: device, terminal: ch['terminal_view'] %>
             <%= render 'components/mini_monit/terminal_insert', device: device, terminal: ch['terminal_insert'] %>
-            <%= render 'components/mini_monit/info', device: device, info: ch['info'], reset: ch['reiniciar'] %>
+            <%= render 'components/mini_monit/info', device: device, info: ch['info'], reset: ch['reiniciar'], vcc: ch['value'] %>
           </div>
         </div>
         <div class="tab-pane fade" id="profile<%= device.id %>" role="tabpanel" aria-labelledby="profile-tab<%= device.id %>">
