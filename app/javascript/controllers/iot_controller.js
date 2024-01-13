@@ -127,6 +127,78 @@ export default class extends Controller {
     })
   }
 
+  whatsapp_test(event) {
+    const element = event.target
+    const path = element.getAttribute("data-path")
+    const device = element.getAttribute("data-device")
+    const id = element.getAttribute("data-id")
+
+    ArrayAtivo.map((a) => {
+      if (a.device === device) {
+        if (a.online === 'sim') {
+          const cel = document.getElementById(id).value
+
+          if (cel.length < 11) {
+            $.notify(`Inserir um número de celular válido e salvar!`, "error")
+          } else {
+            client.publish(path, 'testzap')
+            $.notify(`Enviando WhatsApp para: ${cel}. Aguarde...`, "warn")
+          }
+        } else {
+          $.notify(`${a.nome} OffLine`, "error")
+        }
+      }
+    })
+  }
+
+  telegram_test(event) {
+    const element = event.target
+    const path = element.getAttribute("data-path")
+    const device = element.getAttribute("data-device")
+    const id = element.getAttribute("data-id")
+
+    ArrayAtivo.map((a) => {
+      if (a.device === device) {
+        if (a.online === 'sim') {
+          const cel = document.getElementById(id).value
+
+          if (cel.length < 8) {
+            $.notify(`Inserir um número de chatId válido e salvar!`, "error")
+          } else {
+            client.publish(path, 'testtel')
+            $.notify(`Enviando mensagem de Telegram para: ${cel}. Aguarde...`, "warn")
+          }
+        } else {
+          $.notify(`${a.nome} OffLine`, "error")
+        }
+      }
+    })
+  }
+
+  email_test(event) {
+    const element = event.target
+    const path = element.getAttribute("data-path")
+    const device = element.getAttribute("data-device")
+    const id = element.getAttribute("data-id")
+
+    ArrayAtivo.map((a) => {
+      if (a.device === device) {
+        if (a.online === 'sim') {
+          const email = document.getElementById(id).value
+
+          if (email.length < 13) {
+            $.notify(`Inserir um email válido e salvar!`, "error")
+          } else {
+            client.publish(path, 'testema')
+            $.notify(`Enviando email para: ${email}. Aguarde...`, "warn")
+          }
+        } else {
+          $.notify(`${a.nome} OffLine`, "error")
+        }
+      }
+    })
+  }
+
   preferences(event) {
     const element = event.target
     const path = element.getAttribute("data-path")

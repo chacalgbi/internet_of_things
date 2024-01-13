@@ -30,14 +30,23 @@
   <div class="form-check form-switch mb-2">
     <input class="form-check-input" type="checkbox" name="emailEnable_<%= device.id %>" id="emailEnable_<%= device.id %>" data-action="change->iot#preferences" data-device="acti<%= device.id %>" data-id="emailEnable_<%= device.id %>" data-path="<%= prefes_insert.path %>">
     <label class="form-check-label" for="emailEnable_<%= device.id %>">E-mail</label>
+    <span class="d-flex justify-content-end">
+      <button class="btn btn-sm btn-outline-info" data-action="click->iot#email_test" data-device="acti<%= device.id %>" data-id="email_<%= device.id %>" data-path="<%= prefes_insert.path %>" type="button">Testar email</button>
+    </span>
   </div>
   <div class="form-check form-switch mb-2">
     <input class="form-check-input" type="checkbox" name="telegramEnable_<%= device.id %>" id="telegramEnable_<%= device.id %>" data-action="change->iot#preferences" data-device="acti<%= device.id %>" data-id="telegramEnable_<%= device.id %>" data-path="<%= prefes_insert.path %>">
     <label class="form-check-label" for="telegramEnable_<%= device.id %>" >Telegram</label>
+    <span class="d-flex justify-content-end">
+      <button class="btn btn-sm btn-outline-info" data-action="click->iot#telegram_test" data-device="acti<%= device.id %>" data-id="telegram_<%= device.id %>" data-path="<%= prefes_insert.path %>" type="button">Testar telegram</button>
+    </span>
   </div>
   <div class="form-check form-switch mb-2">
     <input class="form-check-input" type="checkbox" name="whatsappEnable_<%= device.id %>" id="whatsappEnable_<%= device.id %>" data-action="change->iot#preferences" data-device="acti<%= device.id %>" data-id="whatsappEnable_<%= device.id %>" data-path="<%= prefes_insert.path %>">
     <label class="form-check-label" for="whatsappEnable_<%= device.id %>" >WhatsApp</label>
+    <span class="d-flex justify-content-end">
+      <button class="btn btn-sm btn-outline-info" data-action="click->iot#whatsapp_test" data-device="acti<%= device.id %>" data-id="whatsapp_<%= device.id %>" data-path="<%= prefes_insert.path %>" type="button">Testar whatsapp</button>
+    </span>
   </div>
   <p>OBS: Os alertas serão enviados pelos métodos selecionados <strong>acima</strong> e quando os valores selecionados <strong>abaixo</strong> forem
     maiores ou menores nos seus respectivos campos MIN e MAX. Serão enviados para os meios de comunicação <strong>cadastrados</strong>.</p>
