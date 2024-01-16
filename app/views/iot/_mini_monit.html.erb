@@ -10,7 +10,6 @@
   </button>
 
   <div id="collapseOne<%= device.id %>" class="accordion-collapse collapse <%= @show %>" aria-labelledby="flush-headingOne" data-bs-parent="#list_devices_accordion">
-
     <div class="accordion-body">
 
       <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -21,7 +20,6 @@
             <button class="nav-link" id="profile-tab<%= device.id %>" data-bs-toggle="tab" data-bs-target="#profile<%= device.id %>" type="button" role="tab" aria-controls="profile<%= device.id %>" aria-selected="false">Configs</button>
         </li>
       </ul>
-
 
       <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="control<%= device.id %>" role="tabpanel" aria-labelledby="control-tab<%= device.id %>">
@@ -36,7 +34,6 @@
                   onclick="get_chart('<%= device.id %>', '<%= vcc.path %>', 'chart_<%= vcc.device_id %>')" >
                   <%= image_tag "linha.png", style: "width: 30%;" %>
                 </button>
-                
               </div>
               <div class="col">
                 <%= render 'components/led', device: device, led: ch['led1'] %>
@@ -61,9 +58,9 @@
         </div>
       </div>
 
-
     </div>
   </div>
+
 </div>
 
 <script>
@@ -101,7 +98,7 @@
           label: 'Tensão Dc',
           data: values,
           borderWidth: 1,
-          tension: 0.8
+          tension: 0.3
         }]
       },
       options: {
@@ -128,7 +125,6 @@
           create_chart(device_id, chart_id, times, values)
         }else {
           console.log(dt)
-          $.notify(dt.message, "error")
         }
       })
       .catch(error => console.error('Erro ao fazer fetch:', error))
