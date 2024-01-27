@@ -39,7 +39,7 @@ class IotController < ApplicationController
     else
       array = @client.address_mqtt.split(':')
       data = {
-        msg: 'MQTT info OK',
+        msg: 'Tokens OK',
         mqtt_user: array[0],
         mqtt_pass: array[1],
         mqtt_server: array[2],

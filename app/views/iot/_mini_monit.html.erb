@@ -77,7 +77,7 @@
     let [date, time] = str.split(', ')
     let [day, month, year] = date.split('/')
     let [hour, minute, second] = time.split(':')
-    return `${hour}:${minute}`
+    return `${hour}:${minute} ${day}/${month}`
   }
 
   function create_chart(device_id, chart_id, times, values){
@@ -111,6 +111,16 @@
     })
   }
 
+  function remove_tensions_repeated_in_sequence(array){
+    array = array.reduce((acc, obj) => {
+      if (acc.length === 0 || acc[acc.length - 1].value !== obj.value) {
+        acc.push(obj)
+      }
+      return acc
+    }, [])
+    return array
+  }
+
   function get_chart(device_id, path, chart_id){
     const dados = { param1: 'chart', param2: path }
     const csrfToken = document.querySelector('meta[name="csrf-token"]').content
@@ -119,9 +129,10 @@
       .then(response => response.json())
       .then(dt => {
         if (dt.error == false) {
-          let array = JSON.parse(dt.data)
-          const times = array.map(obj => convertDate(obj.time))
-          const values = array.map(obj => parseFloat(obj.value))
+          const array = JSON.parse(dt.data)
+          const cleaned_array = remove_tensions_repeated_in_sequence(array)
+          const times = cleaned_array.map(obj => convertDate(obj.time))
+          const values = cleaned_array.map(obj => parseFloat(obj.value))
           create_chart(device_id, chart_id, times, values)
         }else {
           console.log(dt)
