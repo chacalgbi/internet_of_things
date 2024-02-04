@@ -1,8 +1,17 @@
 <div class="accordion-item">
+  <% ch = object_of_channels(channels) %>
+  <% path_configs = ch['prefes_insert'].path %>
 
-  <button class="accordion-button collapsed d-flex" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne<%= device.id %>" aria-expanded="false" aria-controls="collapseOne<%= device.id %>">
+  <button class="accordion-button collapsed d-flex" 
+      type="button" data-bs-toggle="collapse" 
+      data-bs-target="#collapseOne<%= device.id %>" 
+      aria-expanded="false" aria-controls="collapseOne<%= device.id %>"
+      data-action="click->iot#get_values_configs"
+      data-path="<%= path_configs %>" 
+      data-device="acti<%= device.id %>"
+  >
     <span class="me-auto" id="nomeDevice<%= device.id %>">
-      <%= device.description %> - <%= device.versao %>
+      <%= device.description %>
     </span>
     <div  class="ms-auto" style="background-color: #FA8072;" id="acti<%= device.id %>">
       Offline
@@ -23,7 +32,6 @@
 
       <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="control<%= device.id %>" role="tabpanel" aria-labelledby="control-tab<%= device.id %>">
-          <% ch = object_of_channels(channels) %>
           <div style="border: 1px solid lightblue; border-radius: 10px;">
             <div class="row text-center d-flex align-items-center justify-content-center" style="height: 100%; margin-botton: 15px;">
               <br>
@@ -45,7 +53,7 @@
           </div>
           <div>
             <canvas style="display: none;" id="chart_<%= device.id %>"></canvas>
-            <button style="display: none;" id="hide_chart_<%= device.id %>" class="btn btn-sm btn-outline-info" onclick="hide_chart()">Ocultar gráfico</button>
+            <button style="display: none;" id="hide_chart_<%= device.id %>" class="btn btn-sm btn-outline-info" onclick="hide_chart('<%= device.id %>')">Ocultar gráfico</button>
           </div>
           <div>
             <%= render 'components/terminal_view', device: device, terminal: ch['terminal_view'] %>
@@ -66,9 +74,9 @@
 <script>
   var chartInstances = {}
 
-  function hide_chart(){
-    const chart = document.getElementById('chart_<%= device.id %>')
-    const hide_chart = document.getElementById('hide_chart_<%= device.id %>')
+  function hide_chart(device_id){
+    const chart = document.getElementById(`chart_${device_id}`)
+    const hide_chart = document.getElementById(`hide_chart_${device_id}`)
     chart.style.display = "none"
     hide_chart.style.display = "none"
   }
