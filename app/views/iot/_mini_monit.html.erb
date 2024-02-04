@@ -6,9 +6,6 @@
       type="button" data-bs-toggle="collapse" 
       data-bs-target="#collapseOne<%= device.id %>" 
       aria-expanded="false" aria-controls="collapseOne<%= device.id %>"
-      data-action="click->iot#get_values_configs"
-      data-path="<%= path_configs %>" 
-      data-device="acti<%= device.id %>"
   >
     <span class="me-auto" id="nomeDevice<%= device.id %>">
       <%= device.description %>
@@ -26,7 +23,7 @@
             <button class="nav-link active" id="control-tab<%= device.id %>" data-bs-toggle="tab" data-bs-target="#control<%= device.id %>" type="button" role="tab" aria-controls="control<%= device.id %>" aria-selected="true">Home</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="profile-tab<%= device.id %>" data-bs-toggle="tab" data-bs-target="#profile<%= device.id %>" type="button" role="tab" aria-controls="profile<%= device.id %>" aria-selected="false">Configs</button>
+            <button class="nav-link" id="profile-tab<%= device.id %>" data-bs-toggle="tab" data-bs-target="#profile<%= device.id %>" type="button" role="tab" aria-controls="profile<%= device.id %>" aria-selected="false" data-action="click->iot#get_values_configs" data-path="<%= path_configs %>" data-device="acti<%= device.id %>">Configs</button>
         </li>
       </ul>
 
