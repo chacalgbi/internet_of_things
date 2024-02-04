@@ -60,9 +60,10 @@ class IotController < ApplicationController
       headers: { 'Content-Type' => 'application/json' }
     )
 
-    resp_success(response)
+    resp_success(response, params['identidade'], 'telegram', params['chat_id'], params['msg'])
   rescue StandardError => e
     resp_error(e)
+    notification_log(params['identidade'], 'telegram', params['chat_id'], params['msg'], e)
   end
 
   def whatsapp
@@ -72,9 +73,10 @@ class IotController < ApplicationController
       headers: { 'Content-Type' => 'application/json' }
     )
 
-    resp_success(response)
+    resp_success(response, params['identidade'], 'whatsapp', params['cel'], params['msg'])
   rescue StandardError => e
     resp_error(e)
+    notification_log(params['identidade'], 'whatsapp', params['cel'], params['msg'], e)
   end
 
   def email
@@ -84,16 +86,19 @@ class IotController < ApplicationController
       headers: { 'Content-Type' => 'application/json' }
     )
 
-    resp_success(response)
+    resp_success(response, params['identidade'], 'email', params['email'], params['corpo'])
   rescue StandardError => e
     resp_error(e)
+    notification_log(params['identidade'], 'email', params['email'], params['corpo'], e)
   end
 
   private
 
-  def resp_success(res)
+  def resp_success(res, identity, channel, recipient, message)
     resp_obj = JSON.parse(res.body, symbolize_names: true)
     data = { msg: resp_obj[:msg], erroGeral: resp_obj[:erroGeral] }
+
+    notification_log(identity, channel, recipient, message, resp_obj[:msg])
 
     render json: data, status: res.code
   end
@@ -108,5 +113,15 @@ class IotController < ApplicationController
     error = "#{err.class} - #{err.message}"
     Log.error(error)
     render json: { msg: error, erroGeral: 'sim' }, status: 500
+  end
+
+  def notification_log(identity = nil, channel = nil, recipient = nil, message = nil, result = nil) # rubocop:disable Metrics/ParameterLists
+    Notification.create!(
+      identity: identity || '',
+      channel: channel || '',
+      recipient: recipient || '',
+      message: message || '',
+      result: result || ''
+    )
   end
 end
