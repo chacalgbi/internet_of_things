@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'httparty'
+
 class HomeController < LoggedController
   def index
     @client = Client.find_by(email: current_user.email)
@@ -37,7 +39,7 @@ class HomeController < LoggedController
   end
 
   def info
-    render json: { memory: memory_string, cpu: cpu_string, disk: disk_string, paths: redis_paths, pm2: pm2_list }
+    render json: { memory: memory_string, cpu: cpu_string, disk: disk_string, paths: redis_paths, node_server: node_process }
   rescue StandardError => e
     render json: { memory: 'Error', cpu: e.class, disk: e.message }
   end
@@ -125,7 +127,11 @@ class HomeController < LoggedController
     JSON.parse(REDIS.get('paths'))
   end
 
-  def pm2_list
-    `pm2 list`.split("\n")
+  def node_process
+    res = HTTParty.get(
+      'http://127.0.0.1:8087/status',
+      headers: { 'Content-Type' => 'application/json' }
+    )
+    JSON.parse(res.body, symbolize_names: true)
   end
 end

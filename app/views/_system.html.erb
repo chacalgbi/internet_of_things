@@ -4,11 +4,11 @@
     <li id="list_disk">Clique para ver informações do servidor (apenas admin)</li>
     <li id="list_cpu"></li>
   </ul>
+  <span id="node"></span>
+  <p id="node_server" style="font-size: 10px;"></p>
+
   <span id="paths_count"></span>
   <p id="paths" style="font-size: 10px;"></p>
-  <span id="node"></span>
-  <p id="pm2" style="font-size: 10px;"></p>
-
 </div>
 
 <script>
@@ -23,8 +23,29 @@
           $('#list_disk').text(data.disk)
           $('#paths').html(data.paths.join('<br/>'))
           $('#paths_count').text(data.paths.length + ' paths no Redis')
-          $('#node').text('NodeJs')
-          $('#pm2').text(data.pm2)
+          if(data.node_server.erroGeral == 'nao'){
+            const node = data.node_server.payload
+            $('#node').text('NodeJs')
+            const text = `
+            Memória:<br>
+             - ${node.memoryUsage.rss}<br>
+             - ${node.memoryUsage.heapTotal}<br>
+             - ${node.memoryUsage.heapUsed}<br>
+             - ${node.memoryUsage.external}<br>
+            CPU Time:<br>
+              - nodeProcess: ${node.useCpu.nodeProcess}<br>
+              - system: ${node.useCpu.system}<br>
+            CPU Uso médio:<br>
+              - ${node.systemLoad.min_1}<br>
+              - ${node.systemLoad.min_5}<br>
+              - ${node.systemLoad.min_15}<br>
+            Tempo de atividade:<br>
+              - API NodeJs: ${node.uptime}<br>
+              - Servidor: ${node.systemUptime}<br>
+            `
+
+            $('#node_server').html(text)
+          }
         }
       })
     })
