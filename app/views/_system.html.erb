@@ -4,6 +4,11 @@
     <li id="list_disk">Clique para ver informações do servidor (apenas admin)</li>
     <li id="list_cpu"></li>
   </ul>
+  <span id="paths_count"></span>
+  <p id="paths" style="font-size: 10px;"></p>
+  <span id="node"></span>
+  <p id="pm2" style="font-size: 10px;"></p>
+
 </div>
 
 <script>
@@ -16,6 +21,10 @@
           $('#list_memory').text(data.memory)
           $('#list_cpu').text(data.cpu)
           $('#list_disk').text(data.disk)
+          $('#paths').html(data.paths.join('<br/>'))
+          $('#paths_count').text(data.paths.length + ' paths no Redis')
+          $('#node').text('NodeJs')
+          $('#pm2').text(data.pm2)
         }
       })
     })

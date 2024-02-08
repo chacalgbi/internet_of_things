@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class HomeController < LoggedController # rubocop:disable Metrics/ClassLength
+class HomeController < LoggedController
   def index
     @client = Client.find_by(email: current_user.email)
     if @client.nil?
@@ -37,7 +37,7 @@ class HomeController < LoggedController # rubocop:disable Metrics/ClassLength
   end
 
   def info
-    render json: { memory: memory_string, cpu: cpu_string, disk: disk_string }
+    render json: { memory: memory_string, cpu: cpu_string, disk: disk_string, paths: redis_paths, pm2: pm2_list }
   rescue StandardError => e
     render json: { memory: 'Error', cpu: e.class, disk: e.message }
   end
@@ -119,5 +119,13 @@ class HomeController < LoggedController # rubocop:disable Metrics/ClassLength
 
   def chart(params)
     REDIS.get(params)
+  end
+
+  def redis_paths
+    JSON.parse(REDIS.get('paths'))
+  end
+
+  def pm2_list
+    `pm2 list`.split("\n")
   end
 end

@@ -123,6 +123,18 @@ ActiveAdmin.register Channel do # rubocop:disable Metrics/BlockLength
     redirect_to collection_path, alert:
   end
 
+  batch_action :Exportar_Paths_Ativo_e_Vcc_para_Redis, confirm: 'Você tem certeza que deseja exportar todos os Paths Ativo e Vcc para Redis?' do |_ids|
+    alert = ''
+    begin
+      paths = Channel.where('path LIKE ? OR path LIKE ?', '%ativo%', '%vcc%').pluck(:path)
+      REDIS.set('paths', paths.to_json)
+      alert = "#{paths.count} Paths exportados com sucesso."
+    rescue StandardError => e
+      alert = "Erro ao processar os paths: #{e.class} | #{e.message}"
+    end
+    redirect_to collection_path, alert:
+  end
+
   form do |f|
     f.inputs do
       f.input :client_id, as: :select, collection: Client.all.map { |client| [client.name, client.id] }
