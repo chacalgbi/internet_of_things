@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ActiveAdmin.register Device do # rubocop:disable Metrics/BlockLength
+ActiveAdmin.register Device do
   permit_params :description, :device, :token, :tipo, :versao, :linkAjuda, :pathUpdate, :obs, :client_id
 
   config.per_page = 60
@@ -16,9 +16,14 @@ ActiveAdmin.register Device do # rubocop:disable Metrics/BlockLength
     column :description
     column :device
     column :token
-    column :tipo
+    column :tipo do |device|
+      div class: device.tipo do
+        device.tipo
+      end
+    end
     column :versao
     column :pathUpdate
+    column :obs
     column :created_at
     column :updated_at
     actions
@@ -50,7 +55,7 @@ ActiveAdmin.register Device do # rubocop:disable Metrics/BlockLength
       f.input :description
       f.input :device
       f.input :token
-      f.input :tipo, as: :select, collection: %w[mini_monit diversos]
+      f.input :tipo, as: :select, collection: %w[alarme diversos mini_monit monitoramento]
       f.input :versao
       f.input :linkAjuda
       f.input :pathUpdate

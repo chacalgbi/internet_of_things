@@ -1,0 +1,39 @@
+<div class="accordion-item">
+
+  <button class="accordion-button collapsed d-flex" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne<%= device.id %>" aria-expanded="false" aria-controls="collapseOne<%= device.id %>">
+    <span class="me-auto" id="nomeDevice<%= device.id %>">
+      <%= device.description %>
+    </span>
+    <div  class="ms-auto" style="background-color: #FA8072;" id="acti<%= device.id %>">
+      Offline
+    </div>
+  </button>
+
+  <div id="collapseOne<%= device.id %>" class="accordion-collapse collapse <%= @show %>" aria-labelledby="flush-headingOne" data-bs-parent="#list_devices_accordion">
+
+    <div class="accordion-body">
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="control-tab<%= device.id %>" data-bs-toggle="tab" data-bs-target="#control<%= device.id %>" type="button" role="tab" aria-controls="control<%= device.id %>" aria-selected="true">Home</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profile-tab<%= device.id %>" data-bs-toggle="tab" data-bs-target="#profile<%= device.id %>" type="button" role="tab" aria-controls="profile<%= device.id %>" aria-selected="false">Configs</button>
+        </li>
+      </ul>
+
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="control<%= device.id %>" role="tabpanel" aria-labelledby="control-tab<%= device.id %>">
+          <%= render 'components/alarme/buttons', channels: channels, device: device %>
+        </div>
+        <div class="tab-pane fade" id="profile<%= device.id %>" role="tabpanel" aria-labelledby="profile-tab<%= device.id %>">
+          <%= render 'components/terminal_view', device: device, terminal: find_channel_for_type(channels, 'terminal_view') %>
+          <%= render 'components/alarme/terminal_insert', device: device, terminal: find_channel_for_type(channels, 'terminal_insert') %>
+          <%= render 'components/alarme/info', device: device, info: find_channel_for_type(channels, 'info') %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<%= render 'components/alarme/text_notice_alarm', button: find_channel_for_type(channels, 'button'), device: device %>

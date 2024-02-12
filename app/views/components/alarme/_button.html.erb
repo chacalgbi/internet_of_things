@@ -1,0 +1,19 @@
+<% lastValue, lastLabel, lastClass = button_atrributes(btn) %>
+
+<div style="margin: 15px; font-size: 13px;">
+  <button 
+    style="margin: 10px; font-size: 12px; padding: 5px;" 
+    type="button" 
+    id="<%= btn.id %>" 
+    class="btn btn-<%= lastClass %><%= btn.color %>"
+    data-action="click->iot#confirm_alarm"
+    data-path="<%= device.obs %>"
+    data-id="<%= btn.id %>" 
+    data-device="acti<%= device.id %>"
+    data-title="Deseja realmente acionar o alarme?"
+    data-text="Todos os integrantes do grupo serão notificados. E seus alarmes serão acionados."
+    data-icon="question"
+  >
+    <%= lastLabel %><%= btn.label %>
+  </button>
+</div>

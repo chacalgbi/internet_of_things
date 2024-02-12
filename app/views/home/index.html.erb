@@ -7,6 +7,8 @@
         <%= render 'iot/diversos', device: device, channels: matching_channels %>
       <% when 'mini_monit' %>
         <%= render 'iot/mini_monit', device: device, channels: matching_channels %>
+      <% when 'alarme' %>
+        <%= render 'iot/alarme', device: device, channels: matching_channels %>
     <% end %>
   <% end %>
 

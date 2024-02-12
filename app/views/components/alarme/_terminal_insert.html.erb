@@ -1,0 +1,20 @@
+<div style="margin: 15px; display: none;">
+  <span>Terminal: </span>
+  <div style="text-align: right;">
+    <input type="text" class="form-control" id="input<%= terminal.id %>" placeholder="Ex: Info" aria-label="Username">
+    <button type="button" class="btn btn-success" id="inputButton<%= terminal.id %>"
+      data-action="click->iot#terminal_send"
+      data-input="input<%= terminal.id %>"
+      data-path="<%= terminal.path %>"
+      data-device="acti<%= device.id %>"
+      data-log="cmdlog_<%= device.id %>">
+      Enviar
+    </button>
+  </div>
+</div>
+
+<div style="text-align: right;">
+  <button type="button" class="btn btn-link" data-action="click->iot#generic_comand" data-path="<%= terminal.path %>" data-device-id="acti<%= device.id %>" data-type="info">Informações</button>
+</div>
+
+<ul id="cmdlog_<%= device.id %>"></ul>

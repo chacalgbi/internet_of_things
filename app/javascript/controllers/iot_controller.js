@@ -493,6 +493,34 @@ export default class extends Controller {
     })
   }
 
+  alarme(id, path, device) {
+    this.others('telegram_alert', id)
+    client.publish(path, `${device}:1`)
+    $.notify("Alarme Acionado", "success")
+  }
+
+  confirm_alarm(event) {
+    const e = event.target
+    const path = e.getAttribute("data-path")
+    const id = e.getAttribute("data-id")
+    const device = e.getAttribute("data-device")
+    const title = e.getAttribute("data-title")
+    const text = e.getAttribute("data-text")
+    const icon = e.getAttribute("data-icon")
+
+    const function_yes = () => { this.alarme(id, path, device) }
+    const function_no =  () => { this.msg_with_time('center', 'info', 'Cancelado!', false, 1000) }
+
+    this.msg_confirm(title, text, icon, function_yes, function_no)
+  }
+
+  set_text_alert(event) {
+    const e = event.target
+    const id = e.getAttribute("data-id")
+    const text = document.getElementById('newNoticeAlarm').value
+    this.others('text_alert', { id: id, obs: text })
+  }
+
   slide(event) {
     const e = event.target
     const spanValue = e.getAttribute("data-span-value")
@@ -554,13 +582,18 @@ export default class extends Controller {
         $.notify(dt.message, "success")
       }else if (dt.error == false && param1 == 'rele') {
 
-      }else{
+      }else if (dt.error == false && param1 == 'telegram_alert') {
+        $.notify("Mensagem enviada para o grupo.", "success")
+      }else if (dt.error == false && param1 == 'text_alert') {
+        $.notify("Texto salvo com sucesso.", "success")
+        document.getElementById('newNoticeAlarm').value = dt.data.obs
+      }else if (dt.error == false) {
         $.notify(dt.message, "success")
       }
 
       if (dt.error == true) {
         console.log(dt)
-        $.notify(dt.message, "error")
+        $.notify(dt.message, {className: 'error', autoHideDelay: 13000 })
       }
     })
     .catch(error => console.error('Erro ao fazer fetch:', error))

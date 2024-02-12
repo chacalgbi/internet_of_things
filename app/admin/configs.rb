@@ -28,7 +28,7 @@ ActiveAdmin.register Config do
   form do |f|
     f.inputs do
       f.input :version
-      f.input :tipo, as: :select, collection: %w[diversos mini_monit monitoramento]
+      f.input :tipo, as: :select, collection: %w[alarme diversos mini_monit monitoramento]
       f.input :path_update
     end
     f.actions

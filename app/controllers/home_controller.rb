@@ -31,6 +31,10 @@ class HomeController < LoggedController
                        rele(@param)
                      when 'chart'
                        chart(@param)
+                     when 'telegram_alert'
+                       telegram_alert(@param)
+                     when 'text_alert'
+                       text_alert(@param)
                      else
                        'Teste de default'
                      end
@@ -133,5 +137,42 @@ class HomeController < LoggedController
       headers: { 'Content-Type' => 'application/json' }
     )
     JSON.parse(res.body, symbolize_names: true)
+  end
+
+  def telegram_alert(params)
+    text = Channel.find(params)
+    res = HTTParty.post(
+      'http://127.0.0.1:8087/alertaTelegram',
+      body: { 'chat_id' => text.platform, 'msg' => text.obs }.to_json,
+      headers: { 'Content-Type' => 'application/json' }
+    )
+    resp_obj = JSON.parse(res.body, symbolize_names: true)
+
+    @message = resp_obj[:msg]
+    @error = resp_obj[:erroGeral] == 'sim'
+    nil
+  rescue ActiveRecord::RecordNotFound
+    @error = true
+    @message = 'Channel não encontrado!'
+  rescue ActiveRecord::RecordInvalid
+    @error = true
+    @message = 'Falha ao atualizar o Channel!'
+  rescue StandardError => e
+    @error = true
+    @message = e.message
+  end
+
+  def text_alert(params)
+    Channel.find(params['id']).update!(obs: params['obs'])
+    { id: params['id'], obs: params['obs'] }
+  rescue ActiveRecord::RecordNotFound
+    @error = true
+    @message = 'Channel não encontrado!'
+  rescue ActiveRecord::RecordInvalid
+    @error = true
+    @message = 'Falha ao atualizar o Channel!'
+  rescue StandardError => e
+    @error = true
+    @message = e.message
   end
 end

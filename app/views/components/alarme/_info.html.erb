@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="row text-center d-flex align-items-center justify-content-center" style="height: 100%;">
+    <div class="col">
+      <button style="margin: 10px;" id="btn_set_new_name_<%= device.id %>" style="font-size: 12px; padding: 5px;" type="button" class="btn btn-primary" 
+        data-bs-toggle="modal" data-bs-target="#textNoticeAlarm" 
+        data-action="click->iot#set_modal_name" data-description="<%= device.description %>" data-id="<%= device.id %>">
+        Texto personalizado
+      </button>
+    </div>
+    <div class="col">
+      <button style="margin: 10px;" id="btn_set_new_name_<%= device.id %>" style="font-size: 12px; padding: 5px;" type="button" class="btn btn-secondary" 
+        data-bs-toggle="modal" data-bs-target="#mudarNomeDevice" 
+        data-action="click->iot#set_modal_name" data-description="<%= device.description %>" data-id="<%= device.id %>">
+        Renomear
+      </button>
+    </div>
+    <div class="col">
+      <span style="margin: 10px; font-size: 10px;" id="<%= info.id %>" class="badge bg-<%= info.color %>">Aguardando...</span>
+    </div>
+  </div>
+</div>
