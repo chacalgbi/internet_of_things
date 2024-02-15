@@ -35,7 +35,7 @@ class IotController < ApplicationController
     @client = Client.find(params[:id])
     if @client.nil?
       status = 404
-      data = { msg: 'id invalido!', erroGeral: 'sim' }
+      data = { msg: 'Client_id invalido!', erroGeral: 'sim' }
     else
       array = @client.address_mqtt.split(':')
       data = {

@@ -500,10 +500,13 @@ export default class extends Controller {
   }
 
   alarme(id, path, device, state) {
-    //this.others('rele', { id_channel: id, previous_state: state })
-    this.others('telegram_alert', id)
     client.publish(path, `${device}:${state}`)
-    $.notify("Alarme Acionado", "success")
+    if(state === '1') {
+      this.others('telegram_alert', id)
+      $.notify("Alarme Acionado", "success")
+    }else{
+      $.notify("Alarme Desligado", "info")
+    }
   }
 
   confirm_alarm(event) {
