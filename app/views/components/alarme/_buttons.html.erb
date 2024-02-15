@@ -5,7 +5,10 @@
       <% channels.each do |ch| %>
         <% if ch.tipo == 'button' %>
           <div class="col">
-            <%= render 'components/alarme/button', device: device, btn: ch %>
+            <%= render 'components/alarme/button_on', device: device, btn: ch %>
+          </div>
+          <div class="col">
+            <%= render 'components/alarme/button_of', device: device, btn: ch %>
           </div>
         <% end %>
       <% end %>

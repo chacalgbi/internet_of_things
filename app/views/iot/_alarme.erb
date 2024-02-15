@@ -1,4 +1,6 @@
 <div class="accordion-item">
+  <% ch = object_of_channels(channels) %>
+  <% path_configs = ch['terminal_insert'].path %>
 
   <button class="accordion-button collapsed d-flex" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne<%= device.id %>" aria-expanded="false" aria-controls="collapseOne<%= device.id %>">
     <span class="me-auto" id="nomeDevice<%= device.id %>">
@@ -17,7 +19,7 @@
             <button class="nav-link active" id="control-tab<%= device.id %>" data-bs-toggle="tab" data-bs-target="#control<%= device.id %>" type="button" role="tab" aria-controls="control<%= device.id %>" aria-selected="true">Home</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="profile-tab<%= device.id %>" data-bs-toggle="tab" data-bs-target="#profile<%= device.id %>" type="button" role="tab" aria-controls="profile<%= device.id %>" aria-selected="false">Configs</button>
+            <button class="nav-link" id="profile-tab<%= device.id %>" data-bs-toggle="tab" data-bs-target="#profile<%= device.id %>" type="button" role="tab" aria-controls="profile<%= device.id %>" aria-selected="false" data-action="click->iot#generic_comand" data-path="<%= path_configs %>" data-device-id="acti<%= device.id %>" data-type="estou_online">Configs</button>
         </li>
       </ul>
 
@@ -28,7 +30,7 @@
         <div class="tab-pane fade" id="profile<%= device.id %>" role="tabpanel" aria-labelledby="profile-tab<%= device.id %>">
           <%= render 'components/terminal_view', device: device, terminal: find_channel_for_type(channels, 'terminal_view') %>
           <%= render 'components/alarme/terminal_insert', device: device, terminal: find_channel_for_type(channels, 'terminal_insert') %>
-          <%= render 'components/alarme/info', device: device, info: find_channel_for_type(channels, 'info') %>
+          <%= render 'components/alarme/info', device: device, info: find_channel_for_type(channels, 'info'), terminal: find_channel_for_type(channels, 'terminal_insert') %>
         </div>
       </div>
 

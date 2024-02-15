@@ -4,8 +4,8 @@ require 'httparty'
 
 class IotController < ApplicationController
   include HTTParty
-  skip_before_action :verify_authenticity_token, only: %i[device_login mqtt_info telegram whatsapp email]
-  before_action :credentials, only: %i[telegram whatsapp email]
+  skip_before_action :verify_authenticity_token, only: %i[device_login mqtt_info telegram whatsapp email telegram_alert]
+  before_action :credentials, only: %i[telegram whatsapp email telegram_alert]
 
   def device_login
     status = 200
@@ -64,6 +64,20 @@ class IotController < ApplicationController
   rescue StandardError => e
     resp_error(e)
     notification_log(params['identidade'], 'telegram', params['chat_id'], params['msg'], e)
+  end
+
+  def telegram_alert
+    channel = Channel.find_by('path LIKE ? AND device_id = ? AND client_id = ?', '%rele1%', params['device_id'], params['client_id'])
+
+    response = HTTParty.post(
+      'http://127.0.0.1:8087/alertaTelegram',
+      body: { 'chat_id' => channel.platform, 'msg' => channel.obs }.to_json,
+      headers: { 'Content-Type' => 'application/json' }
+    )
+    resp_success(response, params['identidade'], 'telegram', channel.platform, channel.obs)
+  rescue StandardError => e
+    resp_error(e)
+    notification_log(params['identidade'], 'telegram', channel.platform, channel.obs, e)
   end
 
   def whatsapp

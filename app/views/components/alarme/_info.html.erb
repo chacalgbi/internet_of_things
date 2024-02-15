@@ -17,5 +17,17 @@
     <div class="col">
       <span style="margin: 10px; font-size: 10px;" id="<%= info.id %>" class="badge bg-<%= info.color %>">Aguardando...</span>
     </div>
+    <div class="col">
+      <div class="form-check form-switch mb-2">
+        <input class="form-check-input" type="checkbox"
+          name="beep<%= device.token %>"
+          id="beep<%= device.token %>"
+          data-action="change->iot#change_beep"
+          data-path="<%= terminal.path %>"
+          data-beep="beep<%= device.token %>"
+        >
+        <label class="form-check-label" for="beep<%= device.token %>">Alarme Sonoro</label>
+      </div>
+    </div>
   </div>
 </div>

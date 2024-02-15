@@ -8,12 +8,13 @@
     class="btn btn-<%= lastClass %><%= btn.color %>"
     data-action="click->iot#confirm_alarm"
     data-path="<%= device.obs %>"
-    data-id="<%= btn.id %>" 
-    data-device="acti<%= device.id %>"
+    data-id="<%= btn.id %>"
+    data-state="1"
+    data-device="<%= device.id %>"
     data-title="Deseja realmente acionar o alarme?"
     data-text="Todos os integrantes do grupo serão notificados. E seus alarmes serão acionados."
     data-icon="question"
   >
-    <%= lastLabel %><%= btn.label %>
+    Acionar <%= btn.label %>
   </button>
 </div>

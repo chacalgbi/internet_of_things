@@ -238,10 +238,16 @@ export default class extends Controller {
 
     if (arrayPayload[0] === 'info' || arrayPayload[0] === 'error' || arrayPayload[0] === 'success') { // Se tiver Salvo na 1° posição, indica que salvou um item. E deve mostrar a resposta para o cliente
       $.notify(arrayPayload[1], arrayPayload[0])
-    }else if (arrayPayload[0] === 'btndc'){
+    }
+    else if (arrayPayload[0] === 'btndc'){
       // Abre modal para calibrar tensão do Mini monitor
       document.getElementById(arrayPayload[1]).click()
-    } else {
+    }
+    else if (arrayPayload[0] === 'beep'){
+      const array_beep = arrayPayload[1].split('_')
+      array_beep[1] === '1' ? document.getElementById(array_beep[0]).checked = true : document.getElementById(array_beep[0]).checked = false
+    }
+    else {
       arrayPayload.forEach(function (v) { // Senão, é um array com tudo para preencher todos os campos
 
         // Se na string tiver as palavras abaixo, trata de uma maneira diferente devido aos ":" Ex: rele2Liga:15:00
@@ -493,9 +499,10 @@ export default class extends Controller {
     })
   }
 
-  alarme(id, path, device) {
+  alarme(id, path, device, state) {
+    //this.others('rele', { id_channel: id, previous_state: state })
     this.others('telegram_alert', id)
-    client.publish(path, `${device}:1`)
+    client.publish(path, `${device}:${state}`)
     $.notify("Alarme Acionado", "success")
   }
 
@@ -504,11 +511,12 @@ export default class extends Controller {
     const path = e.getAttribute("data-path")
     const id = e.getAttribute("data-id")
     const device = e.getAttribute("data-device")
+    const state = e.getAttribute("data-state")
     const title = e.getAttribute("data-title")
     const text = e.getAttribute("data-text")
     const icon = e.getAttribute("data-icon")
 
-    const function_yes = () => { this.alarme(id, path, device) }
+    const function_yes = () => { this.alarme(id, path, device, state) }
     const function_no =  () => { this.msg_with_time('center', 'info', 'Cancelado!', false, 1000) }
 
     this.msg_confirm(title, text, icon, function_yes, function_no)
@@ -640,6 +648,14 @@ export default class extends Controller {
             }
         }
     })
+  }
+
+  change_beep(event) {
+    const element = event.target
+    const path = element.getAttribute("data-path")
+    const id = element.getAttribute("data-beep")
+    const value = document.getElementById(id).checked ? 'beep1' : 'beep0'
+    client.publish(path, value)
   }
 
   generic_comand(event) {
