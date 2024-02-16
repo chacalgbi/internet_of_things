@@ -12,6 +12,8 @@ class HomeController < LoggedController
       @channels = Channel.where(client_id: @client.id)
       @show = @devices.count == 1 ? 'show' : ''
     end
+  rescue StandardError => e
+    build_error(e, params.inspect)
   end
 
   def others
@@ -40,15 +42,23 @@ class HomeController < LoggedController
                      end
 
     render json: { error: @error, message: @message, data: @data_response }
+  rescue StandardError => e
+    build_error(e, params.inspect)
   end
 
   def info
     render json: { memory: memory_string, cpu: cpu_string, disk: disk_string, paths: redis_paths, node_server: node_process }
   rescue StandardError => e
+    build_error(e, params.inspect)
     render json: { memory: 'Error', cpu: e.class, disk: e.message }
   end
 
   private
+
+  def build_error(err, params = nil)
+    error = "#{self.class} | #{err.class} | #{err.message} | #{err.backtrace.take(1).join("\n").sub(%r{.*internet_of_things/}, '')}"
+    Log.error(error, params)
+  end
 
   def data_from_client(client_id)
     client = Client.find(client_id)
@@ -69,6 +79,7 @@ class HomeController < LoggedController
     @message = 'Log limpo com sucesso!'
     nil
   rescue StandardError => e
+    build_error(e, "clear_log. ID: #{id}")
     @error = true
     @message = e.message
   end
@@ -84,6 +95,7 @@ class HomeController < LoggedController
     @error = true
     @message = 'Falha ao atualizar o device!'
   rescue StandardError => e
+    build_error(e, params.inspect)
     @error = true
     @message = e.message
   end
@@ -98,6 +110,7 @@ class HomeController < LoggedController
     @error = true
     @message = 'Falha ao atualizar o Channel!'
   rescue StandardError => e
+    build_error(e, params.inspect)
     @error = true
     @message = e.message
   end
@@ -107,6 +120,9 @@ class HomeController < LoggedController
     memory_line = lines[1].split
 
     "MEMÓRIA: Total: #{memory_line[1]} - Usado: #{memory_line[2]} - Livre: #{memory_line[6]}"
+  rescue StandardError => e
+    build_error(e, 'memory_string')
+    "ERROR memory_string #{e.message}"
   end
 
   def cpu_string
@@ -114,6 +130,9 @@ class HomeController < LoggedController
     cpu_line = lines[3].split
 
     "CPU:    Usuário: #{cpu_line[2]}% - Sistema: #{cpu_line[4]}% - Livre: #{cpu_line[11]}%"
+  rescue StandardError => e
+    build_error(e, 'cpu_string')
+    "ERROR cpu_string #{e.message}"
   end
 
   def disk_string
@@ -121,14 +140,24 @@ class HomeController < LoggedController
     disk_line = lines[1].split
 
     "DISCO:   Total: #{disk_line[1]} - Usado: #{disk_line[2]}(#{disk_line[4]}) - Livre: #{disk_line[3]}"
+  rescue StandardError => e
+    build_error(e, 'disk_string')
+    "ERROR disk_string #{e.message}"
   end
 
   def chart(params)
     REDIS.get(params)
+  rescue StandardError => e
+    build_error(e, "Chart. Path: #{params}")
+    @error = true
+    @message = e.message
   end
 
   def redis_paths
     JSON.parse(REDIS.get('paths'))
+  rescue StandardError => e
+    build_error(e, 'redis_paths')
+    "ERROR redis_paths #{e.message}"
   end
 
   def node_process
@@ -137,6 +166,8 @@ class HomeController < LoggedController
       headers: { 'Content-Type' => 'application/json' }
     )
     JSON.parse(res.body, symbolize_names: true)
+  rescue StandardError => e
+    build_error(e, 'NodeJs Status')
   end
 
   def telegram_alert(params)
@@ -158,6 +189,7 @@ class HomeController < LoggedController
     @error = true
     @message = 'Falha ao atualizar o Channel!'
   rescue StandardError => e
+    build_error(e, params.inspect)
     @error = true
     @message = e.message
   end
@@ -172,6 +204,7 @@ class HomeController < LoggedController
     @error = true
     @message = 'Falha ao atualizar o Channel!'
   rescue StandardError => e
+    build_error(e, params.inspect)
     @error = true
     @message = e.message
   end

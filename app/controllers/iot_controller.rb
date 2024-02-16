@@ -19,14 +19,17 @@ class IotController < ApplicationController
       data = {
         msg: 'Acesso permitido',
         dados: [@device], # array para manter o padrão de resposta dos dispositivos já em produção
-        versao: @config['version'].to_f,
+        versao: @config.nil? ? 0.0 : @config['version'].to_f,
+        # path_auto_update: @config.nil? ? 'N/A' : @config['path_update'],
         path_auto_update: @config['path_update'],
+        id: @device.id,
+        nome: @device.description,
         erroGeral: 'nao'
       }
     end
     render json: data, status:
   rescue StandardError => e
-    resp_error(e)
+    resp_error(e, "Token: #{params[:token]}")
   end
 
   def mqtt_info
@@ -50,7 +53,7 @@ class IotController < ApplicationController
     end
     render json: data, status:
   rescue StandardError => e
-    resp_error(e)
+    resp_error(e, "Client_id: #{params[:id]}")
   end
 
   def telegram
@@ -62,7 +65,7 @@ class IotController < ApplicationController
 
     resp_success(response, params['identidade'], 'telegram', params['chat_id'], params['msg'])
   rescue StandardError => e
-    resp_error(e)
+    resp_error(e, params['identidade'])
     notification_log(params['identidade'], 'telegram', params['chat_id'], params['msg'], e)
   end
 
@@ -76,7 +79,7 @@ class IotController < ApplicationController
     )
     resp_success(response, params['identidade'], 'telegram', channel.platform, channel.obs)
   rescue StandardError => e
-    resp_error(e)
+    resp_error(e, params['identidade'])
     notification_log(params['identidade'], 'telegram', channel.platform, channel.obs, e)
   end
 
@@ -89,7 +92,7 @@ class IotController < ApplicationController
 
     resp_success(response, params['identidade'], 'whatsapp', params['cel'], params['msg'])
   rescue StandardError => e
-    resp_error(e)
+    resp_error(e, params['identidade'])
     notification_log(params['identidade'], 'whatsapp', params['cel'], params['msg'], e)
   end
 
@@ -102,7 +105,7 @@ class IotController < ApplicationController
 
     resp_success(response, params['identidade'], 'email', params['email'], params['corpo'])
   rescue StandardError => e
-    resp_error(e)
+    resp_error(e, params['identidade'])
     notification_log(params['identidade'], 'email', params['email'], params['corpo'], e)
   end
 
@@ -123,9 +126,9 @@ class IotController < ApplicationController
     render json: { msg: 'Usuário ou senha inválido!', erroGeral: 'sim' }, status: 401
   end
 
-  def resp_error(err)
-    error = "#{err.class} - #{err.message}"
-    Log.error(error)
+  def resp_error(err, params = nil)
+    error = "#{self.class} | #{err.class} | #{err.message} | #{err.backtrace.take(1).join("\n").sub(%r{.*internet_of_things/}, '')}"
+    Log.error(error, params)
     render json: { msg: error, erroGeral: 'sim' }, status: 500
   end
 
