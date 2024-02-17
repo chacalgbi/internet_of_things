@@ -20,8 +20,7 @@ class IotController < ApplicationController
         msg: 'Acesso permitido',
         dados: [@device], # array para manter o padrão de resposta dos dispositivos já em produção
         versao: @config.nil? ? 0.0 : @config['version'].to_f,
-        # path_auto_update: @config.nil? ? 'N/A' : @config['path_update'],
-        path_auto_update: @config['path_update'],
+        path_auto_update: @config.nil? ? 'N/A' : @config['path_update'],
         id: @device.id,
         nome: @device.description,
         erroGeral: 'nao'

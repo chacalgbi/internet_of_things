@@ -10,6 +10,6 @@ class Device < ApplicationRecord
   validates :pathUpdate, presence: true, length: { minimum: 10 }
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[client_id created_at description device id linkAjuda obs pathUpdate tipo token updated_at versao]
+    %w[client_id created_at description device id linkAjuda obs pathUpdate tipo token updated_at versao configs devedor]
   end
 end
