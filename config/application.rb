@@ -14,5 +14,6 @@ module InternetOfThings
     # config.i18n.default_locale = :en
     config.i18n.default_locale = :"pt-BR"
     config.filter_parameters += %i[userAdmin passAdmin chat_id token]
+    config.time_zone = 'America/Sao_Paulo'
   end
 end

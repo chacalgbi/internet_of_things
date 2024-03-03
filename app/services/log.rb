@@ -15,6 +15,7 @@ class Log
   def self.alert(log)
     puts "#{time_now} ALERTA: #{log}".colorize(:yellow) if Rails.env.development?
     Rails.logger.warn log.to_s if Rails.env.production?
+    registry_log(log, 'alert')
   end
 
   def self.time_now
