@@ -181,7 +181,7 @@ class HomeController < LoggedController
 
     @message = resp_obj[:msg]
     @error = resp_obj[:erroGeral] == 'sim'
-    notification_log('Acionado via WebApp', 'telegram', text.platform, text.obs, resp_obj[:msg])
+    Notify.notification_log('Acionado via WebApp', 'telegram', text.platform, text.obs, resp_obj[:msg])
     nil
   rescue ActiveRecord::RecordNotFound
     @error = true

@@ -65,7 +65,7 @@ class IotController < ApplicationController
     resp_success(response, params['identidade'], 'telegram', params['chat_id'], params['msg'])
   rescue StandardError => e
     resp_error(e, params['identidade'])
-    notification_log(params['identidade'], 'telegram', params['chat_id'], params['msg'], e)
+    Notify.notification_log(params['identidade'], 'telegram', params['chat_id'], params['msg'], e)
   end
 
   def telegram_alert
@@ -79,7 +79,7 @@ class IotController < ApplicationController
     resp_success(response, params['identidade'], 'telegram', channel.platform, channel.obs)
   rescue StandardError => e
     resp_error(e, params['identidade'])
-    notification_log(params['identidade'], 'telegram', channel.platform, channel.obs, e)
+    Notify.notification_log(params['identidade'], 'telegram', channel.platform, channel.obs, e)
   end
 
   def whatsapp
@@ -92,7 +92,7 @@ class IotController < ApplicationController
     resp_success(response, params['identidade'], 'whatsapp', params['cel'], params['msg'])
   rescue StandardError => e
     resp_error(e, params['identidade'])
-    notification_log(params['identidade'], 'whatsapp', params['cel'], params['msg'], e)
+    Notify.notification_log(params['identidade'], 'whatsapp', params['cel'], params['msg'], e)
   end
 
   def email
@@ -105,7 +105,7 @@ class IotController < ApplicationController
     resp_success(response, params['identidade'], 'email', params['email'], params['corpo'])
   rescue StandardError => e
     resp_error(e, params['identidade'])
-    notification_log(params['identidade'], 'email', params['email'], params['corpo'], e)
+    Notify.notification_log(params['identidade'], 'email', params['email'], params['corpo'], e)
   end
 
   private
@@ -114,7 +114,7 @@ class IotController < ApplicationController
     resp_obj = JSON.parse(res.body, symbolize_names: true)
     data = { msg: resp_obj[:msg], erroGeral: resp_obj[:erroGeral] }
 
-    notification_log(identity, channel, recipient, message, resp_obj[:msg])
+    Notify.notification_log(identity, channel, recipient, message, resp_obj[:msg])
 
     render json: data, status: res.code
   end
@@ -129,15 +129,5 @@ class IotController < ApplicationController
     error = "#{self.class} | #{err.class} | #{err.message} | #{err.backtrace.take(1).join("\n").sub(%r{.*internet_of_things/}, '')}"
     Log.error(error, params)
     render json: { msg: error, erroGeral: 'sim' }, status: 500
-  end
-
-  def notification_log(identity = nil, channel = nil, recipient = nil, message = nil, result = nil) # rubocop:disable Metrics/ParameterLists
-    Notification.create!(
-      identity: identity || '',
-      channel: channel || '',
-      recipient: recipient || '',
-      message: message || '',
-      result: result || ''
-    )
   end
 end
