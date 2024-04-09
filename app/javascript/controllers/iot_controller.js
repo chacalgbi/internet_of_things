@@ -324,6 +324,7 @@ export default class extends Controller {
       clean: true,
       useSSL: false,
     }
+    const urlMqtt = `${socket_host_prefix}${arrayMqtt[2]}`
 
     ArrayChannels.map((i) => {
       if(i.tipo == 'ativo'){
@@ -353,7 +354,11 @@ export default class extends Controller {
 
     })
 
-    client = mqtt.connect(`${socket_host_prefix}${arrayMqtt[2]}`, options)
+    console.log("-------------- INFO MQTT ----------------")
+    console.log(options)
+    console.log(urlMqtt)
+
+    client = mqtt.connect(urlMqtt, options)
 
     client.on('connect', function () {
       $.notify('Broker Conectado!', "success")
