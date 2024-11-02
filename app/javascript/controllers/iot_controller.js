@@ -27,7 +27,7 @@ export default class extends Controller {
     //     }
     // }) 
   }
-  
+
   loading(small, position, confirm, timer, icon, text) {
     // EXEMPLO: loading(true, 'center', false, 2000, 'info', 'Aguarde carregar...');
 
@@ -311,19 +311,19 @@ export default class extends Controller {
   }
 
   ordenar_devices_online_primeiro(){
-    const parentDiv = document.getElementById("list_devices_accordion");
-    let divs = Array.from(parentDiv.querySelectorAll("div.device"));
+    // const parentDiv = document.getElementById("list_devices_accordion");
+    // let divs = Array.from(parentDiv.querySelectorAll("div.device"));
 
-    // Ordenar as divs em ordem alfabética pelo id
-    divs.sort((a, b) => a.id.localeCompare(b.id));
+    // // Ordenar as divs em ordem alfabética pelo id
+    // divs.sort((a, b) => a.id.localeCompare(b.id));
 
-    // Separar divs "Online" e "OffLine" usando o atributo data-status
-    const onlineDivs = divs.filter(div => div.getAttribute("data-status") === "Online");
-    const offlineDivs = divs.filter(div => div.getAttribute("data-status") === "OffLine");
+    // // Separar divs "Online" e "OffLine" usando o atributo data-status
+    // const onlineDivs = divs.filter(div => div.getAttribute("data-status") === "Online");
+    // const offlineDivs = divs.filter(div => div.getAttribute("data-status") === "OffLine");
 
-    // Reordenar divs "Online" no início e "OffLine" no final
-    onlineDivs.forEach(div => parentDiv.appendChild(div)); // Reposiciona as divs "Online" no início
-    offlineDivs.forEach(div => parentDiv.appendChild(div)); // Reposiciona as divs "OffLine" no final
+    // // Reordenar divs "Online" no início e "OffLine" no final
+    // onlineDivs.forEach(div => parentDiv.appendChild(div)); // Reposiciona as divs "Online" no início
+    // offlineDivs.forEach(div => parentDiv.appendChild(div)); // Reposiciona as divs "OffLine" no final
   }
 
   connect_mqtt() {
@@ -372,9 +372,9 @@ export default class extends Controller {
 
     })
 
-    console.log("-------------- INFO MQTT ----------------")
-    console.log(options)
-    console.log(urlMqtt)
+    //console.log("-------------- INFO MQTT ----------------")
+    //console.log(options)
+    //console.log(urlMqtt)
 
     client = mqtt.connect(urlMqtt, options)
 
@@ -433,8 +433,8 @@ export default class extends Controller {
                   a.online = 'sim'
                   document.getElementById(`${a.device}`).innerHTML = 'Online'
                   document.getElementById(`${a.device}`).style.backgroundColor = '#00FF7F'
-                  let bloco_div = document.getElementById(`bloco_${a.nome}`)
-                  bloco_div.dataset.status = "Online";
+                  // let bloco_div = document.getElementById(`bloco_${a.nome}`)
+                  // bloco_div.dataset.status = "Online";
                   clearTimeout(a.func)
                 } else {
                   a.online = 'sim'
