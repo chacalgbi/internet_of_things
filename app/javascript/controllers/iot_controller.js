@@ -310,6 +310,22 @@ export default class extends Controller {
     })
   }
 
+  ordenar_devices_online_primeiro(){
+    const parentDiv = document.getElementById("list_devices_accordion");
+    let divs = Array.from(parentDiv.querySelectorAll("div.device"));
+
+    // Ordenar as divs em ordem alfabética pelo id
+    divs.sort((a, b) => a.id.localeCompare(b.id));
+
+    // Separar divs "Online" e "OffLine" usando o atributo data-status
+    const onlineDivs = divs.filter(div => div.getAttribute("data-status") === "Online");
+    const offlineDivs = divs.filter(div => div.getAttribute("data-status") === "OffLine");
+
+    // Reordenar divs "Online" no início e "OffLine" no final
+    onlineDivs.forEach(div => parentDiv.appendChild(div)); // Reposiciona as divs "Online" no início
+    offlineDivs.forEach(div => parentDiv.appendChild(div)); // Reposiciona as divs "OffLine" no final
+  }
+
   connect_mqtt() {
     let that = this; // Armazena uma referência ao controlador
     let arrayMqtt = objCliente.address_mqtt.split(":")
@@ -323,6 +339,8 @@ export default class extends Controller {
       password: arrayMqtt[1],
       clean: true,
       useSSL: false,
+      keepalive: 60, // segundos
+      reconnectPeriod: 1000 // milissegundos
     }
     const urlMqtt = `${socket_host_prefix}${arrayMqtt[2]}`
 
@@ -361,12 +379,34 @@ export default class extends Controller {
     client = mqtt.connect(urlMqtt, options)
 
     client.on('connect', function () {
+
+      // Fechar conexão WebSocket ao sair da página
+      window.addEventListener('unload', function (e) {
+        if (client && client.connected) {
+          client.end()
+        }
+      })
+
+      // Verifica se a página está ativa, se não estiver, ao voltar, ele reconecta
+      document.addEventListener( 'visibilitychange' , function() {
+        if (document.hidden) {
+            console.log('bye')
+        } else {
+            console.log('well back')
+        }
+      }, false )
+
       $.notify('Broker Conectado!', "success")
       client.subscribe(ArraySubscribles)
+
       // Avisa a placa  5 segundos depois do completo carregamento, que a página foi aberta.
       setTimeout(() => { that.notice_dashboard_open() }, 5000)
+
       //Seta os campos de input do terminal para aceitarem enter criando variaveis dinamicamente
       setTimeout(() => { that.press_enter_terminal() }, 1000)
+
+      //Ordena os dispositivos online primeiro
+      setTimeout(() => { that.ordenar_devices_online_primeiro() }, 5000)
 
       // Mantem o cliente atual conectado, enviando um publish a cada 5 segundos
       setInterval(() => { client.publish('/monitoramento/ativo', '1') }, 5000)
@@ -393,6 +433,8 @@ export default class extends Controller {
                   a.online = 'sim'
                   document.getElementById(`${a.device}`).innerHTML = 'Online'
                   document.getElementById(`${a.device}`).style.backgroundColor = '#00FF7F'
+                  div = document.getElementById(`bloco_${a.nome}`)
+                  div.dataset.status = "Online";
                   clearTimeout(a.func)
                 } else {
                   a.online = 'sim'
@@ -414,6 +456,18 @@ export default class extends Controller {
           }
         }
       })
+    })
+
+    client.on('close', () => {
+      console.log('Conexão MQTT fechada')
+    })
+
+    client.on('error', (error) => {
+      console.error('Erro na conexão MQTT:', error)
+    })
+
+    client.on('offline', () => {
+      console.error('Conexão MQTT Offline')
     })
   }
 
