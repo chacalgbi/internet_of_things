@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Device do
-  permit_params :description, :device, :token, :tipo, :versao, :linkAjuda, :pathUpdate, :obs, :client_id, :configs, :devedor
+  permit_params :description, :device, :token, :tipo, :versao, :linkAjuda, :pathUpdate, :obs, :client_id, :configs, :devedor, :last_offline
 
   config.per_page = 60
 
@@ -28,6 +28,7 @@ ActiveAdmin.register Device do
     column :updated_at
     column :configs
     column :devedor
+    column :last_offline
     actions
   end
 
@@ -64,6 +65,7 @@ ActiveAdmin.register Device do
       f.input :obs
       f.input :configs
       f.input :devedor, as: :select, collection: %w[nao sim]
+      f.input :last_offline
     end
     f.actions
   end
