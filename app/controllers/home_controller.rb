@@ -9,6 +9,7 @@ class HomeController < LoggedController
       redirect_to register_device_path
     else
       @devices = Device.where(client_id: @client.id)
+                .order(Arel.sql("COALESCE(last_offline, '') ASC"), :description)
       @channels = Channel.where(client_id: @client.id)
       @show = @devices.count == 1 ? 'show' : ''
     end
