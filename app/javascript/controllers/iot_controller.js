@@ -433,8 +433,8 @@ export default class extends Controller {
                   a.online = 'sim'
                   document.getElementById(`${a.device}`).innerHTML = 'Online'
                   document.getElementById(`${a.device}`).style.backgroundColor = '#00FF7F'
-                  div = document.getElementById(`bloco_${a.nome}`)
-                  div.dataset.status = "Online";
+                  let bloco_div = document.getElementById(`bloco_${a.nome}`)
+                  bloco_div.dataset.status = "Online";
                   clearTimeout(a.func)
                 } else {
                   a.online = 'sim'
