@@ -62,7 +62,8 @@ class HomeController < LoggedController
 
   def data_from_client(client_id)
     client = Client.find(client_id)
-    devices = Device.where(client_id: client_id).order(:last_offline, :description)
+    devices = Device.where(client_id: client_id)
+                    .order(Arel.sql("COALESCE(last_offline, '') ASC"), :description)
     channels = Channel.where(client_id:)
     {
       client:,
