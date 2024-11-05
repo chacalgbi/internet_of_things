@@ -383,9 +383,14 @@ export default class extends Controller {
       // Verifica se a página está ativa, se não estiver, ao voltar, ele reconecta
       document.addEventListener( 'visibilitychange' , function() {
         if (document.hidden) {
-            console.log('bye')
+            console.log('Saiu da página')
         } else {
-            console.log('well back')
+          console.log('Voltou a página')
+          if (client.connected === false) {
+            console.log('MQTT desconectado! Reconectando...')
+            client.end()
+            client.reconnect()
+          }
         }
       }, false )
 
@@ -450,6 +455,7 @@ export default class extends Controller {
 
     client.on('close', () => {
       console.log('Conexão MQTT fechada')
+      //client.end();
     })
 
     client.on('error', (error) => {
