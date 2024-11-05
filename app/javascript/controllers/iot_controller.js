@@ -14,6 +14,7 @@ window.ArrayEnter = []
 export default class extends Controller {
 
   connect() {
+    this.ocultar_divs_offline() // Oculta os dispositivos que estão offline
     if (client_id) {
       console.log('Buscando dados do cliente..')
       this.others('objCliente', client_id)
@@ -310,20 +311,19 @@ export default class extends Controller {
     })
   }
 
-  ordenar_devices_online_primeiro(){
-    // const parentDiv = document.getElementById("list_devices_accordion");
-    // let divs = Array.from(parentDiv.querySelectorAll("div.device"));
+  ocultar_divs_offline(){
+    const toggleOfflineCheckbox = document.getElementById("toggleOffline");
+    const devices = document.querySelectorAll("#list_devices_accordion .device[data-status='Offline']");
 
-    // // Ordenar as divs em ordem alfabética pelo id
-    // divs.sort((a, b) => a.id.localeCompare(b.id));
+    function toggleOfflineDevices() {
+      devices.forEach(device => {
+          device.style.display = toggleOfflineCheckbox.checked ? "none" : "block";
+      });
+    }
 
-    // // Separar divs "Online" e "OffLine" usando o atributo data-status
-    // const onlineDivs = divs.filter(div => div.getAttribute("data-status") === "Online");
-    // const offlineDivs = divs.filter(div => div.getAttribute("data-status") === "OffLine");
+    toggleOfflineDevices();
 
-    // // Reordenar divs "Online" no início e "OffLine" no final
-    // onlineDivs.forEach(div => parentDiv.appendChild(div)); // Reposiciona as divs "Online" no início
-    // offlineDivs.forEach(div => parentDiv.appendChild(div)); // Reposiciona as divs "OffLine" no final
+    toggleOfflineCheckbox.addEventListener("change", toggleOfflineDevices);
   }
 
   connect_mqtt() {
@@ -404,9 +404,6 @@ export default class extends Controller {
 
       //Seta os campos de input do terminal para aceitarem enter criando variaveis dinamicamente
       setTimeout(() => { that.press_enter_terminal() }, 1000)
-
-      //Ordena os dispositivos online primeiro
-      setTimeout(() => { that.ordenar_devices_online_primeiro() }, 5000)
 
       // Mantem o cliente atual conectado, enviando um publish a cada 5 segundos
       setInterval(() => { client.publish('/monitoramento/ativo', '1') }, 5000)
@@ -653,7 +650,7 @@ export default class extends Controller {
       }else if (dt.error == false && param1 == 'rele') {
 
       }else if (dt.error == false && param1 == 'telegram_alert') {
-        $.notify("Mensagem enviada para o grupo.", "success")
+        $.notify("Mensagem enviada.", "success")
       }else if (dt.error == false && param1 == 'text_alert') {
         $.notify("Texto salvo com sucesso.", "success")
         document.getElementById('newNoticeAlarm').value = dt.data.obs

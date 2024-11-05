@@ -1,4 +1,8 @@
 <div class="accordion" id="list_devices_accordion" data-controller="iot">
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" value="" id="toggleOffline" checked>
+    <label class="form-check-label" for="flexCheckChecked">Ocultar dispositivos Offline</label>
+  </div>
 
   <% @devices.each do |device| %>
     <% matching_channels = @channels.select { |channel| channel.device_id == device.id } %>
