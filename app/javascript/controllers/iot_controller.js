@@ -380,13 +380,6 @@ export default class extends Controller {
 
     client.on('connect', function () {
 
-      // Fechar conexão WebSocket ao sair da página
-      window.addEventListener('unload', function (e) {
-        if (client && client.connected) {
-          client.end()
-        }
-      })
-
       // Verifica se a página está ativa, se não estiver, ao voltar, ele reconecta
       document.addEventListener( 'visibilitychange' , function() {
         if (document.hidden) {
