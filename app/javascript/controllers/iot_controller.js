@@ -388,7 +388,7 @@ export default class extends Controller {
           console.log('Voltou a página')
           if (client.connected === false) {
             console.log('MQTT desconectado! Reconectando...')
-            client.end()
+            //client.end()
             client.reconnect()
           }
         }
@@ -455,7 +455,6 @@ export default class extends Controller {
 
     client.on('close', () => {
       console.log('Conexão MQTT fechada')
-      //client.end();
     })
 
     client.on('error', (error) => {
