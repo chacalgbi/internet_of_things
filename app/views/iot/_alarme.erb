@@ -1,4 +1,4 @@
-<div class="accordion-item" id="bloco_<%= device.description %>" data-status="<%= device.last_offline.nil? || device.last_offline.empty? ? 'Offline' : 'Online' %>">
+<div class="accordion-item" id="bloco_<%= device.description %>" style="display: block" data-status="<%= device.last_offline.nil? || device.last_offline.empty? ? 'Online' : 'Offline' %>">
   <% ch = object_of_channels(channels) %>
   <% path_configs = ch['terminal_insert'].path %>
 

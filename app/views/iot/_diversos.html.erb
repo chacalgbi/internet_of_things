@@ -1,4 +1,4 @@
-<div class="accordion-item" id="bloco_<%= device.description %>" data-status="<%= device.last_offline.nil? || device.last_offline.empty? ? 'Offline' : 'Online' %>">
+<div class="accordion-item" id="bloco_<%= device.description %>" style="display: block" data-status="<%= device.last_offline.nil? || device.last_offline.empty? ? 'Online' : 'Offline' %>">
 
   <button class="accordion-button collapsed d-flex" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne<%= device.id %>" aria-expanded="false" aria-controls="collapseOne<%= device.id %>">
     <span class="me-auto" id="nomeDevice<%= device.id %>">
