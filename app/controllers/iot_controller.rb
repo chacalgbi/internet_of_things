@@ -4,7 +4,7 @@ require 'httparty'
 
 class IotController < ApplicationController
   include HTTParty
-  skip_before_action :verify_authenticity_token, only: %i[device_login mqtt_info telegram whatsapp email telegram_alert]
+  skip_before_action :verify_authenticity_token, only: %i[device_login mqtt_info telegram whatsapp email telegram_alert traccar_event_webhook]
   before_action :credentials, only: %i[telegram whatsapp email telegram_alert]
 
   def device_login
@@ -106,6 +106,10 @@ class IotController < ApplicationController
   rescue StandardError => e
     resp_error(e, params['identidade'])
     Notify.notification_log(params['identidade'], 'email', params['email'], params['corpo'], e)
+  end
+
+  def traccar_event_webhook
+    Log.info("Traccar Event Webhook: #{params}")
   end
 
   private

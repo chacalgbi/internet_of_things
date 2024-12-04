@@ -22,4 +22,5 @@ Rails.application.routes.draw do
   post '/alertaWhatsApp', to: 'iot#whatsapp'
   post '/alertaEmail', to: 'iot#email'
   post '/telegram_alert', to: 'iot#telegram_alert'
+  post '/traccar_event_webhook', to: 'iot#traccar_event_webhook'
 end
