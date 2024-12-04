@@ -110,6 +110,16 @@ class IotController < ApplicationController
 
   def traccar_event_webhook
     Log.info("Traccar Event Webhook: #{params}")
+
+    # Converte os parâmetros para uma string JSON
+    params_json = params.to_json
+
+    Notify.notification_log("Traccar", "teste", "teste1", params_json, "teste2")
+
+    render json: {msg: 'ok'}, status: :ok
+  rescue StandardError => e
+    resp_error(e, 'Teste traccar error')
+    Notify.notification_log('erro1', 'erro2', 'erro3', 'erro4', e)
   end
 
   private
