@@ -389,7 +389,7 @@ export default class extends Controller {
           if (client.connected === false) {
             console.log('MQTT desconectado! Reconectando...')
             //client.end()
-            client.reconnect()
+            //client.reconnect()
           }
         }
       }, false )
