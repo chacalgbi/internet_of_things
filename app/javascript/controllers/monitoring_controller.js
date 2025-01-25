@@ -181,12 +181,12 @@ export default class extends Controller {
             document.getElementById(`monitAtivo${i.id}`).innerHTML = 'Offline'
             document.getElementById(`monitAtivo${i.id}`).style.backgroundColor = '#FA8072'
             document.getElementById(`monitInfo${i.id}`).innerHTML = '<p style="color:blue;font-size:12px"></p>'
-          }, 20000)
+          }, 40000)
         }else if (topic === i.pathInfo) {
           document.getElementById(`monitInfo${i.id}`).innerHTML = `<p style="color:blue;font-size:12px">${message.toString()}</p>`
         }else if (topic === i.pathTerminal) {
           document.getElementById('info_text_area').value += `${message.toString()}\n`
-          $('#info_text_area').notify(topic, {elementPosition: 'bottom left', className: 'info', autoHideDelay: 15000, })
+          $('#info_text_area').notify(topic, {elementPosition: 'bottom left', className: 'info', autoHideDelay: 30000, })
         }else if (topic === i.pathVcc1 || topic === i.pathVcc) {
           document.getElementById(`value${i.id}`).innerHTML = `${message.toString()}V`
         }else if (topic === i.pathTemp) {

@@ -444,7 +444,7 @@ export default class extends Controller {
                   document.getElementById(`${a.device}`).innerHTML = 'Offline'
                   document.getElementById(`${a.device}`).style.backgroundColor = '#FA8072'
                   //console.log("Device OffLine")
-                }, 10000)
+                }, 40000)
 
               }
             })
