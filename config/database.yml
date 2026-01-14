@@ -10,7 +10,7 @@ default: &default
 
 development:
   <<: *default
-  database: iot_development
+  database: internet_of_things
 
 test:
   <<: *default

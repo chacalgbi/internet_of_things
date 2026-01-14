@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  mount Debugbar::Engine => Debugbar.config.prefix if defined? Debugbar
+  # Evita ruído no log em desenvolvimento (Chrome/DevTools e alguns setups de SW)
+  get '/service-worker', to: proc { [204, {}, []] }
+  get '/.well-known/appspecific/com.chrome.devtools', to: proc { [204, {}, []] }
+
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   devise_for :users

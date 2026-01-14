@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_22_111958) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_02_163211) do
   create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -86,6 +86,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_22_111958) do
     t.integer "client_id"
     t.string "configs"
     t.string "devedor", default: "nao"
+    t.string "last_offline"
   end
 
   create_table "log_registries", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|

@@ -4,3 +4,29 @@ Depois de alguns anos utilizando softwares de terceiros para gerenciar minhas au
 # Versões utilizadas
 - Ruby 3.2.2
 - Rails 7.1.2
+
+# Como rodar em desenvolvimento
+
+Este projeto usa `cssbundling-rails` (Bootstrap via Sass). Se o arquivo compilado `app/assets/builds/application.css` não existir, o Rails vai levantar erro ao renderizar as páginas.
+
+## Setup
+
+```bash
+bundle install
+yarn install
+```
+
+## Rodando
+
+Opção recomendada (sobe Rails + watch do CSS):
+
+```bash
+bin/dev
+```
+
+Ou, se preferir rodar só o Rails:
+
+```bash
+yarn build:css
+bin/rails server
+```

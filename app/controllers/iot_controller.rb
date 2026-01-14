@@ -70,7 +70,7 @@ class IotController < ApplicationController
 
   def sms
     response = HTTParty.post(
-      'http://127.0.0.1:8087/sms',
+      'http://127.0.0.1:8087/alertaSms',
       body: { 'cel' => params['cel'], 'msg' => params['msg'] }.to_json,
       headers: { 'Content-Type' => 'application/json' }
     )
