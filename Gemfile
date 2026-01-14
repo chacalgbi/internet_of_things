@@ -29,7 +29,7 @@ gem 'tzinfo-data', platforms: %i[windows jruby]
 
 gem 'base64', '0.1.1'
 gem 'bcrypt_pbkdf', '>= 1.0', '< 2.0'
-gem 'capistrano', '~> 3.18.0'
+gem 'capistrano', '~> 3.19.0'
 gem 'capistrano-passenger', '~> 0.2.0'
 gem 'capistrano-rails', '~> 1.4'
 gem 'capistrano-rbenv', '~> 2.1', '>= 2.1.4'
