@@ -117,7 +117,7 @@ GEM
       msgpack (~> 1.2)
     builder (3.3.0)
     byebug (12.0.0)
-    capistrano (3.20.0)
+    capistrano (3.18.1)
       airbrussh (>= 1.0.0)
       i18n
       rake (>= 10.0.0)
@@ -515,7 +515,7 @@ DEPENDENCIES
   base64 (= 0.1.1)
   bcrypt_pbkdf (>= 1.0, < 2.0)
   bootsnap
-  capistrano (~> 3.11)
+  capistrano (~> 3.18.0)
   capistrano-passenger (~> 0.2.0)
   capistrano-rails (~> 1.4)
   capistrano-rbenv (~> 2.1, >= 2.1.4)
@@ -582,7 +582,7 @@ CHECKSUMS
   bootsnap (1.21.0) sha256=27893da6347c925e5bf299034b68131bbaf5d22036d466a61d38022cb235da50
   builder (3.3.0) sha256=497918d2f9dca528fdca4b88d84e4ef4387256d984b8154e9d5d3fe5a9c8835f
   byebug (12.0.0) sha256=d4a150d291cca40b66ec9ca31f754e93fed8aa266a17335f71bb0afa7fca1a1e
-  capistrano (3.20.0) sha256=0113e58dda99add0342e56a244f664734c59f442c5ed734f5303b0b559b479c9
+  capistrano (3.18.1) sha256=348593cff0a81cff4a4ddfef025a16b284f697ed6daa985083b4ca4f9664ba5f
   capistrano-bundler (2.2.0) sha256=47b4cf2ea17ea132bb0a5cabc5663443f5190a54f4da5b322d04e1558ff1468c
   capistrano-passenger (0.2.1) sha256=07a1d25edd5c1d909c19d4fe45fe2ea5f11200569f6967f6bff1d605ade98e13
   capistrano-rails (1.7.0) sha256=aca57455e8c5435785e0f938e16aa5b79c263694a755e1dca1c5d1743b40aae7
