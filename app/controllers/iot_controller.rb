@@ -4,8 +4,8 @@ require 'httparty'
 
 class IotController < ApplicationController
   include HTTParty
-  skip_before_action :verify_authenticity_token, only: %i[device_login mqtt_info telegram whatsapp email telegram_alert traccar_event_webhook]
-  before_action :credentials, only: %i[telegram whatsapp email telegram_alert]
+  skip_before_action :verify_authenticity_token, only: %i[device_login mqtt_info telegram sms whatsapp email telegram_alert traccar_event_webhook]
+  before_action :credentials, only: %i[telegram whatsapp email telegram_alert sms]
 
   def device_login
     status = 200
@@ -66,6 +66,19 @@ class IotController < ApplicationController
   rescue StandardError => e
     resp_error(e, params['identidade'])
     Notify.notification_log(params['identidade'], 'telegram', params['chat_id'], params['msg'], e)
+  end
+
+  def sms
+    response = HTTParty.post(
+      'http://127.0.0.1:8087/sms',
+      body: { 'cel' => params['cel'], 'msg' => params['msg'] }.to_json,
+      headers: { 'Content-Type' => 'application/json' }
+    )
+
+    resp_success(response, params['identidade'], 'SMS', params['cel'], params['msg'])
+  rescue StandardError => e
+    resp_error(e, params['identidade'])
+    Notify.notification_log(params['identidade'], 'SMS', params['cel'], params['msg'], e)
   end
 
   def telegram_alert

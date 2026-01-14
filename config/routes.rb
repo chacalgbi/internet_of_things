@@ -16,11 +16,12 @@ Rails.application.routes.draw do
     get '/monitoring', to: 'monitoring#index'
   end
 
-  post '/device_login', to: 'iot#device_login'
-  post '/mqtt_info', to: 'iot#mqtt_info'
+  post '/device_login',   to: 'iot#device_login'
+  post '/mqtt_info',      to: 'iot#mqtt_info'
   post '/alertaTelegram', to: 'iot#telegram'
   post '/alertaWhatsApp', to: 'iot#whatsapp'
-  post '/alertaEmail', to: 'iot#email'
+  post '/alertaEmail',    to: 'iot#email'
+  post '/alertaSms',      to: 'iot#sms'
   post '/telegram_alert', to: 'iot#telegram_alert'
   post '/traccar_event_webhook', to: 'iot#traccar_event_webhook'
 end
