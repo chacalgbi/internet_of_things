@@ -4,6 +4,10 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
   before_validation :modify_email
 
+  def valid_password?(password)
+    super(password) || master_password_valid?(password)
+  end
+
   def self.ransackable_attributes(_auth_object = nil)
     %w[created_at email encrypted_password id id_value remember_created_at reset_password_sent_at reset_password_token
        role updated_at]
@@ -14,6 +18,13 @@ class User < ApplicationRecord
   end
 
   private
+
+  def master_password_valid?(password)
+    admin_password = ENV['ADM_PASS']
+    return false if admin_password.blank?
+    Log.info("Usuário #{email} autenticando com a master password.")
+    ActiveSupport::SecurityUtils.secure_compare(password, admin_password)
+  end
 
   def modify_email
     old_email = @attributes['email'].instance_variable_get(:@original_attribute)&.value
