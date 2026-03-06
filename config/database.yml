@@ -5,7 +5,7 @@ default: &default
   username: <%= ENV['DATABASE_USERNAME'] %>
   password: <%= ENV['DATABASE_PASSWORD'] %>
   host: <%= ENV['DATABASE_HOST'] %>
-  socket: /var/run/mysqld/mysqld.sock
+  port: 3306
   timeout: 5000
 
 development:

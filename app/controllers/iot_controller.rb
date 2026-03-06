@@ -4,7 +4,7 @@ require 'httparty'
 
 class IotController < ApplicationController
   include HTTParty
-  skip_before_action :verify_authenticity_token, only: %i[device_login mqtt_info telegram sms whatsapp email telegram_alert traccar_event_webhook]
+  skip_before_action :verify_authenticity_token, only: %i[device_login mqtt_info telegram sms whatsapp email telegram_alert traccar_event_webhook amazfitactive2]
   before_action :credentials, only: %i[telegram whatsapp email telegram_alert sms]
 
   def device_login
@@ -133,6 +133,19 @@ class IotController < ApplicationController
   rescue StandardError => e
     resp_error(e, 'Teste traccar error')
     Notify.notification_log('erro1', 'erro2', 'erro3', 'erro4', e)
+  end
+
+  def amazfitactive2
+    response = HTTParty.post(
+      'http://127.0.0.1:8087/amazfitactive2',
+      body: { 'topic' => params['topic'], 'msg' => params['msg'] }.to_json,
+      headers: { 'Content-Type' => 'application/json' }
+    )
+
+    resp_success(response, 'amazfitactive2', params['msg'], params['topic'], 'Comando amazfitactive2 enviado')
+  rescue StandardError => e
+    resp_error(e, 'amazfitactive2')
+    Notify.notification_log('amazfitactive2', params['msg'], params['topic'], 'Comando amazfitactive2 error', e)
   end
 
   private

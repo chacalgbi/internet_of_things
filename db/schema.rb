@@ -11,7 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2024_11_02_163211) do
-  create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
+  create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
     t.string "resource_type"
@@ -25,7 +25,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_02_163211) do
     t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource"
   end
 
-  create_table "admin_users", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
+  create_table "admin_users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -37,7 +37,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_02_163211) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
-  create_table "channels", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
+  create_table "channels", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "client_id"
     t.string "category"
     t.string "platform"
@@ -54,7 +54,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_02_163211) do
     t.integer "device_id"
   end
 
-  create_table "clients", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
+  create_table "clients", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.string "email"
     t.string "cel"
@@ -64,7 +64,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_02_163211) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "configs", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
+  create_table "configs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.decimal "version", precision: 3, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -72,7 +72,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_02_163211) do
     t.string "tipo"
   end
 
-  create_table "devices", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
+  create_table "devices", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "description"
     t.string "device"
     t.string "token"
@@ -89,7 +89,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_02_163211) do
     t.string "last_offline"
   end
 
-  create_table "log_registries", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
+  create_table "log_registries", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "classe"
     t.string "classe_error"
     t.string "message"
@@ -100,7 +100,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_02_163211) do
     t.string "params"
   end
 
-  create_table "notifications", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
+  create_table "notifications", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "identity"
     t.string "channel"
     t.string "recipient"
@@ -110,7 +110,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_02_163211) do
     t.string "result"
   end
 
-  create_table "users", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
+  create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
